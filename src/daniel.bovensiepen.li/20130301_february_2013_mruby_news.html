@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2013-03-01</p>
+      <h2>[February 2013] mruby news</h2>
+<p>What happened on the mruby front in February 2013?</p>
+<h3>Pluggability</h3>
+<p>The big topic in February 2013 was the gemification of many mruby core features. In detail the Regular Expression Engine, the <code>Math</code> module, the <code>Time</code> class and <code>Struct</code> were extracted from the mruby core and transformed into independent GEMs. <code>Math</code>, <code>Time</code> and <code>Struct</code> will be maintained inside of the mruby repository. Due to the reason that there are several Regexp implementations (see <a href="http://mruby.sh/201302190729.html">Pluggable RegExp</a>) these GEMs are maintained in their own repository.</p>
+<h3>Cross Compile</h3>
+<p><a href="https://github.com/shtirlic">Serg Podtynnyi</a> built a cross compilation toolchain configuration for Android. It is using the Android NDK to build a <em>mruby</em> executable which can be executed under Android.</p>
+<p>Based on <a href="https://github.com/kyab">kyab</a>&#8216;s <a href="http://d.hatena.ne.jp/kyab/20130201">work</a> on cross compiling to our first Arduino compatible device (ChipKitMax32) I created an example build configuration file inside of the mruby source.</p>
+<h3>Improve Test Environment</h3>
+<p><a href="https://github.com/akiray03">Akira Yumiyama</a> added several new <code>assert</code> methods like:</p>
+<ul>
+<li><code>assert_true</code></li>
+<li><code>assert_nil</code></li>
+<li><code>assert_equal</code></li>
+<li><code>assert_includes</code></li>
+<li><code>assert_instance_of</code></li>
+<li><code>assert_kind_of</code></li>
+<li><code>assert_raises</code></li>
+</ul>
+<p>It is now also possible the pass the verbose flag to <code>minirake</code> which will then output a very detailed test result of every test case with ISO code (if existing). Skip a test is possible too now.</p>
+<h3>Improve stdlib</h3>
+<p><code>String</code> got a couple of new methods like <code>#sub</code>, <code>#sub!</code>, <code>#gsub</code> and <code>#gsub!</code>. At the same time <code>Module</code> got a new method called <code>#remove_const</code>.</p>
+<h3>Commits</h3>
+<p>Here a list with all commits during this month.</p>
+<h4>Pluggability</h4>
+<p><a href="https://github.com/mruby/mruby/commit/81f96cb9af239d2bf3ff97bcc5f511dad1d51985">Move Math::TOLERANCE to mruby-math </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/12af04011fcaa80c6aa70da0586e39046613b3cf">mv mrgems/mruby-math to mrbgems </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/6bee2fd193b94f00c7f4025fc3d62282f867e60d">Pluggable Math </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/fc3e83622a80e2c1c0948c6332b7f73a05996645">Remove needless comment </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/473abbd0ff7c32f449f4d20ec04adebf951c4edf">Cleanup Regexp codes </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/f2d62c7c9f12caaf56e5bd8d20138e5ea7cec061">Fix build </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/f4485ee1eb6c8f586ca5313b1085e4f354db19d1">s/mgem/mrbgem/ </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/1ea13483cb3a5d6e0007b49b0ab9cfdb3e9055eb">Regexp: %r notation bug fix. close #85. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/3a33da5647e27118d5b31ad30d4c42c2aa00ede4">Put mruby-time mgem into the repository. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/cf8b298ed456d61482dbc947457681559e1e4fe7">Remove needless files </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/048e088425b02b40ad5d600b895a59e81f268278">Pluggable Time class </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/5f53ad2a3bc1174dba2febfc6c82b294bb96b053">Remove needless file </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/4abdb87b90b119af3b85226f73976d5c2d9e4660">parser_dump supports NODE_REGEX. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/c15af5d562e05399ab6fb53ea05235b1e2520063">compile /a/ as ::Regexp.new(&#8220;a&#8221;) </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/7b5ec7126ac3e8b785aea4a762c48a72c1866af6">Remove DISABLE_REGEXP </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/59a6d1b514eef7d39f3a78cd588a49490406ecd6">remove TT_REGEX and TT_MATCH </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/55ef8c50fb959649c8a37ac2412d59da3d79e5b1">REGEXP_CLASS </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/b1a5146ea8f8665df5edf2b26dcadc028d7929f7">Pluggable Regexp </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/e0f25b1fda0c9c67526885fafdabf35d4d4039b7">ready to pass second argument of Regexp.new </a><br />
+</p>
+<h4>Cross Compile</h4>
+<p><a href="https://github.com/mruby/mruby/commit/5e18b2b9349b007f5fcff647f01d5a8e2b715ac7">remove user specific directory </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/4458eb269d5816dd1a9eeba8b24fa1d684bad33d">add chipKitMax32 target example </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/750256c9396b5ad5e55403b4b235e0062c28b495">Add documentation for Android toolchain </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/1af61f203040038dee9f8bf648bc43d6dc81572a">Add androideabi toolchain rake task (Build mruby with Android NDK) </a><br />
+</p>
+<h4>Improve Test Environment</h4>
+<p><a href="https://github.com/mruby/mruby/commit/bdd908c92e04970e72e4d468ddefb81243767ee8">Rake respects verbose flag also for test and clean target </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/a6767bd8bb1469accd6670df23066517d556eef5">rename assert_raises to assert_raise </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/dbea1d2299c35a60c13369b950e1494a0c0d726d">remove assert_instance_of and assert_kind_of which might hinder duck typing </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/cf358aea9f553ab52417e808a70fd2374433fa82">rename assert_includes to assert_include </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/6819505586aaf1425c4d49f89151e5b1dcb5dddc">Add skip method for test </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/f8bdc10cb153bbb55f49596d9c6b67a781cc8c14">add assert_{includes,instance_of,kind_of,raises} methods. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/7632b7a0975a5a4eb43ad91ab970bb8b4d01fb81">declare local variable at the start of a block in generated gem_test.c </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/f82bf1ab2c8a727b9b0fb2898cee4f757c2c2a2e">update String#gsub test </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/f2c77ff2126b6a0b04c7d870b702ee240619f4ce">add assert_{true,nil,equal} methods. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/7c67bfedfd4cf819f445eaae7f8d2dfc4600c65a">add mrbtest verbose mode (&#8216;-v&#8217; option) </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/efa18038de038c366c6ee54f47670c80ec068aad">Add more tests for `begin` and `rescue`. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/a74f92b46be80a754486e696d117903fbb090686">Generate mrbtest.a file for sparete from driver.o </a><br />
+</p>
+<h4>Improve stdlib</h4>
+<p><a href="https://github.com/mruby/mruby/commit/b7da7cfee0daac7c3e382e1a767ba1451a4c5c89">adopt String#gsub to fixed split behavior </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/7ce9cc3b83f941843599a092e119688a40ddf6ef">String#split should honor limit arg </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/e8c0b61c0decc9bab480b59dc98075c34259a0d8">String#gsub fix with last character </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/0aa35895f9f385680cfcccd2077103cc6686ab8a">Add Module#remove_const test </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/07bff3956e6149565919255ac2a2b83b68b32248">fix error output for Module#remove_const </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/37fe3d666f12f4dbd0e2fc1688d83ece94667f4e">add Module#remove_const </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/0ee2c71b034e6168a8c394304325c3cd2a253492">Added String#sub/sub! and String#gsub/gsub! </a><br />
+</p>
+<h4>Others</h4>
+<p><a href="https://github.com/mruby/mruby/commit/e66de39a02433933c0966c91864650220c6f80d5">Adjust space </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/3d3ebbc9cd3c7b745e98fd3232044fa0f97fd891">Fix arena size check. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/1f692ab0ba1def0291bf63cd8c295180d8fcc0e3">Do not generate test_args_hash variable if it is not used </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/db6e6dc5b8d60f8ec159a68aae3c5d4ecbb5b8f3">Remove freeze leftovers </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/20fc41a33d44c15f92306ffdd6cc5245600bace9">Ignore *.d, *.o, and /lib </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/d9d6b2c74c6b9a3cce18066e361d00eb30ce53b6">Add document for array_copy </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/1324d4e2509353f772abaa45fbb2fb54c7100dbe">Modify stack position of NODE_DEF and NODE_SDEF. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/f413e6881c2e325d10c041d03da695ad00b91830">Increase TEST_INFINITE_RECURSION_MAX value from 100000 to 1000000 because modification of handling of `NODE_RETURN` reduces stack size. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/49c929a237fe482b2286aab47a263f8b51225cad">Return nil if argument of NODE_RETURN and NODE_NEXT is not specified. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/d864648506c631c6d1948e334ca60cc683bc3561">Clean code up. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/5de62ac23ddd35d027567aec9b7a023ed6698577">mrb_funcall_with_block: adj. ci &#038; sp after error </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/cb7cf4e795bab952802fce023ff19c79bf66f74d">Simplify mrb_range_beg_len(). Don&#8217;t use OTHER macro. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/c6d2cde148d54fd1489eb3589a10d07753c701a7">Adjust stack position of NODE_RESCUE. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/b55c6c55d28119974376f85c6a2481ff0fef690a">Make OP_ASGN faster. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/b833df3d373a696ddb375137be956a9dd3bfcc39">Remove commented out code. Remove redundant function calls. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/dd6234974932382181ced7a813ad71d426d1e0ab">Reduce sprintf() calls. Remove mrb_int_to_str() and MRB_INT_FORMAT. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/0970ca957226d52af52e1f261fbb7ee8b3086cce">Support to build on pwd != mruby source root </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/2bfb88825de745714f2ae56f13ccaf079fc10d88">Fix errors caused by stdio.h dependent code. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/4c968174105c047c5b0cc8c1ef6706a4b0274310">Cleanup shift operations. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/9ea0b4b7d16e85c666bc9ce2ed16cc868a196aba">Fix an underlying bug. flodivmod() will be crashed in case ((y == 0) &#038;&#038; ((divp == NULL) || (modp == NULL))). </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/82313b6ec7ebb89c5993d3359d5844df7e230f9d">Add a comment. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/11997dd0abd0a4daa991695014ef5a2c497db8be">Remove a comment at an unsuitable place. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/316faf6790afc8b3eb8ba77a5097c8cc0e22104c">Cosmetic changes. Just added empty lines. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/9acc7532978aedbd8cf956757b3d37751d5630ab">Fix mrb_fix2str() to enable handling some negative values correctly. This fix is based on @cremno&#8217;s hack. It will fix #869. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/8ea0e9d523a6ce158a47add8b349da528b9cae8a">Call compile method to override to memolize instances </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/2838fcf2aacb2fa33b905b8b145b6388248be10b">Fix indent </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/a118c30861e26ec96a236e595697aea82ca04c09">better comment description for mrbconf.h configuration </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/9931f00863578ad942077a42000ca8b70b7a30c2">remove unused HAVE_UNISTD_H altogether; ref #865 </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/483dce4b3339f98b9499322b0e958b05da06a569">Clean up mrbconf.h </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/695920f515606ba4721917a888c677999cab9610">fix access denied error at incremental build </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/ffd7aeeb6840d55e406cea08d2b8514430e3b346">print the error message before abort() </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/59cf4bca15a73222346bb16ad67a310c43537688">rename RVALUE union members </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/8b44e8dbd8a86466625fffa3f4f17f755f0de61a">add RData entrie to RVALUE union </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/e8de677338cb470dc1d3927942f014a8eff168f4">s must not be freed, removed space in exc msg </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/2942ad8eeb10291caaa83852d1b426a06ed84d20">vars must be declared at the start of a block </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/111cbca68c3cf9b352c42012dfeb117024184448">Changed debugger hook to disable </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/eb14c15e9988b81d342ca76af56f6bf47379f1d6">rename hook and macro </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/3a78093b45c176baae7b13d47ed08e135aad1123">resolve conflict </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/fb5e83a69b86ec76ccd2b321d0628fc15e00b46c">Fix crash when exiting mirb using ctrl-d when compiled with readline support. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/bc44d06c7374d5b925d8936227e6976622365a3e">Created hook at VM code fetch. It&#8217;s for debugger </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/e96743f3d7c83feb0cf2da25dd777b2799623af2">use mrb_get_args(&#8220;n&#8221;) instead of decomposing each time </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/6aee0485fc5fa32b33be4f84fc588a94e3439d6c">Should be OP_LOADL </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/c7c435cf2337582e8fb49dc0243cbd95820325c0">Extend MiniRake::DSL module to prevent inheritance pollution </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/30accc246684c45fe61209ff5a851cdcd05334b5">Update doc/compile/README.md </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/397d1e7aa9980c953a82139b91c7de4354defb19">add mrb_str_to_cstr </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/75ae568236d1b634f48c7922b1416618181c4bf7">should adjust stack size when irep->nregs is larger than allocate size; close #835 </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/84a7c9ed1c7781b53344c14adac722bc27798dcf">&#8220;for i in (1..12/5); p i ; end&#8221; should not print &#8220;3&#8243; </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/92eb282b7a3b686ed017c6db5e1c553e02f6589c">Don&#8217;t overwrite ciidx if it is already set. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/c7031d85274a2b7eda524bf43e95610bd8ae1d00">Ignore empty gem </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/42b7fe62d8c1e0470431469c9ffcf6cad819a62f">Change task rule based on build_dir so main rules don&#8217;t clobber gem rules. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/d98ad06ef51eec83c0bc67ecab710e97365b2f48">changing Make_Data_Struct API; you need to modify your code that uses Make_Data_Struct; close #821 </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/c23057e5776b4947aed0072815869b2c970e504b">Add semi-colon after the statement. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/11869a433b220a00b9a5fea41b7389bf9b39e398">rewrote mrb_any_to_s </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/feaff10c58059644818802bba189bf32f6ad8f79">removed declarations of undefined functions </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/eaf32e02e0501d2f46aefd78a4fee9288073091e">Restore arena in `String#split`. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/aeb8e2eaacab5a8dc8d71dbd36883cf100c92ccd">Fix potential bug about Hash. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/641fc9902f6dd8c7b647a1bd61ee6fd9243acb34">Prevent overflow of `Fixnum#to_s`. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/2087526342e3fe3f74e5a609d3025ee964d58e4a">Modify handling of integer literal. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/93c0f3b7d44a8775087dcbf49642ddd6c44c44e6">Fixed failure </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/54eb08e2fc04dece78e0a900ea25f936631ff6d1">Remove &#8220;;&#8221; suffix from function-type macros. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/a2ff17b5463f57d308057035fcd6e51e72a7247b">Change the way that the DISABLE_GEMS flag is set for vs2012. </a></p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

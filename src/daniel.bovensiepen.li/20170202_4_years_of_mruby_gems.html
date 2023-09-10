@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2017-02-02</p>
+      <h2>4 Years of mruby GEMs</h2>
+<p>Lately I was quite occupied with many private and professional projects. Yet by now they have stabilized enough so that I can take time out for some side projects. So let&#8217;s have a look at mruby again.</p>
+<p>Even though that I had a lot of projects using mruby in very different areas over the past four years, I lost track a bit about the latest development of mruby itself. For me mruby had already reached prime-time something like 3 years ago when a friend of mine released his first consumer product based on mruby. Since then I have used mruby to:</p>
+<ul>
+<li>build a 4G development platform based on an industrial SDR system</li>
+<li>provide a toolchain to simplify &#8220;digitalization&#8221; of machines used in factory automation</li>
+<li>implemented a mini-hypervisior in combination with OpenWRT</li>
+<li>and many other still ongoing research projects</li>
+</ul>
+<p>So to keep-up with the latest changes I decided to start with a quick look at mruby&#8217;s GEMs and made a small graph of the historical growth of the quantity:</p>
+<pre># mgem size
+  Total # of GEMs: 227</pre>
+<figure id="attachment_16" style="width: 300px" class="wp-caption alignnone"><a href="/files/gem_growth_2013_2017.png"><img class="wp-image-16 size-medium" src="/files/gem_growth_2013_2017-300x147.png" alt="0 GEMs in 2013. 227 GEMs in 2017." width="300" height="147" srcset="/files/gem_growth_2013_2017-300x147.png 300w, /files/gem_growth_2013_2017-768x376.png 768w, /files/gem_growth_2013_2017-1024x502.png 1024w" sizes="(max-width: 300px) 100vw, 300px" /></a><figcaption class="wp-caption-text">mruby GEM growth from 2013 to 2017.</figcaption></figure>
+<p>Even though the count of 227 GEMs is tiny compared to Rubygems (which counts 128,547), for the niche mruby is trying to fill there is a constant extend of new libraries which are providing features necessary for using Ruby in the embedded world.</p>
+<p>As we do not have any statistics of the usage of mruby GEMs I can&#8217;t say which are the most popular ones but as a matter of fact the <a href="https://github.com/iij">IIJ collection</a> belongs to the most frequent ones I&#8217;m using. Interestingly in the past, most GEMs were written only by a handful of people (very prominent next to IIJ was from my perspective <a href="https://github.com/matsumotory">matsumotory</a> and <a href="https://github.com/mattn">mattn</a>). Yet when I look today at new gems it seems this trend has stopped and many different contributors are adding GEMs for very different purposes. The current contributor count for the <a href="https://github.com/mruby/mgem-list">mgem-list</a> has reached 65!</p>
+<p>In the coming days and weeks I will look more into what else happened with mruby. Things I want to look at are:</p>
+<ul>
+<li>security improvements based on Spotify&#8217;s bug-hunting</li>
+<li>mruby/c (reduction of mruby interpreter for even smaller devices)</li>
+<li>general commit history</li>
+</ul>
+<p>I would appreciate any kind of input from you if you know other interesting mruby relevant topics (use-cases, hacks, etc.) Just drop me a mail (daniel [at] bovensiepen [dot] net).</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

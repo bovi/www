@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2012-12-10</p>
+      <h2>mrbgems in HEAD</h2>
+<p><strong>[2013-05-17] This post is obsolete due to big changes in the mruby build process. mrbgems is now an integral part of the rake build process.</strong></p>
+<p>Wonderful news. The work of the last three month has finally arrived in the <em>mruby</em> HEAD. <a href="https://github.com/mruby/mruby/commit/f521738953b9297a4d26e68ec42b7e9a22e5b442">The mrbgems patch was merged</a> last friday and over the weekend some additional improvements were added. Also some libraries were already ported (like <a href="https://github.com/mattn/mruby-md5">mattn&#8217;s mruby-md5</a>).</p>
+<p>Due to the reason that I saw that someone already provided an <a href="http://d.hatena.ne.jp/iamsandman/20121207/1354890750">introduction to mrbgems in japanese</a>, here a short summary from me.</p>
+<h3>Why mrbgems?</h3>
+<p>First lets clarify the question why did I start <em>mrbgems</em>. Most of you should know <em>RubyGem</em>. For the one who don&#8217;t: <em>RubyGem</em> is a library manager for the Ruby programming language. It can maintain versions and dependencies of source code.</p>
+<p>Something similar would be nice for mruby for several reasons. The first one is of course, that we don&#8217;t want&#8217;t to rewrite every library over and over again. In case someone has already implemented a feature we would love to include this just into our project instead of re-writing and -integrating it. To make this possible it is kind of essential to have a standardized library structure. This is where <em>mrbgems</em> comes into the game. <em>mrbgems</em> defines a standardized way to build your own extension for <em>mruby</em>. Your extension is typically written in Ruby or C or both. Actually the current implementation doesn&#8217;t stop you to use whatever language you prefer to implement your extension.</p>
+<h3>Differences between RubyGem and mrbgems</h3>
+<p>One important thing to keep in mind is that <em>RubyGem</em> has from an implementation point of view nothing in common with <em>mrbgems</em>. I have chosen the name only to visualise that this is a library manager too.</p>
+<p>So why don&#8217;t we just use <em>RubyGem</em>? First and foremost, <em>RubyGem</em> is to bloated. It has a lot of nice feature which makes our live easier with the MRI, JRuby and Rubinius. But for the embedded world most of these &#8220;advantages&#8221; are kind of disadvantages. We would need to implement a dynamic-loading functionality for example, which <em>mruby</em> doesn&#8217;t support by design. Something like require just doesn&#8217;t exist in mruby, so there is no way for our GEM manager to hook up into this feature. Another reason to not use <em>RubyGem</em> is the different C API and the reduced Ruby standard library. A normal GEM package which works fine with every 1.9 compatible Ruby interpreter is likely to never work by default with <em>mruby</em>.</p>
+<p>Instead what we would love to have is no overhead at all if we don&#8217;t use <em>mrbgems</em>. And when we use it, the footprint should be as tiny as possible. <em>RubyGem</em> can&#8217;t provide that &#8211; <em>mrbgems</em> can.</p>
+<h3>How does it work</h3>
+<p><em>mrbgems</em> is deeply integrated into the build process of the interpreter. A so called <em>GEM</em> in the <em>mruby</em> sense is actually compiled into your program. After building your mruby project you will find an archive file in every GEM folder with the naming convention: <code>mrb-GEMNAME-lib.a</code>. These archive files are integrated into the <code>mruby</code> and <code>mirb</code> executable. And in case you want to integrate the mruby interpreter into your own program you have to integrate these archive files too. The build process of your GEM is a black box for <em>mruby</em>. The only requirement is, that a <code>make</code> call creates this archive file in your GEM directory. A <code>make clean</code> is suppose to clean all build files.</p>
+<p>To make this process a little bit more easier for common cases, I created <a href="https://github.com/mruby/mruby/blob/master/mrbgems/Makefile4gem">a Makefile</a> which you can include into your GEM Makefile. It provides lots of helpers in case you have a:</p>
+<ul>
+<li>pure Ruby extension</li>
+<li>pure C extension</li>
+<li>a mixed extension with Ruby and C code</li>
+</ul>
+<p>Just include <code>mrbgems/Makefile4gem</code> with the following helper rules:</p>
+<ul>
+<li><code>gem-rb-files</code> and <code>gem-clean-rb-files</code> Rules for pure Ruby extensions</li>
+<li><code>gem-c-files</code> and <code>gem-clean-c-files</code> Rules for pure C extensions</li>
+<li><code>gem-c-and-rb-files</code> and <code>gem-clean-c-and-rb-files</code> Rules for mixed Ruby and C extensions</li>
+</ul>
+<p>If we take <a href="https://github.com/mattn/mruby-md5/blob/master/Makefile">mattn&#8217;s mruby-md5 example</a>, a GEM Makefile could look like this for a pure C extension:</p>
+<pre>GEM := mruby-md5
+
+include $(MAKEFILE_4_GEM)
+
+GEM_C_FILES := $(wildcard $(SRC_DIR)/*.c)
+GEM_OBJECTS := $(patsubst %.c, %.o, $(GEM_C_FILES))
+
+gem-all : $(GEM_OBJECTS) gem-c-files
+
+gem-clean : gem-clean-c-files</pre>
+<p>This Makefile uses the C helper rules. All of this works due to the reason that the mruby build process will call your GEM Makefile with the following arguments:</p>
+<pre>make -C /Users/daniel/work_dir/mruby-md5 --no-print-directory CC='gcc' LL='gcc' CFLAGS='-I. -I/Users/daniel/work_dir/mruby/include -I/Users/daniel/work_dir/mruby/src -I/Users/daniel/work_dir/mruby-md5/include ' MRUBY_ROOT='/Users/daniel/work_dir/mruby' MAKEFILE_4_GEM='/Users/daniel/work_dir/mruby/mrbgems/Makefile4gem'</pre>
+<p>So inside of your GEM Makefile you can work with the following arguments:</p>
+<ul>
+<li><strong>CC</strong></li>
+<li><strong>LL</strong></li>
+<li><strong>CFLAGS</strong>: The global flags for the C compiler including the include directories of mruby and all other GEMs</li>
+<li><strong>MRUBY_ROOT</strong>: The root path of mruby</li>
+<li><strong>MAKEFILE_4_GEM</strong>: The helper Makefile</li>
+</ul>
+<p>Inside of you C code it is essential to define an initialization function:</p>
+<pre>void
+mrb_mruby_md5_gem_init(mrb_state* mrb) {
+  _class_md5 = mrb_define_module(mrb, "MD5");
+  mrb_define_class_method(mrb, _class_md5, "md5_hex", mrb_md5_hex, ARGS_REQ(1));
+}</pre>
+<p>The naming convention of this function is <code>mrb_GEMNAME_gem_init(mrb_state)</code>. The <em>mruby</em> build process will take care to call this method inside of the <code>mruby</code> and <code>mirb</code> executable.</p>
+<h3>Testing</h3>
+<p>There is also a way to automatically integrate tests of your GEMs into the <em>mruby</em> build process. Just create a <em>test</em> directory with as many Ruby files as you please. A test could look like this:</p>
+<pre>assert('MD5 Hash for old example') do
+  MD5::md5_hex('お前はどこのワカメじゃ') == "43820f48a8506c8e2fae6f8558971920"
+end</pre>
+<p>Just call <code>assert</code> with a block. In case the return value is <code>true</code> the test is considered as passed. Otherwise it is considered as failed.</p>
+<h3>Header Files</h3>
+<p>In case your GEM needs header files you can create a folder <code>include</code>. In this folder you just throw all your header files. This folder will be passed to all GEMs. So that you can integrate other GEM features into your own one.</p>
+<h3>Pure Ruby extension</h3>
+<p>For a GEM completly written in Ruby it is actually even more easier. Just create a <code>mrblib</code> directory and throw your Ruby files into it. The build process will handle the rest for you with the right Makefile helpers.</p>
+<h3>Further Documentation</h3>
+<p>Last but not least there is quite a bit of documentation I have written under <a href="https://github.com/mruby/mruby/tree/master/doc/mrbgems">doc/mrbgems</a>. I also created three example projects which are showing how to implement different extensions.</p>
+<h3>Next steps</h3>
+<p>There is a lot to do still. <em>mrbgems</em> is still early alpha and has to be tested intensively. Specially WIN32 platforms are not yet tested due to the reason that I don&#8217;t own them. At the moment everyone who ports his mruby library to this new standard will help to improve. <a href="https://github.com/mattn">mattn</a> and <a href="https://github.com/masuidrive">masuidrive</a> gave already a lot of input just by working on a port. At the moment <a href="https://github.com/mruby/mruby/pull/605">masuidrive is actually working</a> on a way to include GEM data into the mrb_state for his <a href="http://mobiruby.org">mobiruby</a>. In this way GEMs could communicate with each other. Building a dependency structure is another task which is still open and needed for <a href="https://github.com/mattn/mruby-uv">mattn&#8217;s libuv</a> binding. As I see also the IIJ mruby port <a href="https://github.com/mruby/mruby/pull/479#issuecomment-11187893">plans already to port</a> their work to mrbgems.</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

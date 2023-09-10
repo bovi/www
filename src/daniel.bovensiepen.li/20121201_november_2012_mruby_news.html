@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2012-12-01</p>
+      <h2>[November 2012] mruby news</h2>
+<p>First of all I want you to point to <a href="https://github.com/mruby/mruby/pull/479">a patch</a> I&#8217;m working on for the last 2 month. It is about an easy and standardized way to integrate extensions into <em>mruby</em> with the working title <em>mrbgems</em>. Some people have tried it out and it worked well for them. So I&#8217;m looking forward if you also could have a look at it and give me some feedback to make it better. So that maybe beginning of next year I can report about a successful merge of this feature :)</p>
+<p>What happened else on the mruby front in November 2012?</p>
+<h3>Module improvements</h3>
+<p><a href="https://github.com/skandhas">skandhas</a> has done an incredible awesome job in improving <em>Module</em>. Including the following parts:</p>
+<ul>
+<li>Module#class_eval</li>
+<li>Module#module_eval</li>
+<li>Module#instance_methods</li>
+<li>Module#include?</li>
+<li>Module#class_variables</li>
+</ul>
+<h4>Module misc</h4>
+<p><a href="https://github.com/mruby/mruby/commit/f6c44d0dffb6d82206ee894eefee24262878ba93">f6c44d0dffb6d82206ee894eefee24262878ba93</a>, <a href="https://github.com/mruby/mruby/commit/52f7e8372651036847dc3a4a765f4d25d2bb4665">52f7e8372651036847dc3a4a765f4d25d2bb4665</a></p>
+<h4>Module#class_eval</h4>
+<p><a href="https://github.com/mruby/mruby/commit/053c104f2ba6aa0e94bd2c9e9fd17123746a8f43">053c104f2ba6aa0e94bd2c9e9fd17123746a8f43</a>, <a href="https://github.com/mruby/mruby/commit/1311c828c687e5d192ed6a14d50bd1864faf8df9">1311c828c687e5d192ed6a14d50bd1864faf8df9</a></p>
+<h4>Module#module_eval</h4>
+<p><a href="https://github.com/mruby/mruby/commit/3fbeb298a6943c59567b0b3a8b8d50104858d8c1">3fbeb298a6943c59567b0b3a8b8d50104858d8c1</a>, <a href="https://github.com/mruby/mruby/commit/861bcad53a4f4c47942ba5ab0155c1594829ebd1">861bcad53a4f4c47942ba5ab0155c1594829ebd1</a>, <a href="https://github.com/mruby/mruby/commit/940eb786e4bfcd747480b2d3bffe541b537fb3fd">940eb786e4bfcd747480b2d3bffe541b537fb3fd</a></p>
+<h4>Module#instance_methods</h4>
+<p><a href="https://github.com/mruby/mruby/commit/1f3c5125648e10ac5d9dc90be66025b4741fa24d">1f3c5125648e10ac5d9dc90be66025b4741fa24d</a>, <a href="https://github.com/mruby/mruby/commit/5e8dc8cd44f501943acbd58229eb6b97894aecaf">5e8dc8cd44f501943acbd58229eb6b97894aecaf</a>, <a href="https://github.com/mruby/mruby/commit/6fb74ac167f6b7e55d126159764ed7dca0c400d5">6fb74ac167f6b7e55d126159764ed7dca0c400d5</a></p>
+<h4>Module#include?</h4>
+<p><a href="https://github.com/mruby/mruby/commit/25a02a5b8b7954fa197d42d208ee257a4a8d9c96">25a02a5b8b7954fa197d42d208ee257a4a8d9c96</a>, <a href="https://github.com/mruby/mruby/commit/cd8e9c14636fbef835328e50834d0baa41a0e0cf">cd8e9c14636fbef835328e50834d0baa41a0e0cf</a>, <a href="https://github.com/mruby/mruby/commit/59035eb33d5e1b276a1269a38f2cce421a528470">59035eb33d5e1b276a1269a38f2cce421a528470</a></p>
+<h4>Module#class_variables</h4>
+<p><a href="https://github.com/mruby/mruby/commit/40aa8e99e11404e00030b511fa8e9e037ddf6939">40aa8e99e11404e00030b511fa8e9e037ddf6939</a>, <a href="https://github.com/mruby/mruby/commit/38ce9516aa4611110b3084699db6c18cf7e99ad9">38ce9516aa4611110b3084699db6c18cf7e99ad9</a>, <a href="https://github.com/mruby/mruby/commit/9dbbd02ac5e57a2b135642784f75665f8afe229b">9dbbd02ac5e57a2b135642784f75665f8afe229b</a>, <a href="https://github.com/mruby/mruby/commit/1cc44cfd78e00879e983ffa320e16a2d99558067">1cc44cfd78e00879e983ffa320e16a2d99558067</a></p>
+<h3>String improvements</h3>
+<p>Several parts of String were improved. Mainly bufixes.</p>
+<h4>String#each_byte</h4>
+<p><a href="https://github.com/mruby/mruby/commit/b9cf5045b7e10ad722475a432db4fe1b38987cbd">b9cf5045b7e10ad722475a432db4fe1b38987cbd</a>, <a href="https://github.com/mruby/mruby/commit/8d9f5628eda4f1353c2578900b6396a7e06f281b">8d9f5628eda4f1353c2578900b6396a7e06f281b</a>, <a href="https://github.com/mruby/mruby/commit/57910ca5353e1feba1fb069a876b84a52f33d39f">57910ca5353e1feba1fb069a876b84a52f33d39f</a>, <a href="https://github.com/mruby/mruby/commit/fe36bdb7f12050254f02a5f2c3a75623dfd289c0">fe36bdb7f12050254f02a5f2c3a75623dfd289c0</a></p>
+<h4>adjust string length after String#chomp!</h4>
+<p><a href="https://github.com/mruby/mruby/commit/d090f3eedb89e64b57765c86eb5bc916abf8b054">d090f3eedb89e64b57765c86eb5bc916abf8b054</a></p>
+<h4>delete needless output in String#[]=</h4>
+<p><a href="https://github.com/mruby/mruby/commit/8a43ec75a0ce6088d1c2ae96f33fe9fed193b1b8">8a43ec75a0ce6088d1c2ae96f33fe9fed193b1b8</a></p>
+<h4>fix the issue String#slice with Range may return broken String</h4>
+<p><a href="https://github.com/mruby/mruby/commit/b1f5840aefe0c4edac9dc3f238bdb757521eb67c">b1f5840aefe0c4edac9dc3f238bdb757521eb67c</a></p>
+<h3>Cleanup MRI left-overs</h3>
+<p>Considering that mruby is still quite alpha and still quite young it already has some kind of legacy. Mainly due to the reason that some parts of the current implementation were taken over from the CRuby implementation (aka MRI). Mostly they are <em>EASYRECOGNISABLE</em>. Matz took some time this month and clean up quite a lot of these parts and replaced them with a more <em>mrb_fitting</em> style.</p>
+<h4>remove ROBJECT_{IVPTR,NUMIV}</h4>
+<p><a href="https://github.com/mruby/mruby/commit/3e1dd77b16c3ade7d1c84cb5ec84c4748ed9415c">3e1dd77b16c3ade7d1c84cb5ec84c4748ed9415c</a></p>
+<h4>replace RBASIC by mrb_basic</h4>
+<p><a href="https://github.com/mruby/mruby/commit/c903910c6b8f82b7f158a189b1671296618b0fe0">c903910c6b8f82b7f158a189b1671296618b0fe0</a></p>
+<h4>remove NUM2CHR macro</h4>
+<p><a href="https://github.com/mruby/mruby/commit/3e22c939e6f1968c46e251c363de49c1fd0fd9f1">3e22c939e6f1968c46e251c363de49c1fd0fd9f1</a>, <a href="https://github.com/mruby/mruby/commit/a354aca8b4897278a0a0d5681a09aec458ce89d1">a354aca8b4897278a0a0d5681a09aec458ce89d1</a></p>
+<h4>remove FL_XXX macros</h4>
+<p><a href="https://github.com/mruby/mruby/commit/902dd6380317e73b7dc99b64e04a75ac47fa5db0">902dd6380317e73b7dc99b64e04a75ac47fa5db0</a></p>
+<h4>replace SYM2ID() by mrb_symbol()</h4>
+<p><a href="https://github.com/mruby/mruby/commit/e429905597bff1e0fefb426ef22d5b3ea80e76f5">e429905597bff1e0fefb426ef22d5b3ea80e76f5</a></p>
+<h4>remove reference to ruby_verbose and ruby_debug</h4>
+<p><a href="https://github.com/mruby/mruby/commit/ca7c662be5debb85b38063807c6f3034d1156d5f">ca7c662be5debb85b38063807c6f3034d1156d5f</a></p>
+<h4>replace RTEST() by mrb_test_p()</h4>
+<p><a href="https://github.com/mruby/mruby/commit/15304c194d86544cc7cc7138cec1bf4bdcbcaeb5">15304c194d86544cc7cc7138cec1bf4bdcbcaeb5</a></p>
+<h4>replace SYMBOL_P() by mrb_symbol_p()</h4>
+<p><a href="https://github.com/mruby/mruby/commit/051777dc5de7e16ab28d39530fc0bb8101323e2c">051777dc5de7e16ab28d39530fc0bb8101323e2c</a></p>
+<h4>replace FIXNUM_P() by mrb_fixnum_p()</h4>
+<p><a href="https://github.com/mruby/mruby/commit/3ba521ae9e238c91198404845e4f213ce541b13d">3ba521ae9e238c91198404845e4f213ce541b13d</a></p>
+<h4>add new predicates mrb_string_p(),mrb_array_p(),mrb_hash_p()</h4>
+<p><a href="https://github.com/mruby/mruby/commit/d2d2e9f5f9267c2583aa542b4066d109a07b742e">d2d2e9f5f9267c2583aa542b4066d109a07b742e</a></p>
+<h4>add mrb_float_p()</h4>
+<p><a href="https://github.com/mruby/mruby/commit/da88627a37cb1d5ca8d31bb14f3b3d8bb4d7e33e">da88627a37cb1d5ca8d31bb14f3b3d8bb4d7e33e</a></p>
+<h3>Test improvements</h3>
+<p>mruby is currently using an own testing framework called mrbtest. These are some additions and changes to the current test framework.</p>
+<h4>add test for &#8216;Abbreviated variable assignment as returns&#8217;</h4>
+<p><a href="https://github.com/mruby/mruby/commit/a100352595794ec1f1a1aaa5ae1654bc29d21192">a100352595794ec1f1a1aaa5ae1654bc29d21192</a></p>
+<h4>New Bootstrap Block Asserts</h4>
+<p><a href="https://github.com/mruby/mruby/commit/6c8d2ca3995bbefa00ca04e5275b103f7e59dcd6">6c8d2ca3995bbefa00ca04e5275b103f7e59dcd6</a>, <a href="https://github.com/mruby/mruby/commit/385f129acaa1c84f2d61026b5b240e5f3f70058a">385f129acaa1c84f2d61026b5b240e5f3f70058a</a>, <a href="https://github.com/mruby/mruby/commit/a316e92da3d9e54c09806f2e231a4c0eed5a8c7d">a316e92da3d9e54c09806f2e231a4c0eed5a8c7d</a></p>
+<h4>add test for issue#547; close #554</h4>
+<p><a href="https://github.com/mruby/mruby/commit/ac0233bcd08358b35edce76171929121f8ee656f">ac0233bcd08358b35edce76171929121f8ee656f</a></p>
+<h4>typo fix on test/report.rb</h4>
+<p><a href="https://github.com/mruby/mruby/commit/fdefaf9f7d02a2b43d25bccaecca7ec530f77384">fdefaf9f7d02a2b43d25bccaecca7ec530f77384</a></p>
+<h4>fix mrubytest dependencies</h4>
+<p><a href="https://github.com/mruby/mruby/commit/8d3baf62294ce9bd15b4c24d67d69d289776f5c9">8d3baf62294ce9bd15b4c24d67d69d289776f5c9</a></p>
+<h4>add mruby/mrbc tests</h4>
+<p><a href="https://github.com/mruby/mruby/commit/cd2c7c7532b91818b57e7f54ce5ed4553ae3964c">cd2c7c7532b91818b57e7f54ce5ed4553ae3964c</a></p>
+<h4>add test for 8cf42709</h4>
+<p><a href="https://github.com/mruby/mruby/commit/308b41c12b3095a5dec85ca89d32a5b196434141">308b41c12b3095a5dec85ca89d32a5b196434141</a></p>
+<h3>Compilation improvements</h3>
+<p>Due to the reason that one target of mruby is a platform independent usage, all the time we need to fix the compatibility for different platforms and compilers. This is what was done here.</p>
+<h4>Fix build on c++ compiler</h4>
+<p><a href="https://github.com/mruby/mruby/commit/4bbf7a3e12af8a8c4d7a34c19b3147bd0ade4eed">4bbf7a3e12af8a8c4d7a34c19b3147bd0ade4eed</a></p>
+<h4>fix compilation</h4>
+<p><a href="https://github.com/mruby/mruby/commit/650008bf9e25e4076937e8377185c69e5f7d5a53">650008bf9e25e4076937e8377185c69e5f7d5a53</a></p>
+<h4>compatible with MSVC</h4>
+<p><a href="https://github.com/mruby/mruby/commit/922d50a694c31917da58348857856f65e6e46062">922d50a694c31917da58348857856f65e6e46062</a></p>
+<h4>mirb</h4>
+<p>Fix compile warnings in mirb Change last_char type to int Warnings mirb.c:174:7: warning: comparison is always false due to limited range of data type [-Wtype-limits] warning: comparison is always false due to limited range of data type [-Wtype-limits]<br />
+<a href="https://github.com/mruby/mruby/commit/83ecb2f078234bca084b934bb086e9f13cb967f6">83ecb2f078234bca084b934bb086e9f13cb967f6</a></p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

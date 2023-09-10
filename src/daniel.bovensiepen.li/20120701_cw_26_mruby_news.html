@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2012-07-01</p>
+      <h2>[CW 26] mruby news</h2>
+<p>What happened this week on the mruby front?</p>
+<h3>NotImplementedError</h3>
+<p>After <a href="https://github.com/mruby/mruby/issues/319">an issue</a> with a wrong return value of <code>String#gsub</code>, an <code>NotImplementedError</code> Exception will now be raised in case of an usage of any <code>String</code> method which is requiring <code>RegExp</code> support. Due to the current lack of the Regular Expression support. Following-up this issue I asked Matz how to use this <code>NotImplementedError</code> Exception and he claimed that we should use it for every feature which is relying on a functionality which isn&#8217;t inside of the mruby-core. Based on this comment I wrote a patch to do the same for <code>sprintf</code> and <code>printf</code>, due to the reason that both are based on the <code>sprintf</code> functionality.</p>
+<p><a href="https://github.com/mruby/mruby/pull/332">Commit (sprintf NotImplementedError)</a></p>
+<h3>Garbage Collector</h3>
+<p>At the moment I&#8217;m trying to understand the Garbage Collector of mruby in detail. Hopefully I can write a small sum-up a little bit later. In the meantime I wrote a small patch to reduce the size of an union which is used by the Garbage Collector. This will only be taking effect if the <code>Struct</code> feature is disabled in the mruby-core.</p>
+<p><a href="https://github.com/mruby/mruby/pull/336">Commit</a></p>
+<h3>String Interpolation</h3>
+<p>Matz fixed several issues in the <code>String</code> interpolation of <code>Symbol</code>.</p>
+<p><a href="https://github.com/mruby/mruby/commit/4fd932548ef4aa92a089a6a7dc412cd09eb2284e">Commit (allow :&#8221;text&#8221;)</a>, <a href="https://github.com/mruby/mruby/commit/4a98d5c8fd56119a5e30f8e371fd4aac1866895d">Commit (allow :&#8221;a=#{15}&#8221;)</a></p>
+<h3>sizeof</h3>
+<p>More code cleanup was done by Masaki Muranaka. Several changes were done by changing a fixed length-number to a calculation-operation with <code>sizeof</code>. With this the so called &#8216;magic-numbers&#8217; were removed and instead it is now easier to read inside of the code what kind of length is actually important to a specific function.</p>
+<p><a href="https://github.com/mruby/mruby/pull/329">Commit (Use sizeof to get char array sizes)</a></p>
+<h3>Memory Leak</h3>
+<p>A memory leak was found by Masamitsu Murase.</p>
+<p><a href="https://github.com/mruby/mruby/commit/1f94a15dd262030fbffe1d84f5c18a756070721a">Commit</a></p>
+<h3>Module Improvement</h3>
+<p>Another small patch by Masamitsu Murase had a big impact on the reachability of method names. He only initialized an element of an already existing Struct but it seems that existing code was actually already requiring this pre-init. Now methods from modules which are added by Mixin are reachable in the same way they are in the standard Ruby.</p>
+<p><a href="https://github.com/mruby/mruby/pull/339">Commit</a></p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

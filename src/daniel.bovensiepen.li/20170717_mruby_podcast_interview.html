@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2017-07-17</p>
+      <h2>mruby podcast interview</h2>
+<p>I have nearly forgot it but beginning of June I was interviewed by Software Engineering Daily about the implication of the bug bounty started by Shopify.</p>
+<p><a href="/files/img_0324.jpg"><img width="324" height="116" alt="" src="/files/img_0324.jpg" title="" class="alignnone size-large wp-image-79" srcset="/files/img_0324.jpg 324w, /files/img_0324-300x107.jpg 300w" sizes="(max-width: 324px) 100vw, 324px" /></a><br />
+<a href="https://softwareengineeringdaily.com/2017/07/17/mruby-and-language-security-with-daniel-bovensiepen/">The podcast</a> is available as mp3 and there is also a <a href="https://softwareengineeringdaily.com/wp-content/uploads/2017/07/SED368-mruby.pdf">transcript</a>.</p>
+<p>The reason for the interview was the article I wrote <a href="https://blog.mruby.sh/201703261726.html">about Shopify</a>&nbsp;but in the end we covered quite a bit more than that. We started talking about the general use-cases of mruby and about the differences to MRI and JRuby.</p>
+<p>I mentioned the <a href="https://github.com/hone/mruby-cli">mruby-cli</a>&nbsp;project from Heruko&#8217;s&nbsp;<a href="https://github.com/hone">Terence Lee</a>&nbsp;and the JRuby launcher based on mruby called <a href="https://github.com/jkutner/mjruby">mjruby</a>&nbsp;from <a href="https://github.com/jkutner">Joe Kutner</a>&nbsp;as some examples for command line applications. Also I talked about my prefered use-case of mruby, which is the integration into micro-controllers (e.g. <a href="https://github.com/bovi/ias">Arduino Due</a>).</p>
+<p>Afterwards we went into the details of <a href="https://github.com/Shopify/mruby-engine">Shopify&#8217;s usage of mruby</a>. We talked about the reason why Shopify is using mruby and why they opened a bug-bounty for it. I also mentioned in detail some of the most common bugs found by the security researchers.</p>
+<p>A lot of the interview was then focused on how security researchers are finding bugs today. I mentioned the <a href="http://lcamtuf.coredump.cx/afl/">AFL Fuzzer</a>&nbsp;and my <a href="https://github.com/bovi/mruby-bin-mruby-afl">afl-optimized mruby version</a> to increase the fuzzing speed.</p>
+<p>In the end we talked a bit about the differences of Ruby to other programming languages. The optimization of Ruby to solve a problem in very different ways and the complexity of the language itself, which makes the implementation quite complex but simplifies the usage at the same time.</p>
+<p>In the original interview we also talked about C&#8217;s weaknesses and Rust as an alternative. But it seems this part was cut out of the interview for time reasons or they have an internal anti-rant policy at software engineering daily (-;</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

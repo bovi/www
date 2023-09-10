@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2012-09-09</p>
+      <h2>[CW 36] mruby news</h2>
+<p>What happened this week on the mruby front?</p>
+<h3>mrbc SEGV</h3>
+<p>A bug found by Joseph McCullough which raised a SEGV in <em>mrbc</em> was fixed.</p>
+<p><a href="https://github.com/mruby/mruby/commit/9e7ca5d94462c749b25a34bc2d23984ccd37d14d">9e7ca5d94462c749b25a34bc2d23984ccd37d14d</a></p>
+<h3>direct_threaded</h3>
+<p>An infinite loop in <em>mrbtest</em> raied in Visual Studion 9 was fixed.</p>
+<p><a href="https://github.com/mruby/mruby/commit/e01c5a2b5b669cfccd43d8fb4d59bb9901cb465a">e01c5a2b5b669cfccd43d8fb4d59bb9901cb465a</a></p>
+<h3>#inspect</h3>
+<p>Module and Time got <em>#inspect</em> and a SEGV of <em>#inspect</em> on classes was fixed. <em>Kernel#inspect</em> does not call <em>#to_s</em> anymore.</p>
+<p><a href="https://github.com/mruby/mruby/commit/4f6600b98a2f7c50ee32a05c42456c8f7c719432">4f6600b98a2f7c50ee32a05c42456c8f7c719432</a>, <a href="https://github.com/mruby/mruby/commit/c0ac010b687ee38d231a8c8b4018b1862bfea4be">c0ac010b687ee38d231a8c8b4018b1862bfea4be</a>, <a href="https://github.com/mruby/mruby/commit/f9f425ae5f89cd993fd858172f9db2a48144f5ba">f9f425ae5f89cd993fd858172f9db2a48144f5ba</a>, <a href="https://github.com/mruby/mruby/commit/26ac77af9bf8b7c73f7c4d02ce453dca2fcfef9b">26ac77af9bf8b7c73f7c4d02ce453dca2fcfef9b</a></p>
+<h3>Toplevel Object main</h3>
+<p>The toplevel object <em>main</em> was now introduced so that the behavior in the toplevel is now closer to the vanilla Ruby.</p>
+<p><a href="https://github.com/mruby/mruby/commit/fd3af6aec88fe8ad01efb23f69a075f83ac91063">fd3af6aec88fe8ad01efb23f69a075f83ac91063</a>, <a href="https://github.com/mruby/mruby/commit/7f30385d4ad468ea51996a22eaa636ec903f6885">7f30385d4ad468ea51996a22eaa636ec903f6885</a></p>
+<h3>Internet Initiative Japan Improvements</h3>
+<p>The other day I found a very <a href="https://github.com/iij/mruby">interesting fork</a> of mruby by the IIJ. Features added in this fork are:</p>
+<ul>
+<li><em>Digest</em></li>
+<li><em>ENV</em></li>
+<li><em>File</em></li>
+<li><em>IO</em></li>
+<li><em>TCPSocket</em></li>
+<li><em>UNIXSocket</em></li>
+</ul>
+<p>I&#8217;m wondering if there is a plan that parts of these things are merged back to the master. Due to the reason that some authors of IIJ already commited to the master I would certainly expect so. Very interesting due to the reason that with these changes mruby can now interact with the world.</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

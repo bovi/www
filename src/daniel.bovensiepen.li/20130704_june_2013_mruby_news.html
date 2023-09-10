@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2013-07-04</p>
+      <h2>[June 2013] mruby news</h2>
+<p>What happened on the mruby front in June 2013?</p>
+<h3>Test Refactoring</h3>
+<p>The mruby internal test system was till now quite simple. Every assertion was checked based on the return value. Due to that the test code contained a lot of helper variables and binary concatenations to validate the proper test results. After we have introduced many more advanced assertions (i.e. <code>assert_raise</code>) we refactored the core test code and have now a much cleaner test environment with much less overhead due to the non existing restriction anymore of the return value. </p>
+<h3>Return Code Refactoring</h3>
+<p><a href="https://github.com/suzukaze">Jun Hiroe</a> worked hard on refactoring the return values of several internal C functions by using explicit mruby boolean types instead of integers as the return value.</p>
+<h3>New Object Extension GEM</h3>
+<p><a href="https://github.com/akiray03">Akira Yumiyama</a> introduced the new gem <code>mruby-object-ext</code> which contains the following object extensions:</p>
+<ul>
+<li><code>nil#to_a</code></li>
+<li><code>nil#to_f</code></li>
+<li><code>nil#to_i</code></li>
+</ul>
+<h3>Improve Target Specific Code</h3>
+<p><a href="https://github.com/kyab">kyab</a> and <a href="https://github.com/cremno">cremno</a> improved platform dependent build instructions and code. Mainly for building on Visual Studio and building for Arduino (i.e. ChipKit).</p>
+<h3>Commits</h3>
+<p>Here a list with all commits during this month.</p>
+<h4>Test Refactoring</h4>
+<p><a href="https://github.com/mruby/mruby/commit/57b629a988be7a39140744cd2dfc0da0e7a6a257">Add Range#eql? method test. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/821f6d42adf92c09a0df082c14c2c4ade21f8c78">Add block mode to assert_equal </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/d8c8893e94fb10724513cf2c59d142aa5238ea2c">Implement assert_float and add block mode to assert_equal and assert_not_equal </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/01c0373facf0a93f21ffbc445dcf9203e155d337">Add undef var test </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/cbc9c24fe126a957c63fa1449af493c55a492821">Improve String Tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/f092c8df73bd4a6264ad5372e5244e6f9664dfce">Improve Module Tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/4bd527cebfc8d0d86feed259e7b437de4839f2dd">Improve Kernel Tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/b1c309cc87800f5c62d7052a84717030b521dab1">Improve Hash Tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/409541d1fa09e6ce586ce5dfdfd96d565ecf31d8">Improve Literal Tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/b55958b4fa766d845aa247afd8ea93fe10693081">Improve Integer Tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/71e12574174523b9b5522392fe1246d02cefa968">Improve Range Tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/c5d116f9c2eb866114642f3e94d3494a5818f8e4">Improve Syntax Tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/1a6731fbdeb2642d95aeeddc2e8bee5a288d5f2e">assert_not_equal can now also handle blocks </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/059405edb893028dea19a0cd9861d760360d4109">Fix Bootstrap Block Tests with assert_nil </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/a028a388f7899f580421504a4cd6a2438450e84b">Improve RuntimeError Tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/0e16fd3562ef9464b6c25be049b8b3b3ff629674">Improve TypeError Tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/f4e169cbfb6a659da5593b274bc2337fcf3f87f7">Improve true Tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/7177fdbd39f75f82f38cf3608d5ba023906edabb">Improve Symbol Tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/7df35e930aac9fffcecd7791c21e3ddeed4ea90b">Improve StandardError Tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/9c93be0297aec495339e1ca793bfabadb076f3ae">Improve RangeError Tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/9166a1352bd2dd809d27e34e5190f23b92dbf56e">Improve Proc Tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/e44ba3160343a1a8288ef75a1c64396d4dc14b76">Improve Object Tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/6d3d234b7d65a64a8cb90dc76e74407352fd1231">Improve Numeric Tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/f2013337f4b12cba0c7c1938c3241d39d2792f9e">Improve NoMethodError Tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/9bf797acf75cd34bbbfd1e07aa4e860892c10a7d">Improve nil Tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/4acacaf989125c97c09aa3450307d2b213397ac5">Improve NameError Tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/b825c539987ab8500c260e3fb5cfdac75f922bef">Improve LocalJumpError Tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/67af374e37699d515d4e43920a7b1db5f19420ad">Improve IndexError Tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/06939bedbc977d7108d107d3e24a291b3f54a6e3">Improve GC Tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/04191cc82974446992630fa23625e30b832a6f6d">Improve Float Tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/60d230d0fdf9a6e22ae13f30cb11f4c948c1d62b">Add assert_float to test environment </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/bbdc24f2eeee1517f6a806f00a091ef46f692a19">Improve Bootstrap Literal Tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/f8e13b86b7af9b12f2d2b0777f769fde1891d5cb">Improve Bootstrap Block Tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/f6975ea789d3fe04b9fe58472e9d4ed4ebd6ea67">Improve false tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/2657fc4b8ada3ae753fa7a6785ae0d09b751230d">Improve Exception tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/87a614ad90c721360616e18013da687f5f72a170">Improve Enumerable tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/5915874e01c36e70c075c03d01edc72bfb320b92">Add assert_not_include to test environment </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/29414e817885ee5a46b0d1e5a4f7f71c2785256e">Improve Comparable tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/968fc7a91ca377457ab40a01b2110f039f31d868">Improve Class tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/b80a4cf046eb43d7365641f149f739451b8ddbb6">Improve BasicObject tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/d7deef8a2deeb1e7fa8f4b5f63baa686431af25a">Fix Array Tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/01eb9e0e84260d5769ec7d24ecf1fddceb382d51">Improve Array tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/2d696b26b680b82cd3f68918bc162beeb8ce338b">Add assert_not_equal </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/dca23f6c5fda439d946ca8e87dec70c0ba82eb6c">Improve ArgumentError tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/39b6d087c7fdcc5d02d42ec0de7fca5b23b4fb77">Improve alias tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/83d04a539e3e765b2e82d02cfbcde4a77808eb29">Improve undef tests </a><br />
+</p>
+<h4>Return Code Refactoring</h4>
+<p><a href="https://github.com/mruby/mruby/commit/85ea2f61449ef42c834aceecddad8cadc61e05ae">Refactor range_eql() func in rangec.c </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/a2210274eab85de9fbcf48a6509e8485482a083c">Refactor mrb_range_eq() func in range.c. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/73d4491174875a0b8698f12727aeb31204fb4098">Refactor mrb_obj_eq() func in object.c. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/68f31e94f564c48d8677acc8acf3ba46deebf94f">refactor mrb_realloc() </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/0e5ecae325c63e78868fe461b40c12f69f8eb74e">Refactor mrb_hash_empty_p() func in hash.c </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/4dfa2033b6f811e4c9c6007d0a40521d2ed2948d">Refactor mrb_hash_has_keyWithKey() func in hash.c </a><br />
+</p>
+<h4>New Object Extension GEM</h4>
+<p><a href="https://github.com/mruby/mruby/commit/36fc42e7dbb8511efe316647dbbbdc822a929425">add nil.to_a, nil.to_f, nil.to_i methods </a><br />
+</p>
+<h4>Improve Target Specific Code</h4>
+<p><a href="https://github.com/mruby/mruby/commit/bc91bcefcfc0b509cdfa2cd550a395314e280566">include inttypes.h if _MSC_VER is not defined </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/c23068e68f0adfb718a504032dfc30d2e7d9dbdb">Fix include path of ArduinoDue example </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/872883747822750413e22b3bc5cdf2acef3b403e">Visual Studio 2013 support + strtof + inline </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/edfe03c1cad7845f52c916d6cd3a93b11d4ce84b">Improve target example to more practical. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/9619945cf4772388586538855a302a47d23c7a8f">Fix and refactor crossbuild target config </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/49298af7b791a1afa5f0c2dd8e12914bae865b5c">No need to specify empty bin list anymore(example) </a><br />
+</p>
+<h4>Others</h4>
+<p><a href="https://github.com/mruby/mruby/commit/56b63f5b45df096e677222d2911ef7fd91cdf92b">Change int to size_t </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/b36f690655eb30e196f8d2b9e266c0db50acf769">Change int to size_t. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/73f4ed5f0e80e2cb697ace286b4d87da6d1469d4">Fix some signed unsigned warnings, int to size_t. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/db0eaa6352da470fdeb735403b858738897e3871">Fix Range#== </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/5835406e6beccbfd97d973d876fad60a0dd70b58">replaced POSIX header with standard C header </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/42991fe092150260d893e7e558f25b5d5c3d84ab">fix unnecessary exception in mrb_get_args with &#8220;z&#8221; format. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/dfb4d555c4443e78ae530b69a9c96561d8bd38e3">Avoid read_escape() in case of regexp </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/1d4b26ecfc9500f7de48d24e8a1ba1ec2cc5eeac">Add arena save/restore around use of hash KEY. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/cf840c1d05f33f0e32f86508bdeae880fd059a5e">use mrb_malloc_simple() to allocate crc buffer; close #1302 </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/3ceeb0be95874fe867f25004618c31ca8e23ecf4">add mrb_malloc_simple() that returns NULL on error </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/e9ebd6f87a395c156e4d03295f5b63a04467e1a1">Fix crash on load *mrb </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/b01670a3d391de3c7df868a8285e570564ea46cd">fixed a bug in push back list; close #1298 </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/31fbfb51dbcb18f4f8893aa03195ba050a722a29">Add fallback for allocate CRC buffer </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/e4ae05ed9ba49342507da080ae0e95fd6be4fc3c">Cleanup mrb_str_resize(). </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/967c9cff2b236b38e78b35bfeef1c1799744245c">make mrb_str_new_cstr DRY </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/cb057639289ff75b760a8c0b01dcc143b22ea804">Fix compile warning for abort </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/4ab62e3f81369c8180f04e69586c306a17040aaa">fix typo: Tus -> Tue. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/cf4655683ee4168b9ee2c552f5c89f44259e2f2c">Remove extra separator in compile command </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/8d38d9eaf1d36abafbf81162df0484e19e3da064">Fix float parenthese warning </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/63a29dbce6aabb80b64dd80cee9c26b4d5dbbc41">Change seperator to separator </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/f3c10487562b2a85534ffaf050e739169491abe7">fix indent </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/97b9caf8924c0aec76d53c56666e3bf0d13f39fd">Check parameters strictly. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/ae288fe78dd610fe471200db0c73b00d9aca6dc0">add assertion that check sizeof(void*) should be 4 bytes when MRB_NAN_BOXING is in use </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/4e877bc92f4faac950d2b6269cd4f8a0d153a432">restructure header files; move non config lines away from mrbconf.h </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/b5430460704f11dc177a8c7e7a7fcf46977def9b">Use casting instead of a macro </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/f8df722e923ab838dc3b38808c4d0fec225e6f6b">Replace isupper with a macro in msvc </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/cf0fbcd0ee3772b97d93b4e20118b611a21564ab">Remove incorrect removal of iv </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/c9caea64c81a2679ea7c832173aa3e30aa931f3e">Singleton raises TypeError on #new </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/c75bfc93a3d8460a7355906ae080870aa152e32a">Raise a NameError when symbol isn&#8217;t found. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/ab4ecac07b01c85342d477986d074279dad55021">bob doesn&#8217;t have new so don&#8217;t undef </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/5fbceaf4a1718f0a6c3f0d12912eebf068c2b303">new is removed from Integer so doesn&#8217;t need to be removed again in Fixnum </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/36c56a90776898aa4808f476ceeb6aff3fec9415">install gperf to prevent accidental compile error </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/33b81f2ad7537b8373487b65a3dd7dd6a55be743">do not specify implementation dependant exception class names in fiber test </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/155193b41a0b62313bcb492ef1fc5f0b083573a2">Describe GemBox files can be located anywhere </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/43732ecd175ab41b2d8bb8347be97366b294c622">Minor wording changes and a couple spelling fixes </a></p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

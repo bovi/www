@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2012-06-22</p>
+      <h2>[CW 25] mruby news</h2>
+<p>What happened this week on the mruby front?</p>
+<h3>Struct</h3>
+<p>Big work was done on the <code>Struct</code> library. This class doesn&#8217;t SEGV anymore, additional test cases were added and the possibility to add or remove this library from the mruby-core was integrated.</p>
+<p><a href="https://github.com/mruby/mruby/commit/ede3049f33f8c6cdb703784619fb4143bfe3b441">Commit (Struct Dis-/Enable)</a>, <a href="https://github.com/mruby/mruby/commit/4f4965a4a20b1fba002d7b428508632604fd0b38">Commit (fix Struct Access)</a>, <a href="https://github.com/mruby/mruby/commit/a843de0e90750557a30261b8008253a58baa429e">Commit (fix Struct initialize)</a>, <a href="https://github.com/mruby/mruby/commit/f88a8399149f9b949f31f960d56d486a423efefa">Commit (Add Struct Tests)</a>, <a href="https://github.com/mruby/mruby/pull/298">Commit (fix return value)</a></p>
+<h3>Compile flags</h3>
+<p>Till now the <code>CFLAGS</code> for mruby were always set to &#8220;-g -O3&#8243;. With this we had the benefit of having debug support build into every built. But most of the user out there might never use the gdb on mruby. So I decided to add the following three compile options to the Makefiles:</p>
+<pre># compile with "-g -O3"
+COMPILE_MODE=debug make
+
+# compile with "-O3"
+COMPILE_MODE=release make
+
+# compile with "-Os"
+COMPILE_MODE=small make</pre>
+<p><a href="https://github.com/mruby/mruby/commit/83e5999d7efcad648e9ecbd64c51b305b6261999">Commit</a></p>
+<h3>New Methods</h3>
+<p><em>Symbol</em> got the spaceship method (<em>&lt;=&gt;</em>) and <em>Module</em> got also a lot (<em>define_method</em>, <em>attr</em>, <em>attr_reader</em>, <em>attr_writer</em>, <em>attr_accessor</em>). <em>Lambda</em> got <em>initialize_copy</em> and is now duplicable.</p>
+<p><a href="https://github.com/mruby/mruby/commit/7744315d88ceea6cb4e233506ba9b97693b68569">Commit (Symbo#&lt;=&gt;)</a>, <a href="https://github.com/mruby/mruby/commit/ea81146a41d730f951de452ffb9217e2aceba19d">Commit (Method#define_method)</a>, <a href="https://github.com/mruby/mruby/commit/97e5ab22f66d0b70643ac2b6d76aef55a5122746">Commit (Module#{attr,attr_reader,attr_writer,attr_accessor})</a>, <a href="https://github.com/mruby/mruby/commit/e9231bca7a5fafa67e0a15aa657e727e46a1363a">Commit (Lambda#initialize_copy)</a></p>
+<h3>printf</h3>
+<p>One method I was wondering about is <em>printf</em>. This one was also added this week. printf is working like <em>print</em> but calls <em>sprintf</em> before its execution. Due to the reason that <em>sprintf</em> is an optional feature of mruby-core, <em>printf</em> should be optional too. But it appears that <em>printf</em> is implemented in pure Ruby and has no compiler switch by now. Lets see what happens with this method.</p>
+<p><strong>Update:</strong> I made a change to <code>printf</code>. Now it is only available if <code>sprintf</code> is also enabled. I used <code>respond_to?</code> to check if <code>sprintf</code> is available. I&#8217;m curious if this is the best way. This code will now also be compiled into the core, even if <code>sprintf</code> was deactivated. It won&#8217;t be executed but at least during initialization it will be called one-time. I guess it is ok for now but in case this kind of stuff is growing there might be another solution necessary.</p>
+<p><a href="https://github.com/mruby/mruby/commit/e61bdbe3960aa471a8b4e5d8a89614d1433959aa">Commit</a>, <a href="https://github.com/mruby/mruby/pull/306">Commit (printf optional)</a></p>
+<h3>Optional Tests</h3>
+<p>Lately I played around with the customization of mruby. While I removed some features I notice that the test cases are failing (good indicator that they are working). Nevertheless I don&#8217;t want to see failing tests if I decided to not use specific features of mruby. So I decided to patch this behavior away. My first approach was to define a new constant which defines the configuration of the mruby-core. Matz actually suggested to check if the related class is defined. In the end this solution is more implementation-independent. All tests which are testing optional mruby features are from now on not executed if the feature is disabled.</p>
+<p><a href="https://github.com/mruby/mruby/commit/d105ea496f686b6ef3071e127864fab4677befac">Commit</a></p>
+<h3>strlen replacement by sizeof</h3>
+<p>Masaki Muranaka <a href="https://github.com/mruby/mruby/issues/301">suggested</a> to reduce the use of <code>strlen</code> due to the reason that on small systems it is to blown. I think it is a good idea to look at optimization of the code but I&#8217;m not completely sure if now is already the right time to optimize parts of mruby. <code>sizeof</code> instead of <code>strlen</code> might not be such a dramatic optimization. But I&#8217;m afraid that we try to early to optimize the core and make the code in this way harder to read.</p>
+<p><a href="https://github.com/mruby/mruby/issues/300">Commit (codegen)</a>, <a href="https://github.com/mruby/mruby/pull/309">Commit (Reduce mrb_str_new2)</a>, <a href="https://github.com/mruby/mruby/pull/302">Commit (Remove strlen in array)</a></p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

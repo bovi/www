@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2012-07-08</p>
+      <h2>[CW 27] mruby news</h2>
+<p>What happened this week on the mruby front?</p>
+<h3>mruby Forum</h3>
+<p>It seems to exist already a bit longer but I saw <a href="http://forum.mruby.org/">the mruby Forum</a> this week for the first time. You can join this forum now and it seems a non-profit organization will be created later this year. I didn&#8217;t yet found someone who explained me the agenda :-( But I would guess it is targeting future development and some kind of promotion work for the industrial and educational field.</p>
+<h3>Refactor mirb</h3>
+<p>Matz was working on refactoring my mirb code. He likes shorter variable names then what I usually use. So I guess I have to adapt my future patches a bit (-:</p>
+<p><a href="https://github.com/mruby/mruby/commit/a7b8a94e48b805cd1651807aae09faf2d265b61b">Commit</a></p>
+<h3>Module include Module</h3>
+<p>Masamitsu Murase was figuring out that mixins of Modules into Modules didn&#8217;t work as expected. Several patches to fix this behavior were submitted by Matz. I also submit some new Module test code.</p>
+<p><a href="https://github.com/mruby/mruby/issues/340">Issue (Module Policy)</a>, <a href="https://github.com/mruby/mruby/pull/354">Pull request (Module Tests)</a></p>
+<h3>Remove Threading left-overs</h3>
+<p>Due to the reason that there won&#8217;t be any threading support in mruby-core, Matz removed the left-overs from the code.</p>
+<p><a href="https://github.com/mruby/mruby/commit/8268ba2755ec467d100c799dbf53c13f38fda436">Commit</a></p>
+<h3>Parser Context</h3>
+<p>All parsing functions got a new argument for the context. This is usually not needed but if you want to predefine the context or if you parse inside an existing context and you want to pass these context-information forward you can use the new argument to give the following information to the parser:</p>
+<ul>
+<li>local variables</li>
+<li>filename</li>
+<li>line number</li>
+</ul>
+<p><a href="https://github.com/mruby/mruby/commit/65096c4c1bd1bfb6f547808fc01ab6ea223d9dc6">Commit</a></p>
+<h3>Migration Support between instances</h3>
+<p>Not inside of the core but a proof of concept as <a href="https://gist.github.com/3066997">a Gist on Github</a>. Matz shows a piece of code with which it is possible to migrate objects from one mrb_state instance to another.</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

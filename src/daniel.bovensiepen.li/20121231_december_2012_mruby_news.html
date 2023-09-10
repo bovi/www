@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2012-12-31</p>
+      <h2>[December 2012] mruby news</h2>
+<p>What happened on the mruby front in December 2012?</p>
+<h3>mrbgems</h3>
+<p>As described in <a href="http://mruby.sh/201212101231.html">the last blog entry</a>, my <code>mrbgems</code> patch was merged this month into the HEAD of <code>mruby</code>. Since then an insane amount of activities around this implementation started. I hardly kept track of all the improvements which were done by the following people: <a href="http://github.com/mattn/mruby-http">mattn</a>, <a href="https://github.com/matsumoto-r">MATSUMOTO Ryosuke</a>, <a href="https://github.com/masuidrive">Yuichiro MASUI</a>, <a href="https://github.com/monaka">Masaki Muranaka</a>, <a href="https://github.com/DAddYE">Davide D&#8217;Agostino</a>, <a href="https://github.com/xxuejie">Xuejie Xiao</a>, <a href="https://github.com/akiray03">Akira Yumiyama</a> and <a href="https://github.com/tsahara">Tomoyuki Sahara</a>. Next to bug-fixes, Windows support was added and also external library integration is now possible. And as far as I can count there are already a dozen of mruby libraries transformed to the GEM standard (i.e. <a href="https://github.com/mattn/mruby-sqlite3">mruby-sqlite3</a>, <a href="https://github.com/matsumoto-r/mruby-redis">mruby-redis</a>). At the same time I have to notice that this is all still quite alpha. Yuichiro MASUI <a href="https://github.com/masuidrive/mruby/tree/cruby_building_script">is working hard</a> on rewriting many parts of mrbgems to empower <em>Rake</em>, so the GEM standard is moving still. More about that in the next paragraph.</p>
+<h3>minirake</h3>
+<p>After some back and forth matz finally agreed to use Ruby as a building pre-condition. That means we can drop the good-old Make and move to Rake. Yuichiro MASUI ported Rake to mruby (now called <code>minirake</code>), which is included in the mruby source by now. So the only thing you need is a Ruby interpreter (at the moment CRuby 1.8 or 1.9 &#8211; JRuby 1.9 Mode is not working &#8211; I&#8217;m investigating) and you are good to go.</p>
+<p>Cross compiling will now also become easier. Half a year ago <a href="http://mruby.sh/201206110029.html">I explained</a> how to use <code>cmake</code> to cross-compile mruby for different platforms. After finishing all rough edges of the minirake build process, we will drop cmake completely. I think it is a bit sad remembering all the hard work which went into it. But after seeing the beauty of the new Rakefiles I will stop crying soon, perhaps.</p>
+<h3>Memory leak</h3>
+<p><a href="https://github.com/masamitsu-murase">Masamitsu MURASE</a> and <a href="https://github.com/skandhas">skandhas</a> fixed some memory leaks. </p>
+<h4>In String#to_i and String#to_f</h4>
+<p><a href="https://github.com/mruby/mruby/commit/a7182c20eb6202738b8fe05c204822f7a94222a5">a7182c2</a></p>
+<h4>In make_cdump_irep</h4>
+<p><a href="https://github.com/mruby/mruby/commit/2a49cd176e4046cf08cd6cc1350216031e4d847b">2a49cd1</a></p>
+<h3>Module Improvements</h3>
+<p>skandhas did an incredible job in improving <code>Module</code>. Many missing methods were added, mainly used for introspection.</p>
+<h4>Module#remove_method</h4>
+<p>Removes the method identified by symbol from the current class.</p>
+<p><a href="https://github.com/mruby/mruby/commit/50e3a53d7377c9cf94b70d553fe4060edcec8fc9">50e3a53</a></p>
+<h4>Module#remove_class_variable</h4>
+<p>Removes the definition of the <code>sym</code>, returning that constant&#8217;s value.</p>
+<p><a href="https://github.com/mruby/mruby/commit/c0af042603a0bc0b65ad238299d61be45ef963ff">c0af042</a></p>
+<h4>Module#class_variable_defined?</h4>
+<p>Returns true if the given class variable is defined in <code>obj</code>.</p>
+<p><a href="https://github.com/mruby/mruby/commit/210193478a367db9912907cb822c176e8161300f">2101934</a></p>
+<h4>Module#class_variable_set</h4>
+<p>Sets the class variable names by symbol to object.</p>
+<p><a href="https://github.com/mruby/mruby/commit/429359819a9a3155984c134f62976a42d314244c">4293598</a></p>
+<h4>Module#class_variable_get</h4>
+<p>Returns the value of the given class variable (or throws a NameError exception).</p>
+<p><a href="https://github.com/mruby/mruby/commit/e48ed9c9649340544156dba57e3a6f29f536066b">e48ed9c</a></p>
+<h4>Module#class_eval</h4>
+<p>Evaluates block in the context of the <code>Module</code>. This can be used to add methods to a class. <code>module_eval</code> returns the result of evaluating its argument.</p>
+<p><a href="https://github.com/mruby/mruby/commit/26600ca4ec2c9547927056b35b61328f12cda79a">26600ca</a></p>
+<h4>Module#instance_methods</h4>
+<p>Returns an array containing the names of the public and protected instance methods in the receiver. For a module, these are the public and protected methods; for a class, they are the instance (not singleton) methods. With no argument, or with an argument that is false, the instance methods in mod are returned, otherwise the methods in mod and mod&#8217;s superclasses are returned.</p>
+<p><a href="https://github.com/mruby/mruby/commit/2ea245db3dd439cf179bbe120177ddcd086e4707">2ea245d</a></p>
+<h4>Module#include?</h4>
+<p>Returns true if module is included in mod or one of mod&#8217;s ancestors.</p>
+<p><a href="https://github.com/mruby/mruby/commit/d03bd87dc0213954f1f15c24507b38d1820192eb">d03bd87</a></p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

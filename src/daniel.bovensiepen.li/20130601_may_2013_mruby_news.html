@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2013-06-01</p>
+      <h2>[May 2013] mruby news</h2>
+<p>What happened on the mruby front in May 2013?</p>
+<h3>mrbgems</h3>
+<p>As mentioned by me <a href="http://blog.mruby.sh/201305011328.html">last month</a> I was proposing to introduce some kind of dependency system for GEMs. This was what I did this month by introducing version and dependency properties to the GEM specification. These specifications will be checked during the build and the build system will tell you when they can&#8217;t be satisfied.</p>
+<h3>Fiber</h3>
+<p>Matz was adding Fiber support this month as a new GEM. It was quite a fight to make it work proper together with the GC.</p>
+<h3>Word Boxing</h3>
+<p><a href="https://github.com/kimushu">Kimushu</a> was sending a large pull request which introduced Word Boxing. This patch made <code>mrb_value</code> a little bit more native by handling it as a word. My tests showed that this configuration is actually improving the memory usage quite a bit but I also notice that it is incompatible to NAN Boxing.</p>
+<h3>ObjectSpace</h3>
+<p><code>ObjectSpace</code> support was implemented as a GEM too in this month.</p>
+<h3>Commits</h3>
+<p>Here a list with all commits during this month.</p>
+<h4>mrbgems</h4>
+<p><a href="https://github.com/mruby/mruby/commit/6af7132866cfa33b9736b9b42558d1603f3a3478">consider empty version requirements as >= 0.0.0 </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/7562b284397dde6daf5dbd9a9c15d1b7c019f4bd">consider gem version to be 0.0.0 unless specified </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/34f7dd539d6464af65c9e1dcc8b3d2fd214db8f8">Todo is actually already finished :-) </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/a5a7c47e910f62abd49ab40691441f47a376031c">Implement GEM dependency check </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/1eb2a4b6c852b5de80acd98adec9d0cd71bcb791">Move GemList to MRuby::Gem::List. More logical location </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/822a71154f92fb39b6ea1a28f77f8b453d75e45d">Use advanced GemList as list for GEMs </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/dd8bfcb49f10922173e2f3d3171e8a8e5ba54be9">Implement GemList which can identify GEM duplicates </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/1f52ee259a706c597e35ce5fea298daa9a30cc7c">sort mrbgem&#8217;s mrblib/*.rb files </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/d8ce46feda8cfb5533719f060365aa579caadce1">Fix add_dependency declaration documentation </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/823dc380aa834efb34e461305480834c38c9c0ea">Improve mrbgems documentation </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/bb7d404e64e155f2c3c966c6ad621ba5b78dbb09">Add more documentation for Gem::Specification </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/b754cf1f6799197294076b6911b028f37af532ec">Improve Gem::Specification for support of dependencies and requirements </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/bffc9878ecd8cea73f4c3e1e1d29dec05041edc7">Apply :core parameter to full-core.gembox </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/3afa961e8c56969f3f3bc3203fdde16ad5577f09">Apply :core parameter to default.gembox </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/045db9e528cb5907695a82673d34c2d322428eb0">Implement :core parameter for conf.gem </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/1f45b85a0b20990a6b6d1a2d21874d3a2b5620fb">Cosmetic improvements of mrbgems documentation </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/82c891acee1c1d2657b3dbe73797af5a7020827f">Move comments from hash.c to hash.rb. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/a46eacb213bbf001f688dc8f00cf85ea1b8a6281">Move Hash#values_at to mruby-hash-ext gem. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/520b0f73bfa4c72aa3ef3f50edfec936d40d31a8">Implement fallback print method for testing environment in case mruby-print GEM wasn&#8217;t included. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/ad638fc12a61760e4e4764322576baf56c81e03f">add comments for mruby-array-ext </a><br />
+</p>
+<h4>Fiber</h4>
+<p><a href="https://github.com/mruby/mruby/commit/35b58e571da25315e39d77453a7e0712ece3473f">Test for raise when yield is called on root fiber </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/406e089a7478a34b74e6fa4e33490a31e32e9a91">Add test for raise on resume after fiber is dead </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/345ba02e4d08b3fc966b9c094068c403e1acf3ae">add Fiber#alive? </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/d78f23d28b4706e58622493de60e17818b491fde">fix fiber GC problem </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/4174690d0b942e25db77dc42ff8c153bc6bf1e5b">Add Fiber Test for issue #1264 </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/97a11305c65d11502695f0c46f56e888bf91b27a">fiber do not work on MRB_NAN_BOXING </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/aa2040fc97011b2ea00c0b269a1079f5feb80d01">add fiber tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/76ddf86c72ccefefbeb2cd5dcf78c8365b1a2bcc">manage fiber status (create|running|resumed|terminated) </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/2045a3529266e903d0db0c9e16081fe2fa01b9df">garbage collect context (fiber) properly </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/cc772dd3cc62d66a09c368ee2a1dcc798462e01f">Change Fibder to Fiber and a couple other wording issues </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/799852d60b96f7110d84a8ee32299b3cd341e03b">update Fiber.new doc </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/5c0b9b703c9d1a08d7219b057b809bda4bc89f8a">primary mruby fiber implementation </a><br />
+</p>
+<h4>Word Boxing</h4>
+<p><a href="https://github.com/mruby/mruby/commit/b172be47fa07e3228f35d046e93fecad8af4c797">small refactoring over word boxing </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/e720782f815b809a692818851582be019afe52a9">Add MRB_WORD_BOXING mode (represent mrb_value as a word) </a><br />
+</p>
+<h4>ObjectSpace</h4>
+<p><a href="https://github.com/mruby/mruby/commit/008aec2bbcd38fa13c27b6df2b2463b6a88cefff">Cleanup of mruby_objectspace.c and removed the unneccessary README for mruby_objectspace. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/43d2fe80ad3a0a38b0cade6a9cdde154005a6cf3">Added mruby-objectspace to the detault gembox. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/222918deae84ae8dda26aa769bf3cc6b68e3aeec">First implementation of ObjectSpace moved outside of gc.c </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/279fce05ae34bd05a01c8b377a5f1b13b701cf83">ObjectSpace.count_objects was incorrectly checking if an object was already freed. Amended the count_objects test to ensure the correct distinction </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/0d4227ac04832a3bb4010d701ebda2c97c034da6">Implemented ObjectSpace.count_objects to count the number of allocated objects for each type </a><br />
+</p>
+<h4>Others</h4>
+<p><a href="https://github.com/mruby/mruby/commit/6557ee938a5404b31b064f08c58bb54dfc0ac468">mruby error messages should be directed to stderr </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/aa1cc2360f268e1d3b1827d0cb9297d4f6fd903c">fixed a bug in initializing post mandatory block parameters </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/fdb6176aeed6b018305ca99bdabdc2dda3cafc80">should set argc at proper position; close #1264 </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/93d710117df22f99c2fd60632a77202a745a2b4a">should have protected the return value from GC, even when the method is defined in Ruby; close #1263 </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/1cfd3fb9eb7d53b7f91126169ae48b7c64a8cd3e">remove unnecessary assignment </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/a17fd80eb4d8ed8738aab0a027c40353d52ae070">error in initializing callinfo stack in cipush(); close #1261 </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/58b25fdcb3bf92050296a624abc4934b83fab01c">avoid unnecessary pool/syms restoration </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/7320139fd91ce86a6e58d56a25e04136b87bbd9a">update error message </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/163022f276962064c8c80e5de37267a7958dde66">Change fortmat to format. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/0fc9064c59fef34d68b921d6eaae035d5d435a12">mrbc: use binary mode on outfile </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/8057eb935ca8f6cbe366dabebe183359611d9f4d">removed unused variables / assigns never used </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/ac2adf347696c67507b3fef61a8d99852657abda">indentation fix </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/a1c6996fea1a00b7be6cb49443061c96823bba64">remove unused local variable </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/4acfadfee147138372ce01f29079948b7adca3d9">Fixed the each object callback to be more consistent with other callbacks. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/391807b73c2ced4a7dd49e417ab14e4c81b4ec70">Changed the counting so that only objects that are alive are added to the object counts. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/e36a0275e10903aaddea7c79832d053ba0aa28f6">Minor formatting change. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/40d63f7740e4b020a2126ddb386760c6fd51c999">Changed the each_object callback so that a pointer is passed for the object, instead of the struct. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/da6b61db796a27c7e2784247e94293d86ac7563c">Removed debug output </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/f62cc5b1eebb29d244977c6030c04d9cb8ebefba">Changed the object_count so that it only iterates over the RBasic object, not the full RVALUE known by the GC </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/439359324d65083c706f25ae69a7f52051f2b627">Fix compiler warning by exiting if wfp isn&#8217;t set </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/103ab2e53d727cf2157536ab694705733351a00c">avoid unnecessary copy of context->filename </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/95fb1fd809780e71848c339f8e3e035d1ae015d6">mrbc to take multiple files, preserving debug information if -g given; close #1243 </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/87eb57b663fd564d81d59a3d79bae0bcf8ad43e0">Fix off by one issue </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/9f43a2560298b7f947a7a8211112e7ccfc246b04">Add example of modifying mrbc options to add debug info </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/7df8e6936e8a5545448cbaab3009ff574b627b36">Allow mrbc command options to be changed </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/546d1626e373cc72eb031a1129fb6d55c3aba6c1">Fix early free of irep->filename </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/077213c5eb6817fd044ddf319df3593706ae6653">forgot to add src/backtrace.c </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/0b858ab801d51b3eda478e30164eda562c14cea4">show a backtrace when when an error occurs on gem load; close #1243 </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/7921fd545c52d9a2bae8fa2cb0cf92fe84ffb55b">move mruby&#8217;s showcallinfo into the core </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/a71bf5e3df961605aeb2712bb472bf3b0f1c0dd3">Change in formatting for os_count_objects to be consistent with other functions. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/37e3643f8f048d8387419a43abc51236eadbeb1e">Potential fix for &#8216;inline&#8217; macro redefinition error &#8211; VS2012 C++ </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/37258d4d7e9c16a99e13dabd55d22f1c15a379d3">Change alghorithm to algorithm </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/b7a24de37727c0f3d10fb640eb9ebe36e3aed0f2">change mrb_bug to get mrb_state and %S formatter </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/fad8b1cefafcc40ca86cd87612ed8597ee600da3">change mrb_warn to get mrb_state and %S formatter </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/9887f7cb277c6079f6f6f93ff75bc177846d4da2">Rename parameter names for mrb_yield </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/f545d88373f17d9e0772e33eca09e281007ab097">fix indentation </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/697b09924ec2c66c8dfe9897c2233e2f689fa3a6">Print mrb_value instead of RClass* </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/9dd539bb157e40e78791d83a89f4727d4b10115d">remove unused variables </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/1d049e08644c14c2fac2ed0651a044beabf170aa">fix regexp warning: character class has duplicated range </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/2991c8b0b22bc19f6137b2468fa6daaedca87a7b">[doc] Add minimal build configuration </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/72f78316aa8f02c920acac052ef502786b32d636">Move declaration of kernel to the beginning of the method </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/595b1990bccb6f592d7cbf8f26424bda1c10210b">mirb should handle exception from inspect; close #1238 </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/c9edc5b02ee07aa2b8caa994910d31273260ca22">Remove mrb_hash_lookup() as no one uses it. Use mrb_hash_get instead. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/71cc4e13bfdac5c5975b3785558324944bb50bd3">Add more test cases for test coverage. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/61c0b8f7df0a10241444cd70ad5395b605f968bc">Adding a few more respond_to tests </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/1dfe52e53d9619e25f152175eb2a1194d9b9b5c2">fix typos. </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/17eef070da74f51a4bf6ac53d0dd58042ec4eb6c">add type check in Hash#merge! </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/d0f491d8c3a0dee6a8218685af7fb7f2ee6cc581">remove explicit check to honor duck typing </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/4e16491f068d34bf31dce7b5e7e0730b7b6a6ae0">avoid subclassing Array not to inherit too much methods </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/f0a9b95af3d542ac1db7fcb4a3d77990a284c185">Push Copyright year up to 2013 </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/e6efc519a97473d3f020ee33dacb51f48a874ed4">ArduinoDue Target Cosmetic Change </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/1e5b00e772150afe1ec36e3edc131b8dc304e493">Remove mrb_class_obj_get </a></p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

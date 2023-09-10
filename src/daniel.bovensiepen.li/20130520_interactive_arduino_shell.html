@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2013-05-20</p>
+      <h2>Interactive Arduino Shell</h2>
+<p><a href="http://blog.mruby.sh/201303161453.html">Two month ago</a> I ported mruby to the Arduino Due. That was quite awesome at a first glance but it didn&#8217;t took long for me to realise that the workflow is actually not satisfiable.</p>
+<h3>The Problem</h3>
+<p>Running mruby on a Microcontroller is in so far quite annoying that the write, compile, upload and execute cycle is just to long and so not Ruby-like.</p>
+<p>In Ruby-land you actually write your program and execute it immediately. No compilation, no uploading. Instead: direct feedback.</p>
+<p>For mruby on a Microcontroller you actually have to:</p>
+<ol>
+<li>compile the <code>mrbc</code> for your host</li>
+<li>cross-compile <code>libmruby.a</code> for your target by using <code>mrbc</code></li>
+<li>compile your Ruby code to Bytecode</li>
+<li>integrate your Bytecode into your Microcontroller code</li>
+<li>cross-compile your Microcontroller code</li>
+<li>upload your Microcontroller binary</li>
+</ol>
+<p>Compiling and Uploading will take you easily up to several minutes. And you only get the feedback you have implemented and compiled.</p>
+<p>So all in all we have cross-compiled mruby to Arduino Due and the result is that now our workflow is much more complicated, slower and less flexible. What a success&#8230; :-(</p>
+<h3>The Solution</h3>
+<p>Instead of giving up on this stupid idea I decided to target the problem from a new angle. Why do we actually have to follow the same workflow our C colleagues have to go?</p>
+<p>Actually we don&#8217;t have to. Quite exactly <a href="http://blog.mruby.sh/201205231844.html">a year ago</a> I implemented the <code>mirb</code>, the <em>mruby Interactive Ruby Shell</em>. With this shell it is possible to execute Ruby code directly, kind of like the original IRB. So as a happy birthday gift to my mirb implementation from last year <a href="https://github.com/bovi/ias">I transformed the mirb into a native ARM application</a> which can run directly on the Arduino Due. I replaced the command line interface with the serial interface so that I can communicate serial directly to it. And so I can now execute pure Ruby directly on my Microcontroller:</p>
+<pre>boviAir:~ daniel$ sudo screen /dev/cu.usbmodemfa131
+
+IAS - Interactive Arduino Shell
+
+This is a very early version, please test and report errors.
+Thanks :)
+
+> 1 + 1
+ => 2
+> Led.high!
+ => nil
+> Led.low!
+ => nil
+></pre>
+<p>This example is actually turning on and off the led on pin 13!</p>
+<p><video width="480" height="216" controls><br />
+  <source src="/files/ias.mp4" type="video/mp4"><br />
+  <source src="/files/ias.ogg" type="video/ogg"><br />
+No Video Tag support :-(<br />
+</video></p>
+<p>After playing over the last couple of days with this concept I totally fall in love with it. Finally I&#8217;m feeling like a Rubyist when programming my Microcontrollers. As you see there is no need for (native or cross) compilation, no need to upload anything and no need to have any kind of development tools on your machine. The only thing you need is a serial terminal and you are ready to go. Enter your code and it will be executed. It is a <a href="http://en.wikipedia.org/wiki/Read–eval–print_loop">REPL</a> for an Arduino.</p>
+<h3>#next?</h3>
+<p>During <a href="http://rubykaigi.org/2013/talk/S01">my talk</a> in Japan next week at <a href="http://rubykaigi.org/2013">RubyKaigi</a> I will present this tool. So if you are interested in it come by!</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

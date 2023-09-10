@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2015-01-02</p>
+      <h2>[Aug.2014 to Dec.2014] mruby news</h2>
+<p>What happened with mruby between August 2014 and December 2014?</p>
+<h3>Highlight</h3>
+<p>The biggest highlights since the last update were definitely the release of <a href="https://github.com/mruby/mruby/commit/b473043acfd1b4697e978e3ac4656dc9b03b3b22">mruby 1.1.0</a> and the implementation of the <a href="https://github.com/mruby/mruby/commit/e5bacc03f20c3be5006f0283200b48a15ff699b7">mruby debugger (mrbd)</a>. The debugger came surprisingly with a really amazing test coverage and also <a href="https://github.com/mruby/mruby/blob/master/doc/debugger/README.md">a proper documentation file</a>.</p>
+<h3>Refactoring</h3>
+<p>25 commits were dedicated to refactor the current mruby source. Most famously probably the refactoring of <code>mrb_sym2name_len</code> which went thru two phases. The original refactor approach replaced the linear search by a hash search. This improved the speed but had the disadvantage that the memory consumption increased. <a href="https://github.com/mruby/mruby/pull/2591#issuecomment-55520748">Matz pointed out</a> that this function was originally implemented with this slower algorithm to keep the memory consumption low. Based on some profiling performed by <a href="https://github.com/dycoon">dycoon</a> it turned out that the time spend inside of <code>mrb_sym2name_len</code> seemed really long:</p>
+<p><img src="https://cloud.githubusercontent.com/assets/553189/4263042/67d9df74-3bc6-11e4-8158-1eda69e0a1c4.png" alt="Profiling of mruby code" /></p>
+<p>Based on these results, matz refactored the code with a linear symbol table which lead to a search performance now of O(1).</p>
+<h3>Improve Testing</h3>
+<p>The biggest improvement on the testing side was definitely the tests provided together with the mruby debugger. It is amazing to see that a new piece of code comes immediately with a proper test coverage. I hope this will set a standard of how to add amazing new functions and programs to the mruby core. A big thanks goes here to the mruby forum which seem to be the main contributor of the mruby debugger test cases as also to Mitsubishi Electric Micro-Computer Application Software Co.,Ltd which was mentioned in the commit and has also provided support for implementing the debugger and the test cases.</p>
+<h3>Improve stdlib</h3>
+<p>The standard library slowly reaches a state that not to many important features are missing for daily usage. Nevertheless 14 commits were dedicated to improve the following:</p>
+<ul>
+<li>add <code>String</code> <code>#prepend</code>, <code>#insert</code>, <code>#succ</code>, <code>#succ!</code>, <code>#next</code>, <code>#next!</code></li>
+<li>add <code>Float::{INFINITY,NAN}</code></li>
+<li>add <code>Kernel</code> <code>.Integer</code>, <code>.Float</code>, <code>.Hash</code>, <code>.String</code>, <code>.Array</code></li>
+<li>add <code>Hash.[]</code></li>
+</ul>
+<h3>Bugfix</h3>
+<p>71 commits were dedicated to bug fixing. In general this is the major task these days as more and more people starting to use mruby more and more corner cases are identified where mruby doesn&#8217;t perform proper. In general it is a good thing that these bugs are found but as I said before in other blog entries, we still have the issue that regression tests are most of the time not provided, so it is likely that we will see some of these fixed bugs in the future again.</p>
+<h3>Commits</h3>
+<p>Here a list with all commits during these months.</p>
+<h4>Highlight</h4>
+<p><a href="https://github.com/mruby/mruby/commit/b473043acfd1b4697e978e3ac4656dc9b03b3b22">mruby-1.1.0</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/e5bacc03f20c3be5006f0283200b48a15ff699b7">Add mruby debugger (mrdb)</a></p>
+<h4>Refactoring</h4>
+<p><a href="https://github.com/mruby/mruby/commit/3a21c9b6d7d1ec201c8cfdac24695af90d74b4cf">Avoid block_given? in mrbgem:enum.rb to reduce method calls</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/ef3bbd2e647c92b5a96c04c78a71c9bb41bea679">avoid block_given? in enum.rb to reduce method calls</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/ad77ed8bf3a437168bec2fd10e67a88b4540a512">Refactor for_body func</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/34175bf41fd46696341369fa7127399dd48a98ba">Refactor yylex func</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/7bd2a8508eeeaa7cc5347b5bc9e2b64be6ccb7f3">Refactor mrbc_context_new func</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/9b1d9a790133475540b7c86861d674a2371746ac">Refactor mrb_f_array func</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/4fd28deff9a8d1c40936aa27736222eeb9f00f07">refactoring C part of #2611</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/e66d86a5fb8ab79403ab47423f9a871fdc5b26fb">refactor Hash generator loop</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/5b235a8bfae2a747548945f24f8e82193ab81f29">condition refactoring in load.c</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/33e44a612c754e5697b4c43f270df0df0ede5f01">refactor MACRO to avoid local variable name conflict; ref #2585</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/f7a7426d7e4f6d3372c2e16296e93c2e31f6598c">Refactor mrb_obj_is_kind_of_m() in kernel.c</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/3e40cc697428acce874297ec7da31923b9d42072">Refactor obj_is_instance_of() in kernel.c</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/6c7b0d88e87a41b6e2c908e0a9dcbc722b7553dc">refactor valid instance variable name check</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/9da37cdfd1a2daf072d6adf2492e4568ea17c538">refactor mruby method(fix indent. remove temporary value, duplicate procedure)</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/1c3d05b5b6bb3ef1051ea4d677aad639a261e5cd">refactor class.c methods (fix indent, remove unneed temp value. )</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/9b176207a461a4fc9209a09f857f27e76675c4d4">Refactor flo_mod func in numeric.c</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/a9b37bff4b985f2e4ca9e76a4197b69c1fcfd057">refactor mrb_hash_shift, num_pow, flo_eq, flo_finite_p method</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/5eb3a8caa622d4d41cbc785bf96530a3f641f2f5">Refactor incremental_sweep_phase() in gc.c</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/3569723ab36d806ca2dbdbd8475b45237333769d">Refactor obj_free() in gc.c</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/5f7b0580b75e2fd88d886ecf181a211b9273af7c">code reduce by using mrb_get_args(&#8220;n&#8221;)</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/4a55b42984d677895d43ddb1bd89c394c3625009">O(1) mrb_sym2name_len(); close #2591</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/df21609a204765e88ead1ffeb1923c214d399d52">remove unnecessary CHAR_BIT != 8 check</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/cc4c22c5f55c2827e9fb138682be43f82c5e36cb">mruby-strip doesn&#8217;t need mrbgems</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/170ba511f2053a11f434aa946d70fd328a26c636">remove unnecessary mrb_float casting; ref #2531</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/90ba47ccfe67859e3f139199da33e89137a74a41">implement attr_reader and attr_writer in C; use cfunc closure to speed-up</a></p>
+<h4>Improve Testing</h4>
+<p><a href="https://github.com/mruby/mruby/commit/bcf8ad87e6c9a55ba852e483052ba579b5ecae37">add multiple assignment decomposition test</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/3492be401a16ff661beefd03c9f152744900e5c0">avoid iseq allocation from static irep binary. it reduces 424KB allocation for mrbtest</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/bd6dc0da77470c2dfca7fbccf543cb94b17624af">Add test for Numeric#pow.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/7a5d3c19c6bae4eb7a0c5d7ef9486b139fd73fb5">remove test for succ on Unicode (non-ASCII) char; #2520</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/9c78fc8443e366ae9d271b0ccbb2eea1e5fb3cbf">added Math.cos and Math.tan test case</a></p>
+<h4>Improve stdlib</h4>
+<p><a href="https://github.com/mruby/mruby/commit/5f68be7190d17c553981359d5056db6fbfea11c8">String#[] accepts float.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/7ea38ce473816de188e9d45d409e3b5f71f58400">Add String#prepend</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/45a442a9d7ee835de7ab8b205e9c7bb2be3b82f5">Add String#insert</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/70c98667512b9301e577aafc912a35208ad471c9">add Float::{INFINITY,NAN} if available</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/28c804621a9cace9d689130930c27114f7c1da3a">Add Kernel.Integer</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/140e9bbf4bc3aa55971f2ddd5e319c3cb80d9296">Add Kernel.Float</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/9e053664516b470681c228c82381383e67869959">Add Kernel.Hash</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/de04d3f0804dc7d87539bf8cc979abbf50e61735">Add Kernel.String</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/b6edf24a018547fe49eb72fd963058f5f762a731">Add Kernel.Array</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/dc0c3546581fb10b2a9abb0e399f1f58488a2fc5">Add String#succ, String#succ!, String#next, String#next!</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/eaa0296fc57ba5288b4d72338d008d225bb1d5ae">Handle Array#[float, int] Close #2626</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/2732879f3e35d78c59a2bb10c6b09df06853b727">String#[]: float handling merged to #2677</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/05b00a14c5081ee4bf362b12839dcbb94df1169a">String#[] should reject nil index</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/5603b8d79f3726466fdab60905c16439b59c6c3e">implement Hash.[]</a></p>
+<h4>Bugfix</h4>
+<p><a href="https://github.com/mruby/mruby/commit/bb3447173b52f6a24b2df1dba9fb93ddb48426bb">khash.h: keep key/value table accessible from original hashtable during resize; fix #2682</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/79f703ecbae81c65717b97093da017ac5fee3e61">mruby-eval: fix typo</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/10e9a1a167ea9a3359250c7040c2f61530946d68">now retrieves number of arguments of blocks from OP_ENTER op code; close #2671</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/358dd61107b64ca65cb6febb89f818388f62878e">block_given? should return correct value when called in blocks; close #2678</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/5014bfb50d911a9ad9b8069ed49db7666b101796">block_given? should return false on top-level; ref #2678</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/5ec676aa37b1c6e345b29ffa02ea8210b7a94da5">Fix splat and multiple assignments</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/80a742df511d4dd9c0c7c28e626c18da9f3c2e39">mrdb: fix that break command cannot handle Windows paths</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/ed56d56dabe79bdec59a177e296cea3c77766438">avoid out-of-bounds access of irep->lv; ref #2671, fix #2675</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/ab724104563d20dbe9428b37cf8b30dfda6cc9ee">eval() should preserve stack in env properly; fix #2671</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/fcbb7ec49dee53eb9dce42d2feead0aeb065f544">Fix crash if #inspect does not return a string value</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/fe01ce5b02de28dcabb7cd6031133bf9e9bf979f">Fix crash if #inspect does not return a string value</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/9723d6e4ba45c404dc420021558b25ca0494c8d8">mirb dies if #inspect returns a non-string value; fix #2666</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/77c6bfe287f6a90d121e957e7522fcd9e217640f">fix usage message</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/44c29e88aeaf241915b3d10a44d4a3748d1a6328">block_given did not work with nested block invocation for some cases; fix #2665</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/f6d15cfc38b7995c6b1e5c1505b46075a46842b2">fix ISBLANK() for Visual Studio < 2013 (ref #2658)</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/09c6ca936c965d63752276aa3203b3e7534874ae">preserve ICLASS in ci->target_class; fix #2657; ensuring #1467 #1470 #1493 still works</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/1248e2ba8afca860656891c98ac8e79f1fdef797">adhoc fix for pass build</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/bbab89e730eeb74009887b0975f17539e24c4ccd">Fix: Numeric#step infinite loop.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/0133d9ac70fd8d3ebe873e29c12cabfd3ff3f1a1">fix(String) String#[] accepts float; close #2650 #2651</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/28bd33297ad42c2eed1cca45345166a072b3bbf2">wrong register number adjustment in multiple assignment; fix #2654</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/0a0afa7c6a6800be61b53404fea33dcce339d0ea">Fix String#slice! raise TypeError or return invalid value.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/83c48ff9660f84d4fa8815a395f28d6fbc485e0b">fix heap-use-after-free</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/4eabf7d91cdd5ef3623c4bd2befbc3d9d082d9f3">[ci skip] run spell checker on doc/debugger/README.md and fixed typos mentioned from @bovi and @rmosolgo; ref #2640</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/820f6d147fb13ade3b69eb87cfee39f85ee4a6ce">Fix an error when calling a method implemented in C by super() with arguments. This fix makes the following code workable:</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/80e60dcc21ad97e9b42f9577f7d9cf76dac2e9dc">Fix mailing-list description</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/8dc4d9d97301dc3098dbfd562b701c021a2ce95a">fix mrb_notimplement typo</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/164cb87c5bb531d0173a30b02f0a1afbd30dcd8c">Fix mrb_iv_check function decleration</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/ec7dbee4b119d5ef9fb783395b3aefc2a6f01aae">Fix indent</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/be844f9284c692355189165a7a2fc19ecaebb1f6">Fix misaligned access when reading irep; close #2630</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/5235e54137ef8f41f4e546df0a6a957d3162ab1e">Fix mrb_convert_to_integer.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/69ba4f0ed5e7ce179a01316dea753042dfcdfd77">instance_methods etc should not include undef&#8217;ed method names; based on a patch from @cremno; fix #2613</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/3ff5081650cd510186a1e0105641dd10e8b4e7c8">context proc may be cfunc; fix #2609</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/aff2be4b40f870070c3a50bc74018a26fcb3e3d9">fix typo (i->idx)</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/e77ea4e5f2b823181020bb3a337509ba028b6dc4">fixed. cygwin-gcc(ver4.8.3) warning in conv_digit()</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/2551d14ff119a4395e544561ecffffee3473c200">fixed. closures scope in eval(string)</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/524c9152d397ff1c1d4832f2bf4457fe5f562676">Fix `mrb_get_args` arguments types found by mruby-clang-plugin.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/147fbf1c12df0652ca5842a992f5798e2b2b656e">`Module#const_defined?` to take second optional argument as CRuby; fix #2593</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/380be0e829578f2a938d3dabf5cc3c5a1999f1dd">Fix MSVC C++ ABI build. Close #2588.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/89e9df26819b9555fb790a16662f4ad2b9cbb2e2">fixed wandering filename problem</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/e6ae5c8672a5f31b5692bed6a932c7ff5e827545">Fix default gem loading in `generate_gem_table`.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/610d1d4afa081fad02b59b1f55cfdf13bca1b5af">fix strict aliasing rule violation</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/6b302d80a364c9433af68a0d07a1a524c020e017">instance variable name validation based on <ctype.h>; fix #2584</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/7d9b5132a5bf2bc674f340798875aab3e15aeeff">Fix error handlings for fputs().</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/921798be01294f45dfcdce2133460a2e9a9f40ec">Fix error handlings for fprintf().</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/0e9f98c430410bd92ec94b6f0600ba8e0946d37d">Fix Numeric#pow behavior.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/ae2d49811a51e38106f34858fd3f4ce24af320c2">Fix allocation-error-handlings for scope_new().</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/effc44f265c19d25545e01b94831631c3a5bef5f">Fix error handlings for mrb_open_core().</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/53a7549e1c0dd9a189ac40804b2f5f3e600c9e76">Fix error handling for mrb_open_allocf().</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/5ee00453e00d69c17a8c92db56e61ec042665cb0">Fix error handling for mrb_pool_realloc().</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/e035508efd545dabfad0a1b339dbcd4aacea4604">Fix error handling for mrb_generate_code().</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/ff9582833d92521e2c724ca944c618974b0608d8">Fix error hanldlings in read_irep_record().</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/55ee7fe79c1ae876f4740f842add6c4c7f1b9bfa">Fix error handlings in mirb.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/2f1d12c71763ca20badb4f5aa061eb32943bae08">revert mrb_equal method</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/2ba257ccb452de8c3a7c05c4eaa7de8375918424">Fix indents in numeric.c</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/6c1dfc95669ca6c39685184c58760acc9f799d64">need to add space for receiver to proc env; fix #2525</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/547f3177a92ca20e773441eabb3f2aea98ae3a7f">fix build when neither src nor mrblib directory exists.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/3103d063e247768be9e87b5a67f5a7b6849a552c">Fix String#succ. &#8220;-a-&#8221;.succ should be &#8220;-b-&#8221;</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/34f40b0a0112dc613d89f6561cea59636fcd083d">Fix String#succ. &#8220;-&#8221;.succ should be &#8220;.&#8221;</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/e7249e45909123bb252ce46f18b538636c8c0dca">timer on windows bug fixed.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/e75e2083fd6ddb35f58ac63ae2b98a5222b1854a">Fix a bug that class variable can&#8217;t be referenced from class method</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/33ace171c4e0627c37c5d8a5da5d00b3591ac866">Fix typo in gc.c</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/d95f77c1cb5f3b86581466a12652c54f8b604a87">Fix a typo in etc.c</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/3bf244e67cf2a01106a88b6786e7a2575002268e">fix linkage of range_beg_len and mrb_range_beg_len</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/a70413c4ea4c82a4f15fb1ff8ddace15198f45ed">fix conversion warnings</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/5e5fad2f25754b7fef0dd6936918b3df0ccd6ef0">fix typo with MRB_INT16; fix #2495</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/c457aa2193fb8b9a7cb8ba4e47203544964b7560">revert 6c1dfc9; ref #2525 #2565</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/412b9eb827ead65f02c1e8e216dbd475b6b644a5">revert accidental constify.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/7477d0c18cf56a29f369cd2a0dcf4e429a41fed1">revert 6c1dfc9; ref #2525 #2565</a></p>
+<h4>API</h4>
+<p><a href="https://github.com/mruby/mruby/commit/5fa30aeaea5a5886557274cbbbacf4e046b7e03e">Fix mismatches for MRB_API declarations.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/9a06cfa9d8511377523072c823b1c269d092cb25">Implement C API mrb_notimplement</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/81c894a1c6d639897098bd0eec3c869642811bd2">add some MRB_API to function prototypes</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/296b0571be179c1517e1ba56a611e8bc2f845ee2">remove unnecessary MRB_API from mrb_num_div(); close #2578</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/b3d0585fe5e437633e13c12029d715721ab3a3e5">Add API `mrb_data_init` to initialize `MRB_TT_DATA` tagged instance.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/206f89e2090524f009fc5a87f42c15a453ebdbee">add MRB_API modifiers to mruby API functions</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/a19a6edb7c464af9dd4303659ceabe2672882a6b">mrb_str_new(mrb, &#8220;&#8221;, len) creates an unmodifiable string object; ref #2674</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/4078670bcaf47c13738e611b67678cbe6643c185">mrb_p() should print mrb_obj_as_string() if #inspect does not return a string value</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/4eff93632f6d96aa8dd6aaf0513c22c3c3abfda3">mrb_parser_dump() did not work with block arguments</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/b20121f9e66495070659fd7b4d03d6625da86bbf">Add write_barrier docs</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/58cb1a2e8b27281b9ff510b2a1aeee65e9254af0">write barrier doc update</a></p>
+<h4>Others</h4>
+<p><a href="https://github.com/mruby/mruby/commit/093560e7d1d22f7814903a30d10b781b4d3130c0">Use suitable type.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/4319eaaa45ce26e73cfac6e1c8b724e35680577b">try to convert not only nil but every objects to fixnums; ref #2677</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/5b203ead1e5f642af7bbb2c1b4d28cf4c5737633">mruby-eval: proc from env may be NULL; close #2676</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/4c70b5c644a1f936ac4790ab437cf76a99fb8aa8">should not pop register when value from multiple assignment required</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/39b4caea81164b9a224e6abf715769c59f20c891">closing  to Local Scope</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/e4ca706530b730d0ada1e2f5e0f4b20b11968012">wrong register adjustment</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/e1a7fa925e5e7f74ce1d8dcd290e40ecb764b426">add &#8220;fall through&#8221; comment</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/c424892c5eea569a636b70fbb9d4beb68cfb4e93">OP_APOST local variable display was wrong</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/553b9df3061daea40e54232b4caf33b63a9016e7">free memory used by breakpoints</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/1cc6eaca2ae80c2925054be4e05fb1b74edda971">free return value of dirname()</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/94f1ad6cc1be341ac135bf5b8c830524a05d26ba">remove unnecessary _WIN32 preprocessor check</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/5f1e90fc585edb9e9009ff308011a5a1d0a0e455">add missing null-termination</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/9ec00ef1821494d1206fc7f99b029add3090e05a">align indent of local variable names in codedump()</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/bce75e2746f00590a5a6c330725e12805e30fbc1">should support recursive mlhs decomposition, e.g. (a,b),c = [1,2],3</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/48a04ff1b40e83d91ad09dffb4213b7387e3865d">use mrb_str_xxx_lit for mrdb.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/c9c0f9a79b27034926b2b7ad190b1e48299e6581">remove const type qualifier</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/c2bc44e131bcbe63a8913c4fc5f15695bec08bc0">don&#8217;t convert function pointer to object pointer</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/337395c1ee77ce511242a21ca51c0cdc2417424b">remove cast</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/6619fd338a033575333a18d2cab8a4a9af5a8ed7">free memory used by breakpoints</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/a232dc60844cb9136f223b871280653caedc989d">free return value of dirname()</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/5c6d6309b6b5e01ef3ff38f772e0fdd3fc5dd372">separate mrb_notimplement() and mrb_notimplement_m(); ref #2636</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/17507e4460b179c9dfef7e3af7abc24507c3e67e">[ci skip] rephrasing about mailing list description; ref #2639</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/d452be5ba64a9910552096072e9621486fbcc18d">change BIN_PATH for new gc in Arduino IDE >= 1.5.7</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/6be0dd7de68ea8ff96d95611756ae47ef77e27f4">Modify Arduino build config for IDE >= 1.5.7</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/c29185ff13c3bfe23e963c3f376275ec5a37f425">%zu format is not supported by MSVC</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/3e0575ecb1a45411b011a9e658b1ee2524323cb1">update teeny of MRUBY_VERSION; ref #2629</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/8a6e6005621800de45de5c92474b635f5a9fa2dd">avoid using rewind(3) to load mrb files</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/0e2ab2210c83a7278ad79a4a660aa7bd7683060f">read whole mrb file at once to calculate correct padding offset; ref #2630</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/0e40468809eddddfed4c7ae02de1ea4be8e7218e">specify alignment specifier for GCC and MSC; ref #2630</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/14bc76d578915af44a9659162fe9b36d1cfa09d1">Under cygwin host, ncurses.a is only available instead of termcap.a.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/378aa8a9c8f1af6b063c7d39b2e69eb106dabeef">avoid wrong ArgumentError from mrb_get_args() when surrounding method takes more than one argument; ref #2627</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/5bd3d9bc27438ba4cea030a67af02db02f24785b">add cast to return from aget_index(); ref #2627</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/cbbf84044000878a219fad47ea16dae0cc1699a3">use mrb_get_args to parse Integer() option; ref #2625</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/832b5296792f2fbcc76ea78b5599e3cd1884cc29">Replace int with mrb_bool in parse_string func</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/9ca174583351117eb0875b9d46e34237ceab4844">Replace int with mrb_bool in local_var_p func</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/3f06307317ceb4bef2f4c245205d389d23456397">need addtional type check to avoid SEGV; ref #2609</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/c5a23e6a0dd92edc239401b18f43d2268e290784">remove header prototype of mrb_exc_print; close #2607</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/b4cc962c3a8bf13a108f2ba4fb07beb962ddede1">add similar range check for tm->usec as well</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/95b3a7029158a1fd1e9a316142f853eec58084aa">always check range before casting time_t to mrb_int</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/88d14e03d0753cfb123d061f29aaaa8c03aca1e5">time_t may overflow mrb_int when word boxing is used</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/2b3675bca13e292fc2d1a1734d6ba8a078f8edd5">word_boxing.h used int to represent symbols; use mrb_sym instead</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/c08321ef2328d4c5af6a1c82121f45ae2c4c7410">remove accidental check-in of mruby-thread gem</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/83992ee1632f426dff8f9c79709692bf6312403c">cast MRB_ENV_STACK_LEN to (mrb_int); ref #2600</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/62c58d3dad8b22c498bccd8d766b1542a6b23861">Change mrblib&#8217;s source path to absolute path</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/ed15477c74733d7394152434d6bd357c117e73e6">Pacify MSVC warnings for numeric.c, proc.c, and symbol.c</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/6b956f1c1b18e69529ba4daef886ff7c11621656">use __init_array_start to determine readonly data section;</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/ae1403004b4c9de25e2abfbcd2e838dc737a23d5">load.c to use mrb_ro_data_p()</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/b72e94fa6bae6c9a35c90b4ecedc1f90cdb9a490">mrbconf.h option MRB_USE_ETEXT_EDATA to reduce memory.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/bbf24b84630eb3b3e18b04bcabd088ad22353957">mrb_sym2name_len() should initialize lenp even when proper symbol does not exist</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/7a7dcd12e50a9b353608c5828d73ae96515f2894">remove unnecessary trailing comma to remove pre C99 declaration error with -Wdeclaration-after-statement</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/a10d36e0a294e5fc7af9af212f9f8eba33387692">target_class should not be TT_ICLASS in instance_eval(string); ref #1152</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/55dca8337e3812cb8eb1f556d36dc420329ae3ed">Remove duplicated mrb_print_backtrace() declaration</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/b7fc0f95e5fc6f54f025dcd8aabf37cbec438653">Wrap CONTRIBUTING.md to 80 columns</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/03a8d0c0ae83778f331924c1f4ea6b7813e241c7">Wrap INSTALL to 80 columns</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/a12d8e32b15745e7648c60d0ce181c5d8126a98a">Wrap README.md to 80 columns</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/95c7f570e10d40deca74e69a197219622e249c01">change class argument of mrb_const_defined_at from `struct RClass*` to `mrb_value` to make it consistent with mrb_const_defined; ref #2593</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/6b34166ba58fa8503a6a7805d39dd29c4b3c8445">const_defined? to check superclasses; ref #2593</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/50f54529f25c688c83cd8a281d415f3dc2314184">to_hash/to_a check in Hash[] should only be done when only one argument is given; ref #2594</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/5f16c41753f7789065f2c2bfe84395cad8cadcaa">copy documentation comment from CRuby</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/d30aadf30626a16f8c83359fbb2205ee1e5fd464">remove line number from raise message</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/8f883e5b20d191cc8c1b899208ccb1334c99d9fd">update outdated links to the original program.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/6057b2e378b0f95f0cb6d0c69d8879a23393fe80">change mrb_sym type from uint16_t to uint32_t</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/48c5321dca85025b8b11e43c8db2726fccb45b9d">constify pointer from RARRAY_PTR to detect potential write barrier bugs.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/7ea8803e06d349105c12e4470b34626b60447599">add benchmark/bm_app_lc_fizzbuzz.rb</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/cfb321e877b0682a15dcca23ff3f17bb2dc096c3">Add inline to str_with_class().</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/902a4da2712eabfc6c46ae374074637c6377e406">remove execution bit from benchmark/fib39.rb</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/3f70edbd16863e1ffe1c48516be7b2a8a7328c34">support native byteorder in mrb files; ref 3492be</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/fec2c66ea847e35b474aaa55a03dbb4104185e6b">get rid of shadowing variables (mrbgems)</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/32aee72d295e2de3c890791b61ab9741b99912b1">wrong iseq conversion flag</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/dc3c91dfdc25a63fef647464530f0ae4778a3687">rename a local variable current_node -> nodetype; ref #2583</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/26bbc81e122d7f14616dc799e41ef438398669ee">get rid of shadowing variables</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/2fd49b2b9f93a8493731634f922ef63e42feab8c">save and restore arena index to prevent arena overflow.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/b9acd20aef25284f49aeb83316dd687cd3045282">Use mrb_str_cat_lit() instead of mrb_str_cat_cstr() for string-literals.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/471c43ff965ae46b040daa0cda77a491a6f480af">move mrb_proc_new_cfunc_with_env() to the core</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/7c49d56ce679d658f9a279e7975208ef6576e57f">attr_reader and attr_writer should return nil</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/7ac68809d368c9008ceaac2a00ba83d5ea09690d">remove ci->nreg initialization from cipush()</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/17b0d658fc99a2fc7fd547753ea32a9ac218b2a6">delete obsolete macros (mrb_basic + mrb_object)</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/c219c2a15eec04040144ba5cd478b5c5dff14f65">use RITE_LV_NULL_MARK for better readability</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/0e28f4b9739093a30732738b3bdb9bf2d750ce28">add sym_validate_len() to validate symbol length</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/607795ffdd4ea172de557d6e4983d87e011d7698">more OP_MOVE swap detection in peephole optimization</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/3c4cd5428a1cfc43516f57506c1faf775c2a4abc">allow no_optimize esp. for debugger</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/6b8e06a5b984ea26e64b9dfeb51c24a66638c9d5">Remove unused macro.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/abd7cad4fd261c9ceba2dccfbf91c3a38a19b00e">adjust node lineno of muiti line statements</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/4b546e2ca4064070317ffdba8fabc21e948f9a46">print lineno of dumping node</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/4077240b814dc931471bdf13c0c58af87435f0dc">adjust node lineno of muiti line statements</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/d4aee563f08322e39c92d81f10ddfba4ea25087d">print lineno of dumping node</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/db29a25ada6f8e344f63586328a7c45ef6bcc67d">Rename functions for avoinding symbol confiliction.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/d958aa2cb1c250cb20e444f834773af311810908">Unify duplicated functions (noregexp() and regexp_check()).</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/77b2ec30ff7f0ca70e63e20bb7294bccb03f6ec5">add write barrier to env on pop call info poped. #2525</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/89b27648dd2cc05ea60bb6c79aec4db1ef712497">add symbol table overflow check</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/3202938099c6eabbfa387b2464c4a607a1972fc0">Add a missing space after &#8220;,&#8221;.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/cc22ec85b9f1b6bf818fd8d456cc12e1460164c0">Use mrb_malloc() instead of mrb_realloc().</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/bf173b320f21573ff3400eca950b4374661895a6">Remove discareded NULL checks.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/3ac4c24534195fee82c4f9fa7cbdfa37d8eb7e4d">remove unused MSVC strtoll fallback</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/bdaa12de1d0bfce949413d25bb4f7183799b3eb3">use MRB_STRINGIZE</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/bdf6ce34ce988a4b293f48e53aa4157db6ef1688">printf: cast variables to the expected type</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/6961317fb3b4fa30cdb591f568777101720bdb41">Remove spaces in end-of-line.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/6c7ba826dd8b8725e1db75e2d4a60a3f0bf8470c">Use sizeof() instead of strlen().</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/dc1dcba9357e41f68374b1345e81cb91d5002f27">Update math.c</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/45103ebc201c11095e11f142d91fc5b1749aed65">use mrb_str_cat_lit() instead of mrb_str_cat_cstr().</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/d94469ac2320d98cfcc4f6b0e64247c4b9df2edd">changed to call check_cv_name_str in check_cv_name_sym and adjust indent</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/3b904e94083f1d732e26dbe4d80b2fa482426111">Unify include guard styles and header comments.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/3f685533b8ef1d71fc21e17ef03f71895df07868">Remove a discarded comparison.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/05ede52239fce58b6a8be4b72d51db10ae1c2632">should use non NULL scope for raise_error(); ref #2547</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/2b283393c62649216ec2c9df18e8902c903f1dbe">Remove empty lines.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/ae306793f231309c12661b111535de6613d5a774">Use specified macro(NULL) instead of magic-number.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/e23deaafc2733b2c387815ea39b534778fe00b68">Improve replacement math functions for Visual C++.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/14c36f9f21ace92c5618ee88992a6879644a3977">use mrb_false_value instead of mrb_bool_value</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/d5fd823d82f5b481ee037731ecee8ef868a50c09">removed unused variable in range_beg_len</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/f7389bb1e62326c9f42f9e6092c909dcbbfd9203">Remove some roundoff from mrb_flo_to_str</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/2b9e5e751b4d6d1a86eb25b2a4e40f9c8d19c06c">add write barrier when iv is copied</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/b27738f036435baaa958160394a17ac58ec1861f">changed some string method&#8217;s mrb-aspec</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/c4f5c2473a5e456dfe249742c7421da81615b5e1">mrb_str_bytesize is a carbon copy of mrb_str_size.  remove it.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/4ece1e3e293501d4e65a0ad007c86c5254342a88">&#8220;-a-a-&#8221;.succ should be &#8220;-a-b-&#8221;</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/513be0052e76fac58ef7b3e8432869895bebcd51">changed mrb_str_size and mrb_str_bytesize comments.</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/432e8e9ea9f1acb32c7cac9bf41c4b106f88c065">fixed evaluation context of eval(string) and instance_eval(string)</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/569c7dec5f884c3d1345dcc22b7ac0f568a06437">move StopIteration to core; close #2518</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/513f24e9086d6c0aac77125079ca835e4f0c941e">removed non-need space</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/21f583783d64ba020a7bb52eeb46cb24ac898f63">Rename GC_STATE_NONE GC_STATE_ROOT</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/6526bb10f0c60f6f1d17f873214243ca7ec1730a">don&#8217;t always generate gem functions</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/7dabb33cf01e325b48a7b1963e961be945675c1d">change linkage of mrb_str_size to internal</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/b6e27218ad1ffdba6d2103b85d5d9231b6380008">MSVC: add simple (v)snprintf implementation</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/db7b01c0b360b2909b14dbd399ee5a3eb2fce0c5">turn string obsolete functions into macros</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/6aa6e75f75a80db69c54c419043e9ef8240c9ad8">rename obsolete mrb_special_const_p to mrb_immediate_p</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/0878900fda882cdf597ba2bef9e2c8fe1809647a">Time#to_i and Time#usec should care about mrb_int overflow on MRB_INT16; ref #2495</a></p>
+<p><a href="https://github.com/mruby/mruby/commit/41fddeded0d9066f2d5610d897f3100018611ca1">Use Boolean macro in variable.c</a></p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

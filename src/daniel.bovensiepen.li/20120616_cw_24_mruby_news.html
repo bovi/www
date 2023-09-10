@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2012-06-16</p>
+      <h2>[CW 24] mruby news</h2>
+<p>What happened this week on the mruby front?</p>
+<h3>No Eval</h3>
+<p>After <a href="https://github.com/mruby/mruby/issues/261">a request of Masaki Muranaka</a> the non-functional code of eval was removed from mruby. Herewith it should be clear that this kind of feature won&#8217;t be inside of the mruby-core.</p>
+<p><a href="https://github.com/mruby/mruby/commit/324de1a">Commit</a></p>
+<h3>New Exception</h3>
+<p>To indicate that some features won&#8217;t be ever implemented inside of the mruby-core the new Exception <code>NotImplementedError</code> was implemented as a sub-class of <code>ScriptError</code>.</p>
+<p><a href="https://github.com/mruby/mruby/commit/a74ab0c">Commit</a></p>
+<h3>Improve customization</h3>
+<p>An important mruby feature from my point of view is the focus of customization. For this, mruby provides <a href="https://github.com/mruby/mruby/blob/master/include/mrbconf.h">include/mrbconf.h</a> which provides the possibility to customize the following options:</p>
+<ul>
+<li>Use Float instead of Double</li>
+<li>Disable/Enable Regexp</li>
+<li>Disable/Enable sprintf</li>
+<li>Disable/Enable Math</li>
+<li>Disable/Enable Time</li>
+</ul>
+<div>I would wish to also have the possibility in the future to even cut out other classes out of the mruby-core for very specific tasks easily. By now I&#8217;m doing this by just deleting the fitting code file inside of src or mrblib, but of course this could have some side-effects which you have to check.</div>
+<p><a href="https://github.com/mruby/mruby/commit/764a791f">Commit Math</a>, <a href="https://github.com/mruby/mruby/commit/8c838de">Commit Time</a>, <a href="https://github.com/mruby/mruby/pull/263">Commit sprintf</a></p>
+<h3>Test improvement</h3>
+<p>Another commit of Masaki Muranaka improves the test framework which I had previously added to mruby. On his <a href="http://twitter.com/#!/monamour555">Twitter account</a> he is complaining that the test coverage is less than sufficient at the moment. I completely agree with this statement. The basic problem is of course that mruby wasn&#8217;t test-driven developed but is partly based on the CRuby source code. I think the only way to improve this situation is by adding one test at a time for a very long time. Slowly we will get a sufficient coverage in that way. Already now some people reporting bugs based on the mrbtest tool.</p>
+<p>Another construction area would be an additional test environment in mruby which is covering the C API of mruby. I hope that there will be a fruitful <a href="https://github.com/mruby/mruby/issues/293">discussion</a> about this.</p>
+<p><a href="https://github.com/mruby/mruby/commit/587e0b01">Commit</a></p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

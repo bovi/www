@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2014-05-05</p>
+      <h2>OpenWRT mruby Package</h2>
+<p><a href="http://blog.mruby.sh/201206110029.html">Two years ago</a> I created a first mruby package for OpenWRT. It was based on cmake, the best way at that point to cross compile mruby to other platforms. Since then a lot has happened. First of all mrbgems were introduced by end of 2012. With <a href="https://github.com/mruby/mgem-list">117 gems</a> available today the best way to customise your very own mruby. In 2013 we moved the complete build system of mruby to Ruby (rake). With that we made it much easier to build Ruby in lots of different fashions. mrbgems was part of the rake build system from the very beginning, we actually never managed to introduce mrbgems to cmake. So in the end we dropped make and cmake and were left with the far more elegant rake.</p>
+<p>I was still using OpenWRT in combination with mruby for so many use cases and due to the removal of cmake the old package didn&#8217;t worked anymore. So a new package was created but never released. I spent the last couple of hours to fix that, by making the package more clean and usable. So here it is&#8230;</p>
+<h3>New features</h3>
+<p>The original mruby package for OpenWRT had actually no options. You could only choose to compile it or leave it. With the introduction of mrbgems I consider it absolute necessary to provide the flexibility of mruby directly via the user-interface.</p>
+<p>First of all you select under <strong>Languages->mruby</strong> the mruby package:</p>
+<p><a href="/files/openwrt_mruby_1.png"><img src="/files/openwrt_mruby_1.png" alt="openwrt_mruby_1" width="675" height="512" class="alignnone size-full wp-image-738" /></a></p>
+<p>Now you have three options:</p>
+<ul>
+<li>Binaries</li>
+<li>GEMs (Core)</li>
+<li>GEMs (External)</li>
+</ul>
+<p>Under the Binaries sub-menu you can select which executables should be build:</p>
+<p><a href="/files/openwrt_mruby_2.png"><img src="/files/openwrt_mruby_2.png" alt="openwrt_mruby_2" width="675" height="512" class="alignnone size-full wp-image-739" /></a></p>
+<p>The GEMs (Core) sub-menu gives access to all core gems which should be built into mruby:</p>
+<p><a href="/files/openwrt_mruby_3.png"><img src="/files/openwrt_mruby_3.png" alt="openwrt_mruby_3" width="674" height="680" class="alignnone size-full wp-image-740" /></a></p>
+<p>The sub-menu GEMs (External) lists a few GEMs not belonging to the main repository:</p>
+<p><a href="/files/openwrt_mruby_4.png"><img src="/files/openwrt_mruby_4.png" alt="openwrt_mruby_4" width="672" height="426" class="alignnone size-full wp-image-741" /></a></p>
+<h3>How does it work?</h3>
+<p>The main task of the package is to generate the build_config.rb file. This is done by simply defining a new toolchain class which takes the OpenWRT environment variables for the host and target compiler toolchain. Additionally to support the selection of GEMs I generate a so called GEMBox, a feature I introduce some time ago which enables mruby to make use of a GEM group. For OpenWRT this makes it easier to customise the used GEMs due to the reason that only the GEMBox has to be dynamically generated. The build_config.rb is always the same.</p>
+<h3>How to use it</h3>
+<p>The package feed is available on <a href="https://github.com/FlowGroup/openwrt-mruby">GitHub</a>. It can be simply integrated into OpenWRT by adding the following line to feeds.conf.default:</p>
+<p><code>src-git mruby https://github.com/FlowGroup/openwrt-mruby.git</code></p>
+<p>Installation works with the <code>./scripts/feeds</code> script.</p>
+<h3>Next things&#8230;</h3>
+<p>Only a handful of external GEMs are currently integrated into the package. This selection is not random but consist of the GEMs I used for several projects and which I know are cross-compilable to many different platforms. The biggest issue which has to be solved before supporting more GEMs is to handle dependencies outside of mruby. For example I like the <a href="https://github.com/mattn/mruby-thread">mruby-thread GEM</a> from <a href="http://mattn.kaoriya.net">mattn</a> but it can&#8217;t be currently used with OpenWRT due to the reason that it depends on libpthread. This library is available in OpenWRT but this package is currently not resolving the dependency. After solving this problem more GEMs can be added to the package.</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

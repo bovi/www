@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2012-07-17</p>
+      <h2>[CW 28] mruby news</h2>
+<p>What happened this week on the mruby front?</p>
+<h3>STDIO Improvements</h3>
+<p>The biggest addition was a new compiler switch which makes (or will make) it possible to exclude/include all standard- input/output mechanism into the mruby-core. At the moment I encounter some issues during compiling with this flag. There is still a lot of work todo but I really like the direction of creating a Ruby interpreter which is fully customizable in the perspective of features.</p>
+<p><a href="https://github.com/mruby/mruby/commit/737eaea038af56794b8fdb5a66bb4138dbd446f6">Commit (allow DISABLE/ENABLE stdio)</a>, <a href="https://github.com/mruby/mruby/commit/e2c4b35240d220f8c03c0ffb52ecfe159e0ceac4">Commit (Fix warning)</a>, <a href="https://github.com/mruby/mruby/commit/48c73ac630c2bfb3326d608d3c00e544dcfbcfea">Commit (Reduce stdio.h inclusion)</a></p>
+<h3>Syntax Check</h3>
+<p>The already existing flag <em>-c</em> was modified so that the correct state will be written to the stdio. In case the syntax is fine it will print &#8220;Syntax OK&#8221; in all other cases it will print the exception and quit.</p>
+<p><a href="https://github.com/mruby/mruby/commit/72f7c51bc0bcef4096db8d57e7e5ab2a342e383f">Commit (Error Printing)</a>, <a href="https://github.com/mruby/mruby/commit/83ccb715b2e1a4c9c718b38f9f5ab8558438e490">Commit (Syntax OK flag improvement)</a>, <a href="https://github.com/mruby/mruby/commit/c8700c4a2178dc0ab1824e98746d12754611768c">Commit (Syntax OK fix)</a></p>
+<h3>Array Corruption</h3>
+<p>Murase Masamitsu found another issue in the shared Array implementation. This part of the code seems to be filled up with bugs. I guess it isn&#8217;t a bad idea to improve the test coverage for this area dramatically. I already wrote a fitting test for the bug Murase found. This is also quite dramatic due to the reason that the bugs are usually really nasty. We have data lost or corruption which aren&#8217;t really visible to the programmer. I prefer a good Segmentation Fault :-)</p>
+<p><a href="https://github.com/mruby/mruby/commit/b9215a01f924262a22d178cae378367c6bdc75a3">Commit (Array Corruption Fix)</a>, <a href="https://github.com/bovi/mruby/commit/e8b53090803caef8b20ff6f7cc17e3eb472a521e">Commit (Array Corruption Test Case)</a></p>
+<h3>Array Separator</h3>
+<p>Matz changed the interface for <em>Array#join</em> so that now the separator can only be a string.</p>
+<p><a href="https://github.com/mruby/mruby/commit/50f56a2436154211a383d34828efa1db2073aeed">Commit (Array#join to accept only strings as sep)</a></p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

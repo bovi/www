@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2012-06-11</p>
+      <h2>mruby on EVERYTHING</h2>
+<p>After being quite successful at compiling mruby to MIPS via the OpenWRT toolchain I decided to work a little bit harder to make the integration &#8220;perfect&#8221;. My target was to integrate mruby into OpenWRT so that I can really cross-compile to every target that they support. And guess what? I made it and I could successfully tested the cross-compile from my x86_64 Ubuntu to x86, MIPS, AVR32, ARM and even to the <a title="Playstation 3" href="http://en.wikipedia.org/wiki/PS3">PS3</a>. But to reach this target I had to do the following three things.</p>
+<h3>CMAKE</h3>
+<p>The first shot into my foot I&#8217;ve got by using cmake inside of the toolchain. mruby needs at least cmake 2.8.8 to compile. The distribution currently only provides 2.8.7. So I upgraded the fitting Makefile of OpenWRT and got the next shot into my foot. 2.8.8 has actually some known problems with cross-compiling, or better with accepting command line arguments. The command line parser was restructured from version 2.8.7 to 2.8.8 and at the same time some features didn&#8217;t worked anymore. So I had to skip 2.8.8 and jump directly to the cmake git HEAD. This one was working and I made the following cmake Makefile for the OpenWRT toolchain:</p>
+<pre>#
+# Copyright (C) 2006-2012 OpenWrt.org
+#
+# This is free software, licensed under the GNU General Public License v2.
+# See /LICENSE for more information.
+#
+include $(TOPDIR)/rules.mk
+
+PKG_NAME:=cmake
+PKG_VERSION:=2.8.9-trunk
+
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
+PKG_REV:=c645c1fd96479e49f43dc40589c01b8cbf5e88d5
+PKG_SOURCE_PROTO:=git
+PKG_SOURCE_URL:=git://cmake.org/cmake.git
+PKG_SOURCE_VERSION:=$(PKG_REV)
+
+include $(INCLUDE_DIR)/host-build.mk
+
+HOST_CONFIGURE_VARS =
+HOST_CONFIGURE_ARGS = --prefix=$(STAGING_DIR_HOST)
+
+$(eval $(call HostBuild))</pre>
+<h3>mruby OpenWRT Package</h3>
+<p>I can&#8217;t repeat it often enough. OpenWRT is awesome! The most awesome thing is that they have zero/0/NULL binary files in the distribution. Instead they are using an own Makefile dialect to describe the source location and build instruction for everything. The build environment downloads everything, compiles it and put it into the right directory structure. By everything I mean really everything. Even the toolchain for the host and for the target will be downloaded and compiled individually.</p>
+<p>I mention this so that you can understand the next step. I had to write a mruby package file for OpenWRT (due to the reason that mruby isn&#8217;t yet in the distribution &#8211; who would have thought that?):</p>
+<pre>include $(TOPDIR)/rules.mk
+include $(INCLUDE_DIR)/kernel.mk
+
+PKG_NAME:=mruby
+PKG_REV:=f24a52b04a70b8d69c51ba11b722352f61b8da9b
+PKG_VERSION:=0.1
+PKG_RELEASE:=1
+
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
+PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
+PKG_SOURCE_PROTO:=git
+PKG_SOURCE_URL:=git://github.com/mruby/mruby.git
+PKG_SOURCE_VERSION:=$(PKG_REV)
+
+PKG_INSTALL_DIR:=""
+PKG_BUILD_DIR:=$(PKG_BUILD_DIR)/build
+
+include $(INCLUDE_DIR)/package.mk
+include $(INCLUDE_DIR)/cmake.mk
+
+define Package/mruby
+  CATEGORY:=Languages
+  TITLE:=Embeddable Ruby Language
+  URL:=http://github.com/mruby/mruby
+endef
+
+define Package/mruby/description
+  mruby is an embeddable version of the Ruby Programming language.
+endef
+
+define Build/Configure/Default
+        (cd $(PKG_BUILD_DIR); 
+        OPENWRT_TARGETCC="$(TARGET_CC)" 
+        OPENWRT_TARGETFLAGS="$(TARGET_CFLAGS)" 
+        OPENWRT_TOOLCHAIN="$(TOOLCHAIN_DIR)" 
+        cmake 
+        "-DCMAKE_TOOLCHAIN_FILE=/home/daniel/Toolchain-OpenWRT.cmake" 
+        "-DCMAKE_BUILD_TYPE=OpenWRT" 
+        ../$(PKG_NAME)-$(PKG_VERSION) 
+        )
+endef
+
+define Build/Compile
+        (cd $(PKG_BUILD_DIR); 
+        CFLAGS="" 
+        LDFLAGS="" 
+        make 
+        )
+endef
+
+define Package/mruby/install
+        $(INSTALL_DIR) $(1)/usr/bin
+        $(INSTALL_BIN) $(PKG_BUILD_DIR)/../$(PKG_NAME)-$(PKG_VERSION)/bin/mruby $(1)/usr/bin/
+        $(INSTALL_BIN) $(PKG_BUILD_DIR)/../$(PKG_NAME)-$(PKG_VERSION)/bin/mirb $(1)/usr/bin/
+endef
+
+$(eval $(call BuildPackage,mruby))</pre>
+<p>As you might see I just grab an older version of mruby out of the git. Afterwards I configure mruby by using cmake and pointing directly to my local toolchain file. This local copy will disappear as soon as my toolchain file patch makes it into the mruby HEAD. After the cmake configuration is done I compile. This might look a little bit strange to you but I overwrite the FLAGS on purpose. Due to the reason that we have two different kind of flags. One pair is for the cross-compiler to the target device. This pair I already set during the cmake call. The second pair is for the host-compiler which compiles mrbc for the local machine. I don&#8217;t want any special flags, so I overwrite all flags to make sure that the cross-compile flags not accidentally are used for the host-compile (this happened before). In the end I just copy mruby and mirb to the device. I guess for the future mirb might not be necessary on the target device.</p>
+<h3>mruby modification</h3>
+<p>I was a little bit surprised but actually I didn&#8217;t had to touch the mruby source at all. The only modification I made was to add a new toolchain file. I prepared <a href="https://github.com/mruby/mruby/pull/255">a pull request</a> this night for mruby to add this toolchain file into the git HEAD:</p>
+<pre># Toolchain file for building with OpenWRT Toolchain for ANY OpenWRT Target.
+# Following prequisition are necessary:
+#   - latest cmake version
+#   - mruby OpenWRT Package file (not yet in distribution)
+
+# Switch to Cross Compile by setting the system name
+SET(CMAKE_SYSTEM_NAME Linux)
+
+# We show CMAKE the compiler, the rest will be guessed by the Toolchain
+SET(CMAKE_C_COMPILER "$ENV{OPENWRT_TOOLCHAIN}/bin/$ENV{OPENWRT_TARGETCC}")
+
+# We define an own release flag so that we can adapt the optimal C_FLAGS
+SET(CMAKE_C_FLAGS_OPENWRT "$ENV{OPENWRT_TARGETFLAGS}")</pre>
+<p>This toolchain file is a little bit different than the usual mruby toolchain files due to the reason that I&#8217;m accessing some environment variables. As you might have seen in the OpenWRT package file I pass three variables to cmake. One for the toolchain directory (OPENWRT_TOOLCHAIN), one for the cross-compiler (OPENWRT_TARGETCC) and one for the cross compiling flags (OPENWRT_TARGETFLAGS). The last variable I could skip but actually it makes quite a difference for embedded devices to make the compile very specific. For example for my small little MIPS board I mentioned in my last post, I could win approx. 20kb of size by just adding very explicit flags for the SoC.</p>
+<p>At this point I have to clarify that I&#8217;m a complete cmake newbie. So it might actually be possible to access the environment variables from OpenWRT directly. If this would be possible I could safe the argument passing to cmake. But I didn&#8217;t managed to access this variables inside of cmake. I&#8217;m looking forward to learn how to improve this part.</p>
+<h3>The Result</h3>
+<p>So what is now the benefit of having all this trouble? Well I still can cross-compile to MIPS and also to x86 (both linked to <a href="http://www.uclibc.org/">uClib</a>). Nothing new on this front. But additionally it is now possible to cross-compile to all the other targets which are supported by OpenWRT too.</p>
+<p>For example I made a compile for <a href="http://www.atmel.com/products/AVR32/">Atmel AVR32</a>. If you have an <a href="http://www.atmel.com/tools/MATURENGW100NETWORKGATEWAYKIT.aspx">ATNGW100</a> board, I made a small linux for you including mruby: <a href="/files/avr32-ATNGW100-with-mruby.img">SquashFS image for ATNGW100 (2MB)</a>. The mruby interpreter for this platform has a size of 328Kb.</p>
+<p>Another successful cross-compile I made was against the RealView evaluation board with ARMv6. This target is also available via <a href="http://www.qemu.org/">qemu</a>. For this platform the size of mruby is 332Kb. If you want to start it via qemu here is the kernel with integrated ramdisk for the filesystem: <a href="/files/arm-RealView-with-mruby.elf">ELF Kernel for qemu RealView (1.8M)</a>. Here is a preview:</p>
+<pre>root@OpenWrt:/# uname -a
+Linux OpenWrt 3.3.8 #1 SMP Sun Jun 10 15:40:18 PDT 2012 armv6l GNU/Linux
+root@OpenWrt:/# cat /proc/cpuinfo
+Processor	: ARMv6-compatible processor rev 2 (v6l)
+processor	: 0
+BogoMIPS	: 376.01
+
+Features	: swp half thumb fastmult vfp edsp java tls
+CPU implementer	: 0x41
+CPU architecture: 7
+CPU variant	: 0x0
+CPU part	: 0xb02
+CPU revision	: 2
+
+Hardware	: ARM-RealView EB
+Revision	: 0000
+Serial		: 0000000000000000
+root@OpenWrt:/# mruby -e "puts 'hello world'"
+hello world
+root@OpenWrt:/#</pre>
+<p>At last I gave mruby a try to cross-compile to a PowerPC device. Or better said to the Playstation 3. The compile was actually successful but I couldn&#8217;t try the 327K big mruby binary due to the lack of this device. This is btw. the biggest problem, compiling to all these devices is quite an easy target compared to checking that mruby will still work in the future on all of these platforms. We need a handful of test devices which we can use to make regular integration tests. My hardware collection reached now the end at this point :-(</p>
+<p>Nevertheless with that said, I&#8217;m consider this as the last word in cross-compiling mruby to virtual any Linux device. Next target is cross-compiling to bare-metal. I&#8217;m quite sure this will be a lot harder but imagine the possiblities when we have Ruby running without an operating system&#8230;</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

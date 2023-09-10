@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2012-09-04</p>
+      <h2>[August 2012] mruby news</h2>
+<p>I tried the other day to setup a mailing-list for mruby. Due to the reason that there isn&#8217;t any platform yet for discussions. While doing this I messed up a little bit my platform. So now everything is up and running again and hopefully we soon have some kind of mailing-list which we can use for further discussions.</p>
+<p>Nevertheless back to normal&#8230;</p>
+<p>What happened last month on the mruby front?</p>
+<h3>BEGIN/END</h3>
+<p>BEGIN/END was removed from the mruby syntax.</p>
+<p><a href="https://github.com/mruby/mruby/commit/dec6751d7ae5043959b1421377c8fb4304c47e06">dec6751d7ae5043959b1421377c8fb4304c47e06</a></p>
+<h3>mirb</h3>
+<p>Handling of exit and quit was optimized inside of the mirb tool. Also the internal state was fixed in case of a syntax error.</p>
+<p><a href="https://github.com/mruby/mruby/commit/e7b61c65bba6f33d4cc543bc12fa06c9176f41b7">e7b61c65bba6f33d4cc543bc12fa06c9176f41b7</a>, <a href="https://github.com/mruby/mruby/commit/618f25bfe2932b0296407a5c1d381273852214b5">618f25bfe2932b0296407a5c1d381273852214b5</a>, <a href="https://github.com/mruby/mruby/commit/1ff6dfd081664625d71c0f6fcb3c2c1ae58ef1f5">1ff6dfd081664625d71c0f6fcb3c2c1ae58ef1f5</a></p>
+<h3>Xcode Integration</h3>
+<p>Paolo Bosetti was working on improving the Xcode integration (i.e. for Mac OS X 10.8 Mountain Lion).</p>
+<p><a href="https://github.com/mruby/mruby/commit/58573c1a24e2128f4883bcedbc7d2d90f0e9320e">58573c1a24e2128f4883bcedbc7d2d90f0e9320e</a>, <a href="https://github.com/mruby/mruby/commit/efa46146a58be501daf3a38a15ffa9e3ddc87508">efa46146a58be501daf3a38a15ffa9e3ddc87508</a>, <a href="https://github.com/mruby/mruby/commit/263de094b788b8f194926662fbe2311301756057">263de094b788b8f194926662fbe2311301756057</a>, <a href="https://github.com/mruby/mruby/commit/386f90b48b8a7d5e279df57b87bd244d9f954240">386f90b48b8a7d5e279df57b87bd244d9f954240</a>, <a href="https://github.com/mruby/mruby/commit/177e74618d3556eb604f0e1b2fa79af924576693">177e74618d3556eb604f0e1b2fa79af924576693</a>, <a href="https://github.com/mruby/mruby/commit/4c56ce2744f4c8640de1b299c4ff4bd749a93345">4c56ce2744f4c8640de1b299c4ff4bd749a93345</a>, <a href="https://github.com/mruby/mruby/commit/05127776cf0c528b549d723ba2e325332e49ced9">05127776cf0c528b549d723ba2e325332e49ced9</a>, <a href="https://github.com/mruby/mruby/commit/aa0d2f91447c49363059f2e95cb9023f65a6fbef">aa0d2f91447c49363059f2e95cb9023f65a6fbef</a>, <a href="https://github.com/mruby/mruby/commit/193c98ae540d43d082795fd77ea81a4f6f7fd0f6">193c98ae540d43d082795fd77ea81a4f6f7fd0f6</a></p>
+<h3>NaN Boxing</h3>
+<p>MRB_NAN_BOXING and MRB_ENDIAN_BIG was introduced for customising the mruby interpreter even more. The NaN Boxing is at the moment conflicting with the FLOAT implementation. Due to that MRB_USE_FLOAT and MRB_NAN_BOXING can&#8217;t be used at the same time.</p>
+<p><a href="https://github.com/mruby/mruby/commit/fe9939f74e37b6b85f607289850263bcd773be91">fe9939f74e37b6b85f607289850263bcd773be91</a>, <a href="https://github.com/mruby/mruby/commit/7d02df3016b0c6eb3f4ee945198772cf4ebca3fa">7d02df3016b0c6eb3f4ee945198772cf4ebca3fa</a></p>
+<h3>mruby tool with stdin</h3>
+<p>mruby can now read from the stdin if no argument is given. This gives more possibilities to connect mruby with other unix command line tools.</p>
+<p><a href="https://github.com/mruby/mruby/commit/7bf4142c4210956da179783aa6d6377b9ab7043f">7bf4142c4210956da179783aa6d6377b9ab7043f</a>, <a href="https://github.com/mruby/mruby/commit/5f11890d0488319ddbe8978d33acad52f2410ced">5f11890d0488319ddbe8978d33acad52f2410ced</a></p>
+<h3>puts optimization</h3>
+<p>`puts` should print &#8220;n&#8221; only when the argument does not end with &#8220;n&#8221;. </p>
+<p><a href="https://github.com/mruby/mruby/commit/44b408ad10f671df4dec99d0ef0f6a794c09240d">44b408ad10f671df4dec99d0ef0f6a794c09240d</a></p>
+<h3>Exception Handling</h3>
+<p>Masamitsu MURASE was working on the exception handling and added additional tests.</p>
+<p><a href="https://github.com/mruby/mruby/commit/87ba67f42d36ca001298644c2e4f2f3a26d5c40b">87ba67f42d36ca001298644c2e4f2f3a26d5c40b</a>, <a href="https://github.com/mruby/mruby/commit/686b6eb629d1694b620d9e36b7329efd7754b8c3">686b6eb629d1694b620d9e36b7329efd7754b8c3</a></p>
+<h3>Struct</h3>
+<p>Struct.new crashed if no arguments were given.</p>
+<p><a href="https://github.com/mruby/mruby/commit/3f670f7f4455bf5dbdb39cfcfd15d392f12de588">3f670f7f4455bf5dbdb39cfcfd15d392f12de588</a>, <a href="https://github.com/mruby/mruby/commit/38e3b675ee2b5583b25f05b1ac9eff9389d30d99">38e3b675ee2b5583b25f05b1ac9eff9389d30d99</a></p>
+<h3>Garbage Collector</h3>
+<p>Add GC.disable and GC.enable to control the Garbage Collector.</p>
+<p><a href="https://github.com/mruby/mruby/commit/8d017ebdb79b8299a1cfb273868b12ba3cfbed16">8d017ebdb79b8299a1cfb273868b12ba3cfbed16</a></p>
+<h3>Math::TOLERANCE</h3>
+<p>Implement Math::TOLERANCE in C and modify precision.</p>
+<p><a href="https://github.com/mruby/mruby/commit/883b97ab05ac8e509ff575c0c8533066f7e900c7">883b97ab05ac8e509ff575c0c8533066f7e900c7</a>, <a href="https://github.com/mruby/mruby/commit/34cf05679c5ce9ee40be6bd4ccace0ec94fcebdf">34cf05679c5ce9ee40be6bd4ccace0ec94fcebdf</a></p>
+<h3>Improvement of Float</h3>
+<p>Float was fixed so that there is now enough precision to round and represent a Fixnum.</p>
+<p><a href="https://github.com/mruby/mruby/commit/0270d11c81c28a5616eebd64d10be5133de4d7a0">0270d11c81c28a5616eebd64d10be5133de4d7a0</a>, <a href="https://github.com/mruby/mruby/commit/1563cdfcce7764f47dc8a536ab97368315e15e86">1563cdfcce7764f47dc8a536ab97368315e15e86</a></p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

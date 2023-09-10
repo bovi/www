@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2012-11-16</p>
+      <h2>[October 2012] mruby news</h2>
+<p>Due to work and my preparation for <a href="http://www.rubyworld-conf.org/en/">RubyWorld Conference</a> I couldn&#8217;t keep up the last couple of weeks. Here now a first update of what happened on the mruby front in October 2012.</p>
+<h3>Avoid memcpy()</h3>
+<p>Masaki Muranaka has cleanup the code a bit by avoiding memcpy at quite a few locations.</p>
+<p><a href="https://github.com/mruby/mruby/commit/d5c4439013084ea5dcd30fd44a3a3d045e2dce67">d5c4439013084ea5dcd30fd44a3a3d045e2dce67</a>, <a href="https://github.com/mruby/mruby/commit/2cb183f1831d7949130ab8ecbca0630a08a1ba60">2cb183f1831d7949130ab8ecbca0630a08a1ba60</a>, <a href="https://github.com/mruby/mruby/commit/93b56e70ee26428e2f56dd82d3318622628aa62d">93b56e70ee26428e2f56dd82d3318622628aa62d</a>, <a href="https://github.com/mruby/mruby/commit/e8abf03ae59b72bbc9c3af26eee33a9f4d17cc56">e8abf03ae59b72bbc9c3af26eee33a9f4d17cc56</a>, <a href="https://github.com/mruby/mruby/commit/170d5e7181cef90daa63c39b16ea66f6bd2b17b4">170d5e7181cef90daa63c39b16ea66f6bd2b17b4</a></p>
+<h3>mrbc improvement</h3>
+<p>mrbc now takes input from STDIN.</p>
+<p><a href="https://github.com/mruby/mruby/commit/76f28241f1a6eb76070d470779fc17d43ca838e3">76f28241f1a6eb76070d470779fc17d43ca838e3</a></p>
+<h3>Singleton improvement</h3>
+<p>A singleton classes is now able to have instance variables.</p>
+<p><a href="https://github.com/mruby/mruby/commit/559933f577d5073464aa06facc1b754de6225d8a">559933f577d5073464aa06facc1b754de6225d8a</a></p>
+<h3>Division by 0</h3>
+<p>A division by 0 is now not crashing anymore but returns [Inf,NaN]. This is potentially incompatible to CRuby.</p>
+<p><a href="https://github.com/mruby/mruby/commit/1bf70ea255a36fc6ff0991c1ac05cb0f44df8ce1">1bf70ea255a36fc6ff0991c1ac05cb0f44df8ce1</a></p>
+<h3>Fix Kernel#block_given?</h3>
+<p>Fix bug in Kernel#block_given? which always returned false.</p>
+<p><a href="https://github.com/mruby/mruby/commit/8271863fe5abb6d706d25f1dec87160f91bb28ff">8271863fe5abb6d706d25f1dec87160f91bb28ff</a></p>
+<h3>Enumerable improvement</h3>
+<p>Enumerable#inject handles now empty enumerables.</p>
+<p><a href="https://github.com/mruby/mruby/commit/fd949663d2229419a1e53e69351205cd27157653">fd949663d2229419a1e53e69351205cd27157653</a>, <a href="https://github.com/mruby/mruby/commit/17278e8ca69d79f4d37e65830c95cc6004c2d8f5">17278e8ca69d79f4d37e65830c95cc6004c2d8f5</a></p>
+<h3>rescue fix</h3>
+<p><i>return</i> and <i>break</i> had a bug in a rescue clause.</p>
+<p><a href="https://github.com/mruby/mruby/commit/2f5f853111dd5d73cb7a85c5306aa1e41d3d7fc4">2f5f853111dd5d73cb7a85c5306aa1e41d3d7fc4</a>, <a href="https://github.com/mruby/mruby/commit/400a9d81019d987704c5890872d2599a3c60114c">400a9d81019d987704c5890872d2599a3c60114c</a>, <a href="https://github.com/mruby/mruby/commit/da637cac4a3520f7d6d9a69b392be4309f36ef5b">da637cac4a3520f7d6d9a69b392be4309f36ef5b</a></p>
+<h3>LocalJumpError</h3>
+<p>Unexpected usage of break/next/redo/retry should raise a LocalJumpError exception.</p>
+<p><a href="https://github.com/mruby/mruby/commit/89a18e4f22de80b836f9d6c3167d71b7078a31bb">89a18e4f22de80b836f9d6c3167d71b7078a31bb</a></p>
+<h3>raise C-API change</h3>
+<p>A new C-function with the name <i>mrb_raisef()</i> was introduced by Masaki Muranaka. It is basically the same as <i>mrb_raise()</i> but without being able to treat variable arguments.</p>
+<p><a href="https://github.com/mruby/mruby/commit/6069a33089916d7059c2bd2aeddc02a3eb440520">6069a33089916d7059c2bd2aeddc02a3eb440520</a></p>
+<h3>Backtrace</h3>
+<p>Tomoyuki Sahara implemented a backtrace function. </p>
+<p><a href="https://github.com/mruby/mruby/commit/5bae6459ff6649fdc622b0c4f2a8ee93865197e3">5bae6459ff6649fdc622b0c4f2a8ee93865197e3</a></p>
+<h3>Fix (get|set) const variable for Singleton</h3>
+<p>Get and Set for const variables wasn&#8217;t working for singleton classes.</p>
+<p><a href="https://github.com/mruby/mruby/commit/ec343a64217a4825a97d4ef469699445f86a30e7">ec343a64217a4825a97d4ef469699445f86a30e7</a></p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

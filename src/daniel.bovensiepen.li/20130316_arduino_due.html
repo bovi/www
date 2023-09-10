@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2013-03-16</p>
+      <h2>Arduino Due</h2>
+<p>Today my <a href="http://arduino.cc/en/Main/ArduinoBoardDue">Arduino Due</a> from Taobao arrived:</p>
+<p><a href="/files/photo.jpg" rel="attachment wp-att-563"><img class="img-rounded" alt="mruby on Arduino Due" src="/files/photo.jpg" width="500" /></a></p>
+<p>This is the first Arduino with an ARM Microcontroller instead of an AVR. Considering this and the fact that it has 512Kb of flash and 96Kb of SRAM I gave it a try and compiled mruby for it&#8230;</p>
+<p>It turned out to be straight forward but due to the reason that I prefer a command-line compilation over the Arduino IDE I took a small U-Turn and extracted the compilation from the IDE. The following small Ruby script is doing the compilation for the ARM Cortex binary of the Arduino Due:</p>
+<pre>#!/usr/bin/env ruby
+
+require 'serialport'
+
+# Activate/deactivate erasing and flashing of Board
+FLASH = true
+
+USB_PORT = "ttyACM0"
+
+# Building folder
+BUILD_DIR = "/home/daniel/Documents/mruby_arduino_due/build"
+
+# Arduino Application Folder
+ARDUINO_DIR = "/opt/arduino-1.5.2"
+
+# Standard Paths for build process
+SAM_DIR = "#{ARDUINO_DIR}/hardware/arduino/sam"
+BIN_DIR = "#{ARDUINO_DIR}/hardware/tools/g++_arm_none_eabi/bin"
+TARGET_DIR = "#{SAM_DIR}/variants/arduino_due_x"
+ARDUINO_SRC = "#{SAM_DIR}/cores/arduino"
+
+# C Flags
+CFLAGS_1 = "-c -g -Os -w -ffunction-sections -fdata-sections -nostdlib --param max-inline-insns-single=500"
+CFLAGS_2 = "-fno-rtti -fno-exceptions" # Used for C++ files
+CFLAGS_3 = "-Dprintf=iprintf -mcpu=cortex-m3 -DF_CPU=84000000L -DARDUINO=152 -D__SAM3X8E__ -mthumb -DUSB_PID=0x003e -DUSB_VID=0x2341 -DUSBCON"
+
+INCLUDES = "-I#{SAM_DIR}/system/libsam -I#{SAM_DIR}/system/CMSIS/CMSIS/Include/ -I#{SAM_DIR}/system/CMSIS/Device/ATMEL/ -I#{SAM_DIR}/cores/arduino -I#{TARGET_DIR}"
+
+def execute cmd
+  result = `#{cmd}`
+  puts result unless result == ''
+end
+
+execute "rm -Rf #{BUILD_DIR}"
+execute "mkdir #{BUILD_DIR}"
+execute "cp -Rf mruby.cpp #{BUILD_DIR}/mruby.cpp"
+execute "cp -Rf libmruby.a #{BUILD_DIR}/libmruby.a"
+
+USER_FILES = %w(mruby.cpp)
+
+C_FILES = %w(WInterrupts.c syscalls_sam3.c cortex_handlers.c wiring.c wiring_digital.c itoa.c wiring_shift.c wiring_analog.c hooks.c iar_calls_sam3.c)
+
+CPP_FILES = %w(main.cpp WString.cpp RingBuffer.cpp UARTClass.cpp cxxabi-compat.cpp USARTClass.cpp USB/CDC.cpp USB/HID.cpp USB/USBCore.cpp Reset.cpp Stream.cpp Print.cpp WMath.cpp IPAddress.cpp wiring_pulse.cpp)
+
+def add_to_lib file
+  execute "#{BIN_DIR}/arm-none-eabi-ar rcs #{BUILD_DIR}/core.a #{BUILD_DIR}/#{file}"
+end
+
+puts "CC (User Files)"
+# Userspecific Code
+USER_FILES.each do |src_file|
+  obj_file = "#{src_file}.o"
+  execute "#{BIN_DIR}/arm-none-eabi-g++ #{CFLAGS_1} #{CFLAGS_2} #{CFLAGS_3} #{INCLUDES} #{BUILD_DIR}/#{src_file} -o #{BUILD_DIR}/#{obj_file}"
+  add_to_lib obj_file
+end
+
+puts "CC (C Files)"
+# Arduino Standard C Code
+C_FILES.each do |src_file|
+  obj_file = "#{src_file}.o"
+  execute "#{BIN_DIR}/arm-none-eabi-gcc #{CFLAGS_1} #{CFLAGS_3} #{INCLUDES} #{ARDUINO_SRC}/#{src_file} -o #{BUILD_DIR}/#{obj_file}"
+  add_to_lib obj_file
+end
+
+puts "CC (CPP Files)"
+# Arduino Standard C++ Code
+CPP_FILES.each do |src_file|
+  obj_file = "#{src_file}.o"
+  obj_file.sub! 'USB/', ''
+  execute "#{BIN_DIR}/arm-none-eabi-g++ #{CFLAGS_1} #{CFLAGS_2} #{CFLAGS_3} #{INCLUDES} #{ARDUINO_SRC}/#{src_file} -o #{BUILD_DIR}/#{obj_file}"
+  add_to_lib obj_file
+end
+
+puts "CC (variant)"
+execute "#{BIN_DIR}/arm-none-eabi-g++ #{CFLAGS_1} #{CFLAGS_2} #{CFLAGS_3} #{INCLUDES} #{TARGET_DIR}/variant.cpp -o #{BUILD_DIR}/variant.cpp.o"
+add_to_lib 'variant.cpp.o'
+
+puts "LD"
+# Link User specific things and Arduino Specific things together
+execute "#{BIN_DIR}/arm-none-eabi-g++ -Os -Wl,--gc-sections -mcpu=cortex-m3 -T#{TARGET_DIR}/linker_scripts/gcc/flash.ld -Wl,-Map,#{BUILD_DIR}/mruby.cpp.map -o #{BUILD_DIR}/mruby.cpp.elf -L#{BUILD_DIR} -lm -lgcc -mthumb -Wl,--cref -Wl,--check-sections -Wl,--gc-sections -Wl,--entry=Reset_Handler -Wl,--unresolved-symbols=report-all -Wl,--warn-common -Wl,--warn-section-align -Wl,--warn-unresolved-symbols -Wl,--start-group #{BUILD_DIR}/libmruby.a #{BUILD_DIR}/syscalls_sam3.c.o #{BUILD_DIR}/mruby.cpp.o #{TARGET_DIR}/libsam_sam3x8e_gcc_rel.a #{BUILD_DIR}/core.a -Wl,--end-group"
+
+# Build Binary for target
+puts "PACK"
+execute "#{BIN_DIR}/arm-none-eabi-objcopy -O binary #{BUILD_DIR}/mruby.cpp.elf #{BUILD_DIR}/mruby.cpp.bin"
+
+if FLASH
+  SerialPort.open("/dev/#{USB_PORT}", 1200) {|sp| puts "Reset Board" }
+
+  # Upload to Board
+  puts "Upload to Flash"
+  execute "#{ARDUINO_DIR}/hardware/tools/bossac --port=#{USB_PORT} -U false -e -w -v -b #{BUILD_DIR}/mruby.cpp.bin -R"
+end
+
+SerialPort.open("/dev/#{USB_PORT}", 9600) do |sp|
+  loop do
+    print sp.read
+    sleep 1
+  end
+end</pre>
+<p>This script expects that:</p>
+<ul>
+<li>Arduino Due is available under /dev/ttyACM0</li>
+<li>Arduino IDE located under /opt/arduino-1.5.2</li>
+<li>libmruby.a and mruby.cpp file in your PWD</li>
+</ul>
+<p>The mruby.cpp file could look like this:</p>
+<pre>#include "stdbool.h"
+#include "Arduino.h"
+#include "../mruby_src/include/mruby.h"
+#include "../mruby_src/include/mruby/irep.h"
+#include "../mruby_src/include/mruby/string.h"
+#include "../mruby_src/include/mruby/value.h"
+
+int led = 13;
+
+mrb_value myputs (mrb_state * mrb, mrb_value self) {
+  mrb_value val;
+  mrb_get_args (mrb, "S", &amp; val);
+  Serial.println (RSTRING_PTR (val));
+  return mrb_nil_value ();
+}  
+
+//extern const char bytecode [];
+const char bytecode[] = {
+0x52,0x49,0x54,0x45,0x30,0x30,0x30,0x39,0x30,0x30,0x30,0x30,0x30,0x30,0x30,0x39,
+0x30,0x30,0x30,0x30,0x4d,0x41,0x54,0x5a,0x20,0x20,0x20,0x20,0x30,0x30,0x30,0x39,
+0x30,0x30,0x30,0x30,0x00,0x00,0x00,0xa8,0x00,0x01,0x00,0x00,0x20,0x20,0x20,0x20,
+0x20,0x20,0x20,0x20,0xc3,0xd6,0x00,0x00,0x00,0x6a,0x53,0x43,0x00,0x02,0x00,0x06,
+0x00,0x02,0x4f,0x6a,0x00,0x00,0x00,0x0a,0x01,0x00,0x00,0x11,0x01,0x00,0x40,0x20,
+0x00,0x80,0x80,0x01,0x01,0x00,0x40,0x01,0x01,0x80,0x00,0x3d,0x02,0x40,0x00,0x03,
+0x02,0x00,0xc0,0xad,0x01,0x81,0x00,0x3e,0x01,0x00,0x80,0xa0,0x00,0x00,0x00,0x4a,
+0x23,0x91,0x00,0x00,0x00,0x02,0x11,0x00,0x08,0x31,0x20,0x2b,0x20,0x31,0x20,0x3d,
+0x20,0x11,0x00,0x00,0x92,0xc3,0x00,0x00,0x00,0x04,0x00,0x06,0x4f,0x62,0x6a,0x65,
+0x63,0x74,0x00,0x03,0x6e,0x65,0x77,0x00,0x06,0x6d,0x79,0x70,0x75,0x74,0x73,0x00,
+0x01,0x2b,0x22,0xc0,0x00,0x00,0x00,0x00,
+};
+
+// the setup routine runs once when you press reset:
+void setup() {
+  delay(10000);
+
+  // initialize the digital pin as an output.
+  pinMode(led, OUTPUT);
+  Serial.begin(9600);
+  Serial.println("Setup");
+
+  mrb_state *mrb = mrb_open();
+  mrb_define_method (mrb, mrb-&gt; object_class, "myputs", myputs, ARGS_REQ (1));
+  mrb_load_irep (mrb, bytecode);
+  if (mrb-&gt; exc) {
+    Serial.println ("exeption occured!");
+  }
+  mrb_close(mrb);
+
+}
+
+// the loop routine runs over and over again forever:
+void loop() {
+  Serial.println("Hello World");
+  digitalWrite(led, HIGH);   // turn the LED on (HIGH is the voltage level)
+  delay(1000);               // wait for a second
+  digitalWrite(led, LOW);    // turn the LED off by making the voltage LOW
+  delay(1000);               // wait for a second
+}</pre>
+<p>I build this file based on a standard Arduino Sketch. It will boot up the unit, wait for 10 seconds, then create a mruby instance and execute the byte code (calculating <code>1 + 1</code>). Afterwards it will close the instance and start to turn the LED on pin 13 on and off every second.</p>
+<p>The bytecode can be generated by:</p>
+<pre>mrbc -Bbytecode test.rb</pre>
+<p>This will create the file test.c with the bytecode array. You can also include this file directly in the build process, so that you don&#8217;t have to copy/paste it into the source code all the time. The mruby code for the bytecode example above was:</p>
+<pre>o = Object.new
+o.myputs "1 + 1 = #{1 + 1}"</pre>
+<p>Before you can execute the build script you have to cross compile the libmruby.a:</p>
+<pre>MRuby::CrossBuild.new("Arduino Due") do |conf|
+  toolchain :gcc
+
+  # GNU Linux
+  ARDUINO_PATH = '/opt/arduino-1.5.2'
+  BIN_PATH = "#{ARDUINO_PATH}/hardware/tools/g++_arm_none_eabi/bin"
+  SAM_PATH = "#{ARDUINO_PATH}/hardware/arduino/sam"
+  TARGET_PATH = "#{SAM_PATH}/variants/arduino_due_x"
+
+  conf.cc do |cc|
+    cc.command = "#{BIN_PATH}/arm-none-eabi-gcc"
+    cc.include_paths = ["#{SAM_PATH}/system/libsam -I#{SAM_PATH}/system/CMSIS/CMSIS/Include/",
+                        "#{SAM_PATH}/system/CMSIS/Device/ATMEL/",
+                        "#{SAM_PATH}/cores/arduino -I#{TARGET_PATH}",
+                        "#{MRUBY_ROOT}/include"]
+    cc.flags &lt;&lt; '-g -Os -w -ffunction-sections -fdata-sections -nostdlib --param max-inline-insns-single=500 ' +
+                '-Dprintf=iprintf -mcpu=cortex-m3 -DF_CPU=84000000L -DARDUINO=152 -D__SAM3X8E__ -mthumb -DUSB_PID=0x003e -DUSB_VID=0x2341 -DUSBCON'
+    cc.compile_options = "%{flags} -o %{outfile} -c %{infile}"
+  end
+
+  conf.archiver do |archiver|
+    archiver.command = "#{BIN_PATH}/arm-none-eabi-ar"
+    archiver.archive_options = 'rcs %{outfile} %{objs}'
+  end
+
+  # No binaries necessary
+  conf.bins = []
+end</pre>
+<p>The output of the build will look like this:</p>
+<pre>daniel@ubuntu:~/Documents/mruby_arduino_due$ ./make.rb 
+CC (User Files)
+CC (C Files)
+CC (CPP Files)
+CC (variant)
+LD
+PACK
+Reset Board
+Upload to Flash
+Erase flash
+Write 162048 bytes to flash
+[==============================] 100% (633/633 pages)
+Verify 162048 bytes of flash
+[==============================] 100% (633/633 pages)
+Verify successful
+Set boot flash true
+CPU reset.
+Setup
+1 + 1 = 2
+Hello World
+Hello World
+Hello World
+Hello World
+...</pre>
+<p>If you are interested in the chipKit Max32 have a look at <a href="http://d.hatena.ne.jp/kyab">the great blog of kyab</a>. He has done some impressive work about building the <a href="https://github.com/kyab/mruby-arduino">mruby-arduino GEM</a> and shrinking mruby even more.</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

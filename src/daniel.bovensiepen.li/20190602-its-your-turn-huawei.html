@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2019-06-02</p>
+      <h2>It's your turn Huawei</h2>
+
+<p>Did you life under a rock the last couple of weeks? If not you should have heard that the second largest smartphone company, the largest telecommunications-equipment manufacturer and arguably the most important private chinese company was banned by the U.S. from using U.S.-based technology. That's a problem...</p>
+
+<p>Problems though are there to be solved. So instead of elaborating why Huawei was blocked or what they have to change to lift the ban, I would like to approach these recent events from a different angle. Let's propose what Huawei should do, to overcome this challenge in light of the fact that the ban might not be removed at all.</p>
+
+<p>It's interesting that many people believe everything will go back to normal in the next days/weeks/months. Yet if we would assume that the "national security" argument from the U.S. government is what they actually believe and not only a trade bargaining chip, then there is just no way that this ban will be lifted in the next year without endangering the re-election of the current government. We might of cause not be able to apply common-sense to the current U.S. government.</p>
+
+<p>My proposals are based on the assumption that for Huawei U.S. based technology is unreliable when it comes to accessibility. In this regard any kind of technology from a country which is close to the U.S. has to be considered unreliable. This leads to a limited set of options. This makes it challenging but also potentially disrupting for the general market.</p>
+
+<p>Also, I will limit myself here to three problem-sets: Software, Hardware and Data. I will not go into the gigantic issue Huawei will have when it comes to radio technologies, as this might conflict with my current job. With that said, these are my private thoughts and the company I work for might have very different opinions.</p>
+
+<p>TLDR: The answer to all of the issues I will mention here is to open up. It turns out if Huawei would embrace open software, open hardware and open data they might end up in a much better position even if the ban would be lifted.</p>
+
+<h3>Open Software</h3>
+
+<p>Everything started with <a href="https://www.zdnet.com/article/google-suspends-android-support-for-huawei-what-it-means-for-your-smartphone-tablet/">Google suspending the Android support for Huawei</a>. But why is that actually a problem for Huawei? Is Android not Open Source Software? It turns out that Google's definition of Open Source Software is different to what the general public thinks. OSS would not only mean that the source code is available (which is the case for Android) but also that the development process itself happens in the open (which is not the case for Android). Google has established a model where companies like Huawei can register to and receive access to the Android Source Code. In parallel there is the so called AOSP (Android Open Source Project) which provides part of the Android System with a certain delay. Due to the reason that Huawei is now excluded from the direct Android access via Google, it can only access Android's security-patches and features with this delay. That's a problem...</p>
+
+<h4>What Huawei shouldn't do</h4>
+
+<p>Very soon after Google's announcement, Huawei stated that they have anticipated this day and already were working on an own operating system since 2012. The stability of the claim that their own operating system is ready for prime-time can be easily put into question just by the fact that developing for 7 years a piece of software without user-feedback (no release, no user-feedback) is a waste of time. Considering the retention rate of Huawei's employees, it is also questionable that a lot of know-how was built-up over this time-period. Worst Example: around four years ago Huawei hired a former Apple Designer to essentially duplicate the DNA [sic] of Apple in Huawei. In good Huawei tradition the retention rate hit the designer and in 2017 she was already gone again.</p>
+
+<p>This shows the biggest problem of Huawei when it comes to software: Software is People. If you don't have stable people you can't have stable software. Furthermore, the same issues foreign companies have in China, Huawei has outside of China. Huawei never managed to get any meaningful U.S. Market Share (even before the ban it was well below a 1% market share). The idea to develop a completely new operating system for the world-market with the same Chinese-only workforce concentrated in Shenzhen is doomed to fail.</p>
+
+<h4>What Huawei should do</h4>
+
+<p>The solution to the problem is to embrace GNU Linux and Open Source Development in general. There is no way to alone develop your own operating system in a reasonable amount of time. Even Microsoft is struggling with the legacy they have built-up over the last decades and Microsoft is actually a software company. The only way forward is to take an existing operating system like GNU Linux and build a Middleware like Android on top of it. The only question left is: should Huawei fork Android or should they have their own Middleware? The clear answer is to embrace Android as long as they can and migrate to an open Middleware as soon as possible. Android is not outstanding because of its Middleware itself but because of the ecosystem which was developed around it. Users want a phone which runs their applications, they care little if it is iOS, Android or Windows Mobile (LOL, Windows Mobile). No matter what, Huawei's new system needs to run Android applications for the foreseeable future. Yet forking Android is futile as the source will always be behind the HEAD and all developers interested in Android will put their resources into the Google mainline. Furthermore, to outperform Google's development speed Huawei can't depend on their own capabilities (as they are not a strong software company), they need to establish an open model where other companies (e.g. Xiaomi, Baidu) have an incentive to contribute to and where they can not only play catch-up with Android but actually take-over the innovation cycle. The Android Green Alliance is a good example that un-synced activities on Android are a waste of time. Adopting progressive web applications with the help of Mozilla would also be a smart move, as small applications in WeChat and Alipay have shown that the idea of on-demand loadable Apps with some exposed APIs is an attractive alternative to many users in China. I don't see a clear reason why this could not succeed oversea. I could even imagine a future where a low-end Smartphone would boot directly into WeChat without any other kind of Middleware. In such a world Huawei could be an interesting player who provides their strong hardware capabilities to software companies as an open platform.</p>
+
+<p>Disclaimer: Developing a software as complex as a smartphone system will take years, not months. Huawei needs to take into considerations that for 1 to 2 years their software infrastructure will lack behind. This is a good time to get some clean-up done. Re-evaluate their workforce diversity and to embrace a mindset which would be able to understand what the oversea market actually demands.</p>
+
+<h3>Open Hardware</h3>
+
+<p>Before we can understand the struggle of Huawei concerning their Hardware, we need to realize that Huawei actually does not have their "own hardware", as it is sometimes claimed in the media. What Huawei does have, is the capability to build custom chips like:
+
+<ul>
+<li>Kunpeng: Huawei's ARM-based Server CPU Family</li>
+<li>Kirin: Huawei's ARM-based Smartphone CPU Family</li>
+<li>Ascend: Huawei's ARM-based AI Accelerator Family</li>
+<li>Balong: Huawei's ARM-based Cellular Modem Family</li>
+</ul>
+
+<p>It's state of the art that manufactures are licensing IP from companies like ARM. A company like ARM will provide designs which are customized by companies like Huawei. This worked well for Huawei until <a href="https://arstechnica.com/gadgets/2019/05/softbanks-arm-cuts-ties-with-huawei-leaving-future-chip-production-in-doubt/">ARMs owner Softbank decided to cut ties with Huawei</a>. As you notice, all of Huawei's chip families are based on ARM, to which Huawei now has no IP access anymore. That's a problem...</p>
+
+<h4>What Huawei shouldn't do</h4>
+
+<p>It's reasonable to proclaim that Huawei should now just invent their own CPU architecture and instruction-set to be independent from ARM. Yet there are reasons why this would be the wrong approach. First of all, designing a new CPU Architecture from scratch is a complex task. Due to this reason there are dedicated companies like ARM who only design and license architectures without manufacturing any own chips. Furthermore (and even more troublesome) a new architecture is only useful if you have software infrastructure. No compiler, no operating system and no applications would be available for such a new Huawei Architecture. Everything would have to be implemented from scratch. It's unlikely that Huawei could achieve these both tasks in parallel at a level which is close to what ARM offers.</p>
+
+<h4>What Huawei should do</h4> 
+
+<p>The solution to this problem is to switch to <a href="https://riscv.org/">RISC-V</a>. With RISC-V something unlikely has happened in the last decade. An U.S. university has proposed an open CPU architecture (compared to the proprietary Architecture from ARM) which enables any company (also Huawei) to implement custom chips without license fees and without asking anyone for permission. And companies have actually adopted it. Using this architecture not only solves the problem of the lacking access to ARM's IP, it also offers mature software infrastructure (compilers, drivers, operating systems). Last but not least it would create a technology-twist never seen before. As DARPA financed the initial development of RISC-V to become independent from ARM. It would be a historical joke if Huawei could circumvent the U.S. export bans by using U.S. funded open hardware technology.</p>
+
+<p>By adopting RISC-V, Huawei would bet on the power of Open Hardware. Is it reasonable to assume that hardware-designs would similar benefit from the open nature as software? The bets are still open on that. Yet due to the lack of alternatives (own proprietary CPU designs are destinated to fail) and the increasing knowledge and adoption in China of RISC-V, it's the best technology direction for now.</p>
+
+<p>Disclaimer: RISC-V is just an architecture. Using this architecture still requires a lot of work and knowledge. Huawei has that knowledge available with HiSilicon and history shows that they are not afraid of a lot of work. The biggest uncertainty might be in the end the design tool access.</p>
+
+<h3>Open Data</h3>
+
+<p>The most underreported issue for Huawei is actually the lack of quality data in the future. For example, Huawei won't be able to deploy <a href="https://www.google.com/maps">Google Maps</a> on their smartphones. Except for China there is no place where Android Phone do not provide navigation via Google Maps. There are even Android car systems which are literally build around Google Maps. That's a problem...</p>
+
+<h4>What Huawei shouldn't do</h4>
+
+<p>Huawei's CEO said once that they consider Apple as their teacher. Yet if we look at Maps, Apple is the worst to take inspiration from. Apple decided some years ago to get rid of Google from their iPhones. They replaced the Google-based Maps Service with their own Map Service. The result was a disaster. And Apple is a software company. Building a Map of the World by yourself is a pretty dumb idea.</p>
+
+<h4>What Huawei should do</h4>
+
+<p>Interestingly Apple wasn't always so dumb to approach their own Map Service. Sometime before they went this way they actually used <a href="https://www.openstreetmap.org/">OpenStreetMaps</a> for some of their own apps. OpenStreetMaps is an open data project which is crowed-sourced world-wide. It's a world-map build by everyone on this planet. Huawei has now the chance to embrace this open dataset. But instead of just forking the data (as other companies have done), they should integrate the open nature of OpenStreetMaps into all of their Smartphones. At the Moment Huawei sells close to 200 million phones every year, if they would deploy some logic to gather automatic and manual feedback from their users and push these improvements back to the open community, they probably could outperform the quality level of Google Maps in less than a year and after another one Google would never have the chance again to catch-up. Not only would this make Huawei independent in regard of Map services, it also would weaken Google, Microsoft and Apple.</p>
+
+<p>Disclaimer: There are reasons why companies have not embraced the open nature of communities like OpenStreetMaps in the past. Instead of cooperating with a single entity, Huawei would have to cooperate with a heterogenous community with very different objectives. Special community facing infrastructure would have to be setup and Huawei would need to listen carefully what the community wishes and despises. The general attention-span of most companies is too short to handle this kind of interaction. Yet this would be a chance for Huawei to show innovative potential.</p>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

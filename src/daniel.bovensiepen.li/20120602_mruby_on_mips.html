@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2012-06-02</p>
+      <h2>mruby on mips</h2>
+<p>Due to the reason that I paused for a moment my activities on improving the testing platform for mruby (<a href="https://github.com/mruby/mruby/pull/219">the reason is already clarified</a> *happy*) I took a look at some hardware which was available at my place. I found a small embedded device with the following specification:</p>
+<p>Atheros SoC AR9331, this means a 400Mhz MIPS CPU, with USB, Ethernet and 802.11n interface. Additionally there is 4MB Flash available on the device:</p>
+<p><a href="/files/20120602-143117.jpg"><img class="alignnone size-full" src="/files/20120602-143117.jpg" alt="20120602-143117.jpg" /></a></p>
+<p>Porting mruby to this little device consisted of three steps</p>
+<h3>Setting up cross-compiling toolchain</h3>
+<p>I&#8217;m a huge fan of <a href="http://openwrt.org/">OpenWRT</a>. Many people know that OpenWRT is an awesome embedded Linux Distribution. But what many people don&#8217;t know is, that OpenWRT has an awesome implementation of a Cross Compiling toolchain. They didn&#8217;t really invented something by themselves but they build up a nice environment in which you can just cross-compile stuff even if you don&#8217;t want to use it on their platform. Writing an OpenWRT specific Makefile is as easy as this:</p>
+<pre>include $(TOPDIR)/rules.mk
+include $(INCLUDE_DIR)/kernel.mk
+
+PKG_NAME:=mruby
+PKG_REV:=b2d0f22dee87651bca4e16e287cab61dc303db19
+PKG_VERSION:=0.1
+PKG_RELEASE:=1
+
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.bz2
+PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
+PKG_SOURCE_PROTO:=git
+PKG_SOURCE_URL:=git://github.com/mruby/mruby.git
+PKG_SOURCE_VERSION:=$(PKG_REV)
+
+include $(INCLUDE_DIR)/package.mk
+
+define Package/mruby
+  SECTION:=language
+  CATEGORY:=Base system
+  TITLE:=Embeddable Ruby Language
+  URL:=http://github.com/mruby/mruby
+endef
+
+define Package/mruby/description
+  mruby is an embeddable version of the Ruby Programming language.
+endef
+
+define Package/mruby/install
+  $(INSTALL_DIR) $(1)/usr/sbin
+  $(INSTALL_BIN) $(PKG_BUILD_DIR)/bin/mruby $(1)/usr/sbin
+endef
+
+$(eval $(call BuildPackage,mruby))</pre>
+<h3>Pre-Compiling mrbc</h3>
+<p>There is one small trap in the mruby compile process. Parts of mruby are written in Ruby itself. During the compilation process a tool called mrbc will be compiled which then compiles all Ruby files under mrblib. The result is some C-Code which then will be again compiled to the final object. The problem for cross-compiling is now that we need to compile mrbc for the host machine but the result of mrbc has to be compiled for the target machine. Our cmake branch of mruby has already some features to support that but the default Makefiles aren&#8217;t able to do that. Due to the reason that I don&#8217;t want to mess around with cmake inside of the OpenWRT toolchain I decided to just compile the mrbc static on my machine up-front. Then I deleted everything except the bin/mrbc file. Afterwards I could bootstrap the complete compile. The Makefiles are smart enough to recognize that they don&#8217;t need to compile mrbc again. So they just skip that process and they use my host compatible version of mrbc to prepare all Ruby files for the target machine.</p>
+<h3>Redirecting LL to target gcc</h3>
+<p>matz is using LL inside of his Makefiles to prepare the final libmruby. I&#8217;m not sure if this is very standard conform. Nevertheless my default toolchain doesn&#8217;t recognize this abbreviation. So I had to change the Makefile there too.</p>
+<h3>The Result</h3>
+<p><strong></strong>As you will see, compiling for MIPS in a proper toolchain and with a little bit of stripping you can bring down the mruby binary to a size of 429K. I bet I can make it even smaller in the future:</p>
+<p><a href="http://wp123456789.mruby.sh/wp-content/uploads/2012/06/mruby.zip">mruby binary for MIPS (AR9331 SoC) (ZIP 162K)</a></p>
+<pre>root@OpenWrt:~# ls -lah /usr/bin/mruby
+-rwxr-xr-x    1 root     root      429.4K Jan  1 00:05 /usr/bin/mruby
+root@OpenWrt:~# uname -a
+Linux OpenWrt 3.2.5 #3 Wed Feb 15 13:46:20 SGT 2012 mips GNU/Linux
+root@OpenWrt:~# cat /proc/cpuinfo
+system type		: Atheros AR9330 rev 1
+machine			: TP-LINK TL-WR703N v1
+processor		: 0
+cpu model		: MIPS 24Kc V7.4
+BogoMIPS		: 265.42
+wait instruction	: yes
+microsecond timers	: yes
+tlb_entries		: 16
+extra interrupt vector	: yes
+hardware watchpoint	: yes, count: 4, address/irw mask: [0x0000, 0x0060, 0x03c0, 0x0280]
+ASEs implemented	: mips16
+shadow register sets	: 1
+kscratch registers	: 0
+core			: 0
+VCED exceptions		: not available
+VCEI exceptions		: not available
+
+root@OpenWrt:~# mruby -v
+mruby - Embeddable Ruby  Copyright (c) 2010-2012 mruby developers
+puts "Hello World"
+NODE_SCOPE:
+  local variables:
+  NODE_BEGIN:
+    NODE_CALL:
+      NODE_SELF
+      method='puts' (276)
+      args:
+        NODE_STR "Hello World" len 11
+irep 110 nregs=4 nlocals=2 pools=1 syms=1
+000 OP_LOADSELF	R2
+001 OP_STRING	R3	'Hello World'
+002 OP_LOADNIL	R4
+003 OP_SEND	R2	'puts'	1
+004 OP_STOP
+
+Hello World
+root@OpenWrt:~#</pre>
+    </div>
+  </div>
+</div>
+</body>
+</html>

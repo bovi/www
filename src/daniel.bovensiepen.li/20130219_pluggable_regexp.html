@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2013-02-19</p>
+      <h2>Pluggable RegExp</h2>
+<p>The last couple of weeks were quite exciting from a RegExp point of view. The first big thing was <a href="https://github.com/mruby/mruby/pull/719">mattn&#8217;s pull request</a> of the IIJ RegExp Engine which is based on <a href="http://www.geocities.jp/kosako3/oniguruma/">Oniguruma</a>. This patch would have made the same RegExp Engine from the MRI also available in mruby. After one month of discussion and work on this patch the final decision was to close this ticket. This sounds sad but actually this is really good news, due to the reason that instead <a href="https://github.com/mruby/mruby/issues/841">we decided</a> to build a <a href="https://github.com/mruby/mruby/pull/850">pluggable RegExp engine</a> into mruby.</p>
+<h3>Abstract</h3>
+<p>Regular Expressions are a powerful way to match text in a string. In Ruby you can do things like:</p>
+<pre>"I've got 3 Rubies from the IIJ, 2 from mura and 5 from mattn.".scan(/d/)
+=> ["3", "2", "5"]</pre>
+<p>Where <em>d</em> is a regular expression and finds every decimal digit in our string above. If you want to do string manipulation, RegExp is a very convenient way to do it.</p>
+<p>Till now mruby didn&#8217;t had a fully working RegExp engine integrated. There was only some left-overs available which were copied from the MRI. Based on these left-overs and the work from the <a href="https://github.com/iij">IIJ team</a>, mattn created a fully working RegExp engine implementation for the latest mruby head. Around the same time <a href="https://github.com/masamitsu-murase">Masamitsu Murase</a> built a mruby GEM for the <a href="http://www.arglist.com/regex">Henry Spencer RegExp engine</a>.</p>
+<p>Due to the reason that we like diversity, I suggested <a href="https://github.com/mruby/mruby/issues/841">a Library independent RegExp engine</a> in mruby. <a href="https://github.com/mattn">Mattn</a> immediately jumped on and made a new pull request which removed more or less all left-overs of the Oniguruma RegExp engine out of the mruby head. At the same time he modified the code in a way that a RegExp engine could easily be integrated as a GEM.</p>
+<p>In this state it is now possible that people can build their own RegExp engine as a GEM and use it as they like. At the moment we have two such RegExp GEMs available.</p>
+<h3>OnigRegexp</h3>
+<p>Obviously mattn didn&#8217;t throw away the IIJ code. Instead he gemified his afford and created the <a href="https://github.com/mattn/mruby-onig-regexp">mruby-onig-regexp</a> GEM. This one is supposed to provide the full-feature Oniguruma engine to mruby. </p>
+<h3>HsRegexp</h3>
+<p>As already mentioned the second candidate is <a href="https://github.com/masamitsu-murase/mruby-hs-regexp">mruby-hs-regexp</a> from Masamitsu Murase. A RegExp engine based on the Henry Spencer code which is suppose to provide a reduced set of RegExp features by keeping also a smaller footprint in mruby.</p>
+<h3>State</h3>
+<p>At the moment both RegExp engines kind of work. There is still work to be done to comply to the ISO Ruby standard and to integrate it even better into the mruby syntax. We can also expect that there are bugs available. So the best thing you can do is to grab the code and experiment with it.</p>
+<p>When we have reached stability, I would expect that we decide for a default RegExp engine shipped with mruby. Just due to the reason that this part is so essential to Ruby development. But with the current pluggable system it will be a joy for you to remove this engine or exchange it with another one (which has more features or which provides less overhead).</p>
+<p>Have fun!</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

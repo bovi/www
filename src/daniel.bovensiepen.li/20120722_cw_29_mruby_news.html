@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2012-07-22</p>
+      <h2>[CW 29] mruby news</h2>
+<p>What happened this week on the mruby front?</p>
+<h3>New Module#ancestors</h3>
+<p>Matz added the new method Method#ancestors which returns a list of Modules included in the specific Module.</p>
+<p><a href="https://github.com/mruby/mruby/commit/526dd09b7a7bbaaddfe4d73b5d407409d518742d">Commit (Module#ancestors)</a>, <a href="https://github.com/mruby/mruby/issues/377">Discussion about Module#ancestors order</a></p>
+<h3>More Tests</h3>
+<p>The overall the test environment is growing happily. Several test cases were improved, refactored and added.</p>
+<p><a href="https://github.com/mruby/mruby/commit/8020c280aa88354d797bdaf754c7beeb42dabab4">Commit (Add test for Kernel#extend)</a>, <a href="https://github.com/mruby/mruby/commit/ba08a2b9dddf97c84a73ab72f708e2bfef2d6b82">Commit (Add Module#extend_object and Module#extended)</a>, <a href="https://github.com/mruby/mruby/commit/e6f1e7b899e25c523a43fab59d7f536877bd05ce">Commit (Add tests for Kernel#lambda and Kernel.lambda)</a>, <a href="https://github.com/mruby/mruby/commit/6f2aefae1f6032be5c7a7ba82734543b90be5ccc">Commit (Add test for &#8216;respond_to?&#8217;)</a>, <a href="https://github.com/mruby/mruby/commit/6696876e729a99a0a54e0989ef38361687fb0b5d">Commit (refactoring on module tests)</a>, <a href="https://github.com/mruby/mruby/pull/390">Commit (add test cases in test/t/float.rb)</a></p>
+<h3>DISABLE_STDIO fixes</h3>
+<p>After introducing last week the new switch DISABLE_STDIO, some parts of mruby broke due to the deactivation. This was fixed mainly for the mruby and mirb executable. Currently the mrbtest isn&#8217;t working due to the reason that the test application can&#8217;t print the test results :-) I will have a look later if we can just implement a small C helper method to take that task over.</p>
+<p><a href="https://github.com/mruby/mruby/commit/42cfe5c9f39bf5b32d4b4754c170cfeb947389b4">Commit (make mruby work even when DISABLE_STDIO is set)</a>, <a href="https://github.com/mruby/mruby/commit/6ea5c6b5172eebd0937710418ad99f82fbcf28e7">Commit (make mirb work even when DISABLE_STDIO is set)</a></p>
+<h3>Undefine methods in Class</h3>
+<p>Matz and Masamitsu Murase changed the class definition of Class a bit by undefining <em>Class#apped_features</em> and <em>Class#extend_object</em>.</p>
+<p><a href="https://github.com/mruby/mruby/commit/e8ade38104e006ca4b41332f1e61e4f4392162e6">Commit (undef append_features for Classes )</a>, <a href="https://github.com/mruby/mruby/commit/265aa0b885e330001b0bf3dd5c6468e5c74f3e59">Commit (Undef Class#extend_object)</a></p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

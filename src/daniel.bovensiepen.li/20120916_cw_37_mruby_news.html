@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2012-09-16</p>
+      <h2>[CW 37] mruby news</h2>
+<p>What happened this week on the mruby front?</p>
+<h3>mrb_sym can be short integer</h3>
+<p>The most dramatic change this week is from my perspective the type change of mrb_sym from an integer pointer to a short. It is claimed that this change reduces the memory consumption by 10KB.</p>
+<p><a href="https://github.com/mruby/mruby/commit/540066c9e2cd89bd22201b18f09b5f7d7fbcd612">540066c9e2cd89bd22201b18f09b5f7d7fbcd612</a></p>
+<h3>Integer#step</h3>
+<p>Matz added an Integer#step implementation.</p>
+<p><a href="https://github.com/mruby/mruby/commit/ef17231bd776b266f1fe3132bde0fb6bbef90257">ef17231bd776b266f1fe3132bde0fb6bbef90257 (Integer#step added)</a>, <a href="https://github.com/mruby/mruby/commit/b4647224b765380e5f40d0af7927355709bce346">b4647224b765380e5f40d0af7927355709bce346 (Add test case for Integer#step )</a></p>
+<h3>String#+ is not behaving like MRI</h3>
+<p><a href="https://github.com/mruby/mruby/issues/469">A bug</a> was reported by Masaki Muranaka. This one shows a difference between mruby and MRI. The code <em>&#8221; 1 2 &#8221; + 3</em> evaluates to <em>nil</em> instead of raising an exception. This was fixed.</p>
+<p><a href="https://github.com/mruby/mruby/commit/f0f113ef0edcf7a396053308d6352ee2ded7a7f3">f0f113ef0edcf7a396053308d6352ee2ded7a7f3</a></p>
+<h3>SEGV</h3>
+<p>A SEGV while using <em>Exception.new.inspect</em> was fixed by Tomoyuki Sahara.</p>
+<p><a href="https://github.com/mruby/mruby/commit/7a7f267b88904743278dc265fbecd46964ff1570">7a7f267b88904743278dc265fbecd46964ff1570</a></p>
+<h3>Broken mingw on Windows 7</h3>
+<p>A <a href="https://github.com/mruby/mruby/pull/459">warning fix</a> from Shannen Saez broke the build environment of mingw under Windows 7. Shannen Saez fixed that with a second commit.</p>
+<p><a href="https://github.com/mruby/mruby/commit/151d75b4e0964250792774f4acf50f2443cf95bf">151d75b4e0964250792774f4acf50f2443cf95bf (Fixed Windows warning)</a>, <a href="https://github.com/mruby/mruby/commit/4df4dc9ecdc17894fb5a014684540858f5420c51">4df4dc9ecdc17894fb5a014684540858f5420c51 (Fixes #464 &#8211; mingw built issue)</a></p>
+<h3>NUL characters issue</h3>
+<p>Tomoyuki Sahara fixed <a href="https://github.com/mruby/mruby/pull/460">an issue</a> with NUL characters in a String.</p>
+<p><a href="https://github.com/mruby/mruby/commit/ebf88eec6b3e486bc127c43e613968f92626426f">ebf88eec6b3e486bc127c43e613968f92626426f (a string may have NUL characters)</a>, <a href="https://github.com/bovi/mruby/commit/cef52c73c3b60da37e16f02dd0556941f6fea598">cef52c73c3b60da37e16f02dd0556941f6fea598 (Add Test Case for Issue #460)</a></p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

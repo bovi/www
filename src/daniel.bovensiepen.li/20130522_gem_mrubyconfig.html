@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2013-05-22</p>
+      <h2>[gem] mruby-config</h2>
+<p><a href="https://github.com/matsumoto-r">MATSUMOTO Ryosuke</a> just published some hours ago his new GEM <a href="https://github.com/matsumoto-r/mruby-config">mruby-config</a>. He wrote also <a href="http://blog.matsumoto-r.jp/?p=3497">an article</a> about what it is.</p>
+<h3>What is it?</h3>
+<p>With mruby we continuously switching between Ruby and C code. <em>mruby-config</em> gives you an easy way to maintain configuration values on both sides.</p>
+<h3>How does it work?</h3>
+<p>An example Ruby configuration could look likes this:</p>
+<pre>add_config(
+    "Listen"            =&gt; 80,
+    "DocumentRoot"      =&gt; "/var/www/html",
+    "ExtendedStatus"    =&gt; nil,
+    "User"              =&gt; "apache",
+    "Group"             =&gt; "apache",
+)
+
+if get_config("Version").to_i &lt; 2
+  add_config "ExtendedStatus" => "Off"
+else
+  add_config "ExtendedStatus" => "On"
+end</pre>
+<p>If we assume that this file was saved under the name <code>mruby.conf</code> the corresponding C code to read the configuration values in C could look like this:</p>
+<pre>#include &lt;mruby.h&gt;
+
+static mrb_value get_config_value(mrb_state *mrb, char *key)
+{
+  return mrb_funcall(mrb, mrb_top_self(mrb), "get_config", 1, mrb_str_new_cstr(mrb, key));
+}
+
+int main() {
+
+  FILE *fp;
+  if ((fp = fopen("./mruby.conf", "r")) == NULL)
+    return 1;
+
+  mrb_state* mrb = mrb_open();
+  mrb_load_file(mrb, fp);
+
+  mrb_value listen_port     = get_config_value(mrb, "Listen");
+  mrb_value document_root   = get_config_value(mrb, "DocumentRoot");
+  mrb_value extend_status   = get_config_value(mrb, "ExtendedStatus");
+  mrb_value user            = get_config_value(mrb, "User");
+  mrb_value group           = get_config_value(mrb, "Group");
+
+  mrb_close(mrb);
+
+  return 0;
+}</pre>
+<p>To work on Ruby side with these values you can, add a new configuration value:</p>
+<pre>add_config "ExtendedStatus" => "On"</pre>
+<p>Delete configuration values:</p>
+<pre>del_config "ExtendedStatus"</pre>
+<p>Read out a configuration values:</p>
+<pre>get_config "ExtendedStatus"</pre>
+<p>Have a look at <a href="https://github.com/matsumoto-r/mruby-config/blob/master/src/config.c">the source</a> and <a href="https://github.com/matsumoto-r/mruby-config/tree/master/example">the examples</a>. The implementation is quite straight forward.</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

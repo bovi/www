@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2013-01-04</p>
+      <h2>The mgem GEM</h2>
+<p>After MASUI&#8217;s hard work of refactoring the complete build process, we have now a quite clean and easy way to create a GEM for mruby. On the other side it is still quite hard to get an overview of all available GEMs. To solve this problem <a href="https://github.com/bovi/mgem">I built a small tool called <code>mgem</code></a>.</p>
+<h3>Installation</h3>
+<p>The installation is straight forward, just execute:</p>
+<pre>$ gem install mgem</pre>
+<p>And you have the command <em>mgem</em> available on your command line.</p>
+<h3>Usage</h3>
+<p>You can search and find GEMs with the <em>mgem</em> command. For example the amount of all available GEMs can be seen with this command:</p>
+<pre>$ mgem size
+Total # of GEMs: 7</pre>
+<p>To list all available GEMs you can hit:</p>
+<pre>$ mgem list
+List of all GEMs:
+  mruby-curl          CURL HTTP Client
+  mruby-http          HTTP Parser
+  mruby-json          JavaScript Object Notation
+  mruby-md5           MD5 Hash Alghorithm
+  mruby-sqlite3       SQLite3 Database
+  mruby-uv            libuv interface
+  mruby-v8            V8 JavaScript Engine</pre>
+<p>To activate a GEM you do:</p>
+<pre>$ mgem list active
+List of active GEMs:
+
+$ mgem add mruby-sqlite3
+'mruby-sqlite3' activated!
+
+List of active GEMs:
+  [X] mruby-sqlite3       SQLite3 Database</pre>
+<p>To generate a build configuration which contains all active GEMs type:</p>
+<pre>$ mgem config
+MRuby::Build.new do |conf|
+  conf.cc = ENV['CC'] || 'gcc'
+  conf.ld = ENV['LD'] || 'gcc'
+  conf.ar = ENV['AR'] || 'ar'
+
+  conf.cflags << (ENV['CFLAGS'] || %w(-g -O3 -Wall -Werror-implicit-function-declaration))
+  conf.ldflags << (ENV['LDFLAGS'] || %w(-lm))
+
+  conf.gem :git => 'https://github.com/mattn/mruby-sqlite3.git'
+end</pre>
+<p>For a detailed information about a specific GEM you enter:</p>
+<pre>$ mgem info mruby-curl
+Detail information of 'mruby-curl':
+  Name:        mruby-curl
+  Author:      mattn
+  Description: CURL HTTP Client
+  Website:     https://github.com/mattn/mruby-curl
+  Repository:  https://github.com/mattn/mruby-curl.git
+  Protocol:    git</pre>
+<p>You have to update from time to time the GEM list database:</p>
+<pre>$ mgem update
+Update list of GEMs...
+DONE!</pre>
+<p>And for further information about the <em>mgem</em> command:</p>
+<pre>$ mgem help
+mgem (Version 0.0.2) is a library manager for mruby
+
+Usage:
+  mgem size              How many GEMs are available?
+  mgem list [active]     List GEMs
+  mgem info *pattern*    Show detail information about a GEM
+  mgem add *name*        Activate a GEM
+  mgem rm *name*         De-Activate a GEM
+  mgem search *pattern*  Search for GEMs
+  mgem config            Generate a mruby build config including all active GEMs
+  mgem update            Update the list of GEMs
+
+Website:
+
+https://github.com/bovi/mgem</pre>
+<h3>How does it work</h3>
+<p>To maintain a list of GEMs I created a repository called <a href="https://github.com/bovi/mgem-list">mgem-list</a>. This repository contains a yaml file for each GEM. If you want to add your GEM to this list just send me a pull request or create an issue. Just take an existing file as a reference. I know that this is not the optimal solution but at the moment I don&#8217;t even know if anybody else than me needs such a tool. So if you think it is useful, send me a link to your mruby GEM and I add it to the system. If you have a better idea of how to manage the GEMs I&#8217;m also interested in it.</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

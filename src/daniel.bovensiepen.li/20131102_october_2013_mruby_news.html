@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2013-11-02</p>
+      <h2>[October 2013] mruby news</h2>
+<p>What happened on the mruby front in October 2013?</p>
+<h4>Implementation</h4>
+<p>The following methods were re-implemented in Ruby and their C implementation was removed:</p>
+<ul>
+<li><i>Numeric</i>: <i>+</i>, <i>-</i> and <i>abs</i></li>
+<li><i>Integer</i>: <i>next</i> and <i>succ</i></li>
+</ul>
+<p><i>Class.new</i> was improved and accepts now a block. And the following stuff was newly implemented:</p>
+<ul>
+<li><i>Symbol</i>: <em>length</em>, <em>capitalise</em>, <em>downcase</em>, <em>up</em> <em>case</em>, <em>empty</em></li>
+<li><i>Module</i>: <em>const_missing</em></li>
+</ul>
+<h4>Bugfixes</h4>
+<p>Some work was done to fix a bug which occur when two files are concatenated to each other. A possible overflow of <i>Fixnum#succ</i> was prevented. And an issue with multi-line strings in the mirb is now catched.</p>
+<h4>Improve Test Coverage</h4>
+<p>Some regression tests were added for previous bugfixes. This is something we miss quite a lot. Many bugfixes are provided without regression tests, this might lead in the future to the situation that the same bug appears again without us noticing. So lets write more regression tests!</p>
+<h3>Commits</h3>
+<p>Here a list with all commits during this month.</p>
+<h4>Implementation</h4>
+<p><a href="https://github.com/mruby/mruby/commit/620f8b2721e2bf05b610116cc3857a87b6c140e6">implement some Numeric methods in Ruby </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/3ae0616710b10b091baa130f85a56b5ef2c66633">implement Integer#succ in Ruby</a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/12e00f9238bf5164df98551db029a581fd25d54e">implement Class.new with block </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/8ecbff3f7ba38709ed8dcd6c993456883b33d218">define Module#const_missing </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/81c0fda8ecdd6dd4eab8ed64c968d841617df333">add some methods to Symbol </a><br />
+</p>
+<h4>Bugfixes</h4>
+<p><a href="https://github.com/mruby/mruby/commit/c2ad094839166b20baba35c0b2e30ec10d9107c3">fix wrong actual and expected order </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/3a4c8e2d9fac288bfe6948c15fc3dc14449b17cd">fix #1550 </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/c64cae4d2d64659cc660e929d787bf343d970f63">fix 3a4c8e2 </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/c647dff1b25ab54ee1b6805cef1582e8175b43d7">fix #1544 </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/e648abf1c1c168ea22fc8ee75a4e675259673d68">fix #1542 </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/9cb58a2252d25f81346ae3d4eefb1775d9ed548b">Fixnum#succ may overflow </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/5692b5ade14dd9cf627b2db351d359e7b332250d">fix no multiline strings in mirb </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/72d6db8bc417ef966c5dff16b6baa885140c96dc">Fix for caller_dir relative gems </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/af5bec1fbc2fd2047d40524d3bfedea77de318b2">fix #1519 </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/888ddf1c84faae2e4e5376036bbda2753d7b01a1">type check class/module in mrb_get_args(); close #1477 </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/f8fea6931cc826cdc5c87a0574ff19235d328064">preserve only arguments on stack; fix #1527 </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/a228841668dcd5c4fcb728539fd1b2c556dfcebb">restore context status to RUNNING on automatic yield at the end of the block; fix #1555 </a><br />
+</p>
+<h4>Improve Test Coverage</h4>
+<p><a href="https://github.com/mruby/mruby/commit/3a6391c4853686b97fa17ed2e8db9414bd4b9361">update test code to ensure return value from class statement </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/ba4a19dbe9d1e75464a3c28544a3b819149cf809">add a regression for #1544 </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/6d5bd14481e7f184ed2014f8e07ace325e9f2b7f">Added test for inline arrays longer than 126 elements. </a></p>
+<h4>Others</h4>
+<p><a href="https://github.com/mruby/mruby/commit/af03812877c914de787e70735eb89084434b21f1">add mrb_ary_modify(mrb,a); you have to ensure mrb_value a to be an array; ref #1554 </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/88758e36308492c860808ed9f7fb66e74f89e589">Uniquify the results of Object#methods </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/3a668241bead302d3fa3db8a6b1915ec192ea274">nil/false should not be implicitly converted to integers in mrb_get_args(); close #1529 </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/51213bfc7ddb66d5caeef6b1bd5b42333d2f28be">mrb_Integer() should not convert strings to integers </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/9eadd05f322397ba2b8f2af85c71d6832572811b">modify upto/downto for compatibility </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/2607970ed9ab59165d9532c05440fb57846d636e">move some methods to make floats and integers compatible [mruby special] </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/9b2f4c4423ed11f12d6393ae1f0dd4fe3e51ffa0">move declarations to the beginning of blocks </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/11c4d81539eca8198bc702a91c8607c06e04e61e">Set regs to stack on return of const_get calls before use </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/a7c9a71684fccf8121f16803f8e3d758f0dea001">better error position display </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/400ccecf0a072fed0be0945277b752ce6aace79b">add mrb_gv_remove(); untested </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/d41425edd44e668f3bb89aa35ae217aa05c1b711">remove unused value for mrb_gv_remove </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/9295f6ae4916854c92cd3430cd0ee5d3b2f1b2df">simplify stack_clear() </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/41de3d83e5fe05136519bf14fd58121ef0932e23">Disable implicit integer conversion in mrb_get_args </a><br />
+<br />
+<a href="https://github.com/mruby/mruby/commit/302e20333b5da7f5f5166264c54bee7e3add6652">Improve Grammar of Documentation</a></p>
+    </div>
+  </div>
+</div>
+</body>
+</html>
