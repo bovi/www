@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="author" content="Daniel Bovensiepen" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="/style.css" />
+<title>Daniel Bovensiepen Li</title>
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="one column"><h1><a href="https://daniel.bovensiepen.li">Daniel Bovensiepen Li</a></h1></div>
+  </div>
+  <div class="row">
+    <div class="one column">
+      <p>This articles was published on 2025-01-06</p>
+      <h2>Using Omakub in China</h2>
+
+<p>Recently, I was contacted by someone who had been struggling to install
+<a href="https://omakub.org/">Omakub</a> on his machine. Omakub is a tool to
+setup a Linux desktop environment from scratch and it appears to instal <b>A LOT</b>
+of different software from all over the world. For developers in China it is
+common to struggle with access to certain endpoints (e.g. Google when downloading
+Chrome). As people stumbled over the issue before and as it seems that a proxy
+option request for Omakub is <a href="https://github.com/basecamp/omakub/issues/198">not accepted</a>
+by DHH, here the details to make it work nevertheless.</p> 
+
+<p>First of all Omakub is optimized for Ubuntu and like many other Linux
+distributions the system-wide proxy is actually not system-wide. Android seems
+to suffer under the same issue and I would love to find a person who tells me
+that I'm stupid and in reality it is actually possible to set a system-wide
+proxy. I was never able to figure it out in the past, so here come the <b>few</b> places
+you have to configure to enforce all different toolings (and special users) to
+use the same proxy:</p>
+
+<p>
+Everyone knows the default proxy variables. They come in lower
+and upper case, because of cause they do:
+<pre>export HTTP_PROXY=http://192.168.1.1:9090
+export HTTPS_PROXY=http://192.168.1.1:9090
+export http_proxy=http://192.168.1.1:9090
+export https_proxy=http://192.168.1.1:9090
+</pre>
+</p>
+
+<p>
+Then we have apt and apt doesn't care about these standard variables
+so you create a config file in the apt directory (e.g. <i>/etc/apt/apt.conf</i>) and
+set:
+<pre>Acquire::http::Proxy "http://192.168.1.1:9090";
+Acquire::https::Proxy "http://192.168.1.1:9090";
+</pre>
+</p>
+
+<p>
+Omakub is also cloning repositories from Github. And as Github
+is also from time to time blocked we need to set the proxy for <i>git</i> too:
+<pre>git config --global http.proxy http://192.168.1.1:9090
+git config --global https.proxy http://192.168.1.1:9090
+</pre>
+</p>
+
+<p>
+<i>wget</i> is used to download certificates (e.g. from Docker) and
+usually this shouldn't be an issue as the default proxy variables are
+used. Yet Omakub is <a href="https://github.com/basecamp/omakub/blob/90e0febcb9e1067aa336a5ca91e2665471fa068a/install/terminal/docker.sh#L3">calling wget with sudo</a> and let it write
+directly to the keyring (instead of piping it via <i>tee</i>). So we
+need root to also use the correct proxy settings. This can be done via a global
+environment variable or by just creating <i>/root/.wgetrc</i> with the following
+content:
+<pre>use_proxy=on
+http_proxy=http://192.168.1.1:9090
+https_proxy=http://192.168.1.1:9090
+</pre>
+</p>
+
+<p>
+With this setup Omakub seems to install just fine.
+</p>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>
