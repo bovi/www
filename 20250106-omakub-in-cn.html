@@ -45,9 +45,15 @@ export https_proxy=http://192.168.1.1:9090
 </p>
 
 <p>
-Then we have apt and apt doesn't care about these standard variables
+<strike>Then we have apt and apt doesn't care about these standard variables
 so you create a config file in the apt directory (e.g. <i>/etc/apt/apt.conf</i>) and
-set:
+set:</strike>
+<i>apt</i> respects the standard proxy variables but it would require to have
+the environment variables set for root, as <i>apt</i> is called via sudo the
+local variables are not set at the time when apt is being executed (thanks to
+Felix for <a href="https://www.linkedin.com/feed/update/urn:li:activity:7282072426597744641?commentUrn=urn%3Ali%3Acomment%3A%28activity%3A7282072426597744641%2C7282766656630648834%29&dashCommentUrn=urn%3Ali%3Afsd_comment%3A%287282766656630648834%2Curn%3Ali%3Aactivity%3A7282072426597744641%29">the hint</a>). So we either
+would need to change the Omakub scripts to call apt with <i>sudo -E</i> or we
+add the proxy to <i>/etc/apt/apt.conf</i>:
 <pre>Acquire::http::Proxy "http://192.168.1.1:9090";
 Acquire::https::Proxy "http://192.168.1.1:9090";
 </pre>
