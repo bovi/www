@@ -85,6 +85,13 @@ https_proxy=http://192.168.1.1:9090
 With this setup Omakub seems to install just fine.
 </p>
 
+<p>
+After thinking a bit more about the setup and based on the feedback from Felix
+I think adding the proxy variables to <i>/etc/environment</i> is the simpler
+way forward. Considering that in this way you can skip the modification of
+<i>/etc/apt/apt.conf</i> and <i>/root/.wgetrc</i>
+</p>
+
     </div>
   </div>
 </div>
